@@ -140,6 +140,122 @@
             margin-bottom: 30px;
         }
         
+        /* Economics Diagram */
+        .economics-diagram {
+            margin: 30px auto;
+            text-align: center;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e6f2ff;
+            max-width: 400px;
+        }
+
+        .chart-container {
+            width: 300px;
+            height: 200px;
+            margin: 0 auto;
+            position: relative;
+            background: white;
+            border: 2px solid #002147;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .axis {
+            position: absolute;
+            background: #002147;
+        }
+
+        .x-axis {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+        }
+
+        .y-axis {
+            bottom: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+        }
+
+        .supply-line, .demand-line {
+            position: absolute;
+            width: 200px;
+            height: 2px;
+            transform-origin: left center;
+            transition: all 0.5s ease;
+        }
+
+        .supply-line {
+            background: #0066cc;
+            bottom: 20px;
+            left: 20px;
+            transform: rotate(30deg);
+            animation: pulse-supply 2s infinite;
+        }
+
+        .demand-line {
+            background: #cc6600;
+            top: 20px;
+            left: 20px;
+            transform: rotate(-30deg);
+            animation: pulse-demand 2s infinite 1s;
+        }
+
+        .equilibrium-point {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #002147;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: glow 1s infinite alternate;
+        }
+
+        .labels {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #002147;
+        }
+
+        .supply-label {
+            color: #0066cc;
+            font-weight: 600;
+        }
+
+        .demand-label {
+            color: #cc6600;
+            font-weight: 600;
+        }
+
+        @keyframes pulse-supply {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes pulse-demand {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px #002147; }
+            100% { box-shadow: 0 0 15px #002147; }
+        }
+
+        .chart-container:hover .supply-line {
+            transform: rotate(25deg);
+        }
+
+        .chart-container:hover .demand-line {
+            transform: rotate(-25deg);
+        }
+        
         /* Footer styling */
         footer {
             margin-top: 60px;
@@ -158,6 +274,15 @@
                 max-width: 150px;
                 width: 180px;
                 height: 180px;
+            }
+            
+            .economics-diagram {
+                max-width: 350px;
+            }
+            
+            .chart-container {
+                width: 250px;
+                height: 160px;
             }
         }
     </style>
@@ -185,6 +310,22 @@
         <p>My research explores the intersections of economic history, development economics, political economy, applied econometrics, and machine learning - with a particular focus on the long-run economic impact of colonial institutions in western British India.</p>
         
         <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney, and I am proud to be a member of Wolfson College.</p>
+        </div>
+        
+        <div class="economics-diagram">
+            <h3 style="color: #002147; margin-bottom: 15px;">Supply & Demand</h3>
+            <div class="chart-container">
+                <div class="axis x-axis"></div>
+                <div class="axis y-axis"></div>
+                <div class="supply-line"></div>
+                <div class="demand-line"></div>
+                <div class="equilibrium-point"></div>
+            </div>
+            <div class="labels">
+                <span class="supply-label">Supply</span> • 
+                <span class="demand-label">Demand</span> • 
+                <span>Equilibrium</span>
+            </div>
         </div>
     </div>
 
