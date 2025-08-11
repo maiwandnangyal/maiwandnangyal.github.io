@@ -1,380 +1,470 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maiwand Nangyal</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background-color: #fafbfc;
-        }
-        
-        nav {
-            margin-bottom: 40px;
-            border-bottom: 2px solid #e6f2ff;
-            padding-bottom: 20px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,33,71,0.05);
-        }
-        
-        nav a {
-            margin-right: 30px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        
-        nav a.active {
-            color: #002147;
-            font-weight: 600;
-        }
-        
-        h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            font-weight: 600;
-            color: #002147;
-        }
-        
-        .content {
-            margin-top: 30px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0,33,71,0.08);
-            border-left: 4px solid #0066cc;
-        }
-        
-        .intro {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            color: #003366;
-            font-weight: 500;
-        }
-        
-        .section {
-            margin: 40px 0;
-        }
-        
-        h2 {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            font-weight: 600;
-            color: #002147;
-            border-bottom: 2px solid #e6f2ff;
-            padding-bottom: 8px;
-        }
-        
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        li {
-            margin: 8px 0;
-            color: #003366;
-        }
-        
-        a {
-            color: #0066cc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        a:hover {
-            color: #002147;
-            text-decoration: underline;
-        }
-        
-        .hide {
-            display: none;
-        }
-        
-        .research-item {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #d6e8f5;
-        }
-        
-        .research-item:last-child {
-            border-bottom: none;
-        }
-        
-        .research-item strong {
-            color: #002147;
-        }
-        
-        .research-item em {
-            color: #003366;
-        }
-        
-        /* Photo styling for homepage */
-        .profile-photo {
-            float: right;
-            margin: 0 0 20px 30px;
-            max-width: 200px;
-            width: 230px;
-            height: 230px;
-            border-radius: 50%;
-            box-shadow: 0 4px 12px rgba(0,33,71,0.15);
-            object-fit: cover;
-            object-position: center;
-        }
-        
-        .home-bio {
-            text-align: justify;
-            margin-bottom: 30px;
-        }
-        
-        @media (max-width: 600px) {
-            .profile-photo {
-                float: none;
-                display: block;
-                margin: 0 auto 20px auto;
-                max-width: 150px;
-                width: 180px;
-                height: 180px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maiwand Nangyal</title>
+
+  <!-- Typography: dignified serif for headings, crisp sans for body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =====================================================
+       DESIGN SYSTEM — colours, spacing, shadows, radii
+       (Content stays VERBATIM; only presentation updated)
+       ===================================================== */
+    :root {
+      --bg: #0b1220;                 /* deep ink for header strip */
+      --page: #f7f8fb;               /* page background */
+      --text: #0f172a;               /* slate-900 */
+      --muted: #455266;              /* slate-600 */
+      --primary: #0b3d91;            /* oxford blue */
+      --primary-600: #0a3580;
+      --primary-050: #eef3fb;
+      --accent: #b58900;             /* scholarly gold */
+      --card: #ffffff;               /* card background */
+      --ring: rgba(11,61,145,0.2);
+      --shadow: 0 10px 30px rgba(2,6,23,.08), 0 2px 8px rgba(2,6,23,.06);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1140px;                 /* content width */
+      --speed: 260ms;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, #ffffff 0%, var(--page) 60%);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.65;
+    }
+
+    /* Top prestige bar */
+    .top-stripe {
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+    }
+
+    /* Sticky navigation */
+    .navwrap {
+      position: sticky; top: 0; z-index: 1000;
+      backdrop-filter: saturate(1.2) blur(10px);
+      background: rgba(255,255,255,.85);
+      border-bottom: 1px solid rgba(2,6,23,.06);
+    }
+
+    nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 22px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 700; letter-spacing: .2px;
+      color: var(--text);
+    }
+    .brand-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 6px 18px rgba(11, 61, 145, .25);
+    }
+
+    .menu {
+      display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
+    }
+    .menu a {
+      position: relative;
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: .2px;
+      padding: 8px 2px;
+      transition: color var(--speed) ease;
+    }
+    .menu a:hover { color: var(--primary); }
+    .menu a.active { color: var(--primary); }
+    .menu a.active::after, .menu a:hover::after {
+      content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 3px;
+    }
+
+    /* Shell */
+    .shell { max-width: var(--max); margin: 0 auto; padding: 34px 22px 60px; }
+
+    /* Carded sections with subtle elevation */
+    .content {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: clamp(22px, 3.8vw, 36px);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(2,6,23,.06);
+      transition: opacity var(--speed) ease, transform var(--speed) ease;
+    }
+    .content.hide { display: none; }
+
+    /* Headings */
+    h1 {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(32px, 5.4vw, 48px);
+      line-height: 1.15;
+      margin: 0 0 10px 0;
+      color: var(--text);
+    }
+    .intro { font-size: clamp(16px, 2.4vw, 18px); color: var(--muted); margin: 0 0 26px; font-weight: 500; }
+
+    h2 {
+      font-family: "Source Serif 4", Georgia, serif;
+      font-weight: 700; font-size: clamp(20px, 2.6vw, 26px);
+      margin: 0 0 14px; color: var(--text);
+      position: relative; padding-bottom: 10px;
+    }
+    h2::after {
+      content: ""; position: absolute; left: 0; bottom: 0; height: 4px; width: 72px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 2px;
+    }
+
+    .section { margin: 30px 0; }
+    p { margin: 0 0 14px; }
+
+    /* Lists */
+    ul { list-style: none; padding: 0; margin: 0; }
+    li { margin: 10px 0; color: var(--text); }
+
+    a { color: var(--primary); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Research items as elegant cards */
+    .research-item {
+      border: 1px solid rgba(2,6,23,.07);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+      margin: 14px 0;
+      background: linear-gradient(180deg, #fff, #fafcff);
+    }
+    .research-item strong { color: var(--text); font-weight: 700; }
+    .research-item em { color: var(--muted); }
+
+    /* HOME — hero layout */
+    .hero {
+      display: grid; grid-template-columns: 1.2fr .9fr; gap: clamp(20px, 4vw, 44px);
+      align-items: center;
+    }
+    .profile-photo {
+      justify-self: end;
+      width: clamp(180px, 28vw, 260px); height: clamp(180px, 28vw, 260px);
+      border-radius: 50%; object-fit: cover; object-position: center;
+      box-shadow: 0 16px 40px rgba(2,6,23,.18);
+      border: 6px solid #fff;
+      outline: 1px solid rgba(2,6,23,.06);
+    }
+    .home-bio { text-align: justify; margin-top: 6px; }
+
+    /* Buttons (for any links you want to highlight) */
+    .btn-link a,
+    .button {
+      display: inline-block;
+      padding: 11px 16px; border-radius: 12px;
+      border: 1px solid rgba(2,6,23,.1);
+      background: linear-gradient(180deg, #ffffff, #f6f8fc);
+      text-decoration: none; font-weight: 700;
+      box-shadow: var(--shadow);
+      transition: transform var(--speed) ease, box-shadow var(--speed) ease;
+    }
+    .button:hover { transform: translateY(-2px); text-decoration: none; }
+
+    /* Footer */
+    footer { max-width: var(--max); margin: 26px auto 54px; padding: 0 22px; color: var(--muted); }
+
+    /* Accessibility & focus */
+    :focus-visible {
+      outline: 3px solid var(--primary);
+      outline-offset: 3px;
+      border-radius: 10px;
+    }
+
+    /* Print optimisation (prints only visible section) */
+    @media print {
+      .navwrap, .top-stripe, footer { display: none !important; }
+      .content { box-shadow: none; border: none; }
+      body { background: #fff; }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } .profile-photo { justify-self: center; } }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
-        <a href="#" onclick="showSection('about')" id="about-link">About</a>
-        <a href="#" onclick="showSection('research')" id="research-link">Research</a>
-        <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
-        <a href="#" onclick="showSection('blogs')" id="blogs-link">Blogs</a>
-        <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
+  <div class="top-stripe" aria-hidden="true"></div>
+
+  <div class="navwrap">
+    <nav aria-label="Primary">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <span>Maiwand Nangyal</span>
+      </div>
+      <div class="menu" role="tablist">
+        <a href="#home" onclick="showSection('home')" class="active" id="home-link" role="tab" aria-selected="true" aria-controls="home-section">Home</a>
+        <a href="#about" onclick="showSection('about')" id="about-link" role="tab" aria-controls="about-section">About</a>
+        <a href="#research" onclick="showSection('research')" id="research-link" role="tab" aria-controls="research-section">Research</a>
+        <a href="#cv" onclick="showSection('cv')" id="cv-link" role="tab" aria-controls="cv-section">CV</a>
+        <a href="#blogs" onclick="showSection('blogs')" id="blogs-link" role="tab" aria-controls="blogs-section">Blogs</a>
+        <a href="#contact" onclick="showSection('contact')" id="contact-link" role="tab" aria-controls="contact-section">Contact</a>
+      </div>
     </nav>
+  </div>
 
-    <div id="home-section" class="content">
-        <h1>Maiwand Nangyal</h1>
-        <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
-        
-        <!-- Add your photo here -->
-        <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo">
-        
-        <div class="home-bio">
-        <p><strong>Welcome to my website!</strong> I’m Maiwand Nangyal, a DPhil candidate in Economics at the University of Oxford, generously funded by the ESRC.</p>
-        
-        <p>My research explores the intersections of economic history, development economics, political economy, applied econometrics, and machine learning - with a particular focus on the long-run economic impact of colonial institutions in western British India.</p>
-        
-        <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney, and I am proud to be a member of Wolfson College.</p>
+  <main class="shell">
+    <!-- HOME -->
+    <section id="home-section" class="content" role="tabpanel" aria-labelledby="home-link">
+      <div class="hero">
+        <div>
+          <h1>Maiwand Nangyal</h1>
+          <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
+          <div class="home-bio">
+            <p><strong>Welcome to my website!</strong> I’m Maiwand Nangyal, a DPhil candidate in Economics at the University of Oxford, generously funded by the ESRC.</p>
+            <p>My research explores the intersections of economic history, development economics, political economy, applied econometrics, and machine learning - with a particular focus on the long-run economic impact of colonial institutions in western British India.</p>
+            <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney, and I am proud to be a member of Wolfson College.</p>
+          </div>
         </div>
-    </div>
+        <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo" />
+      </div>
+    </section>
 
-    <div id="about-section" class="content hide">
-        <h1>About</h1>
-        
-        <div class="section">
-            <h2>Education</h2>
-                <ul>
-                    <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
-                        Primary Research Interests: Development Economics, Economic History, Political Economy<br>
-                        Secondary Research Interests: Applied Econometrics and Machine Learning.</li>
-                    <li><strong>MSc in Economic & Social History</strong>, University of Oxford (2023-2024)</li>
-                    <li><strong>MPhil in Economics</strong>, University of Cambridge (2020-2021)</li>
-                    <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
-                        First Class Honours with 18/20 "Firsts" and 3/3 commendations</li>
-                </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Skills</h2>
-                <ul>
-                    <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
-                    <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
-                    <li><strong>Tools:</strong> LaTeX, QGIS, AnyLogic, Mathematica</li>
-                    <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Agent-based Modeling</li>
-                </ul>
-        </div>
+    <!-- ABOUT -->
+    <section id="about-section" class="content hide" role="tabpanel" aria-labelledby="about-link">
+      <h1>About</h1>
 
-         <div class="section">
-            <h2>Research Interests</h2>
-            <ul>
-                <li>Economic History</li>
-                <li>Development Economics</li>
-                <li>Political Economy</li>
-                <li>Applied Econometrics</li>
-                <li>Machine Learning</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Funding</h2>
-            <ul>
-                <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
-            </ul>
-        </div>
-    </div>
+      <div class="section">
+        <h2>Education</h2>
+        <ul>
+          <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
+              Primary Research Interests: Development Economics, Economic History, Political Economy<br>
+              Secondary Research Interests: Applied Econometrics and Machine Learning.</li>
+          <li><strong>MSc in Economic & Social History</strong>, University of Oxford (2023-2024)</li>
+          <li><strong>MPhil in Economics</strong>, University of Cambridge (2020-2021)</li>
+          <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
+              First Class Honours with 18/20 "Firsts" and 3/3 commendations</li>
+        </ul>
+      </div>
 
-    <div id="research-section" class="content hide">
-        <h1>Research</h1>
+      <div class="section">
+        <h2>Skills</h2>
+        <ul>
+          <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
+          <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
+          <li><strong>Tools:</strong> LaTeX, QGIS, AnyLogic, Mathematica</li>
+          <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Agent-based Modeling</li>
+        </ul>
+      </div>
 
-        <div class="section">
-            <h2>Working Papers</h2>
-            <div class="research-item">
-                <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
-                <em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
-                Status: Under Development
-            </div>
-        </div>
+      <div class="section">
+        <h2>Research Interests</h2>
+        <ul>
+          <li>Economic History</li>
+          <li>Development Economics</li>
+          <li>Political Economy</li>
+          <li>Applied Econometrics</li>
+          <li>Machine Learning</li>
+        </ul>
+      </div>
 
-        <div class="section">
-            <h2>DPhil Research Chapters</h2>
-            <div class="research-item">
-                <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</strong><br>
-                <em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
-                Status: In Progress
-            </div>
-            
-            <div class="research-item">
-                <strong>Chapter 2:</strong> To be confirmed
-            </div>
-            
-            <div class="research-item">
-                <strong>Chapter 3:</strong> To be confirmed
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Current Data Projects</h2>
-            <div class="research-item">
-                <strong>Data for Afghanistan</strong><br>
-                <em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
-                Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Presentations</h2>
-            <div class="research-item">
-                <strong>32nd Annual Graduate Workshop</strong> (April 2024)<br>
-                <em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em>
-            </div>
-        </div>
+      <div class="section">
+        <h2>Funding</h2>
+        <ul>
+          <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
+        </ul>
+      </div>
+    </section>
 
-        <div class="section">
-            <h2>Publications</h2>
-            <ul>
-                <li><em>[Publications will be added when available]</em></li>
-            </ul>
-        </div>
-    </div>
+    <!-- RESEARCH -->
+    <section id="research-section" class="content hide" role="tabpanel" aria-labelledby="research-link">
+      <h1>Research</h1>
 
-    <div id="cv-section" class="content hide">
-        <h1>Curriculum Vitae</h1>
-        
-        <div class="section">
-            <p><strong>Download:</strong> <a href="cv.pdf" target="_blank">Full CV (PDF)</a></p>
+      <div class="section">
+        <h2>Working Papers</h2>
+        <div class="research-item">
+          <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
+          <em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
+          Status: Under Development
         </div>
-        
-        
-        
-        
-        
-    </div>
+      </div>
 
-    <div id="blogs-section" class="content hide">
-        <h1>Blogs</h1>
-        
-        <div class="section">
-            <p><em>Blog posts and research thoughts will be added here.</em></p>
+      <div class="section">
+        <h2>DPhil Research Chapters</h2>
+        <div class="research-item">
+          <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</strong><br>
+          <em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
+          Status: In Progress
         </div>
-        
-        <div class="section">
-            <h2>Recent Posts</h2>
-            <div class="research-item">
-                <strong>Coming Soon: Research Updates</strong><br>
-                <em>I’ll be sharing insights from my DPhil research, reflections on conference experiences, and perspectives on various economic theories and their related research.</em>
-            </div>
+        <div class="research-item">
+          <strong>Chapter 2:</strong> To be confirmed
         </div>
-        
-        <div class="section">
-            <h2>Topics I Write About</h2>
-            <ul>
-                <li>Economic History and Colonial Institutions</li>
-                <li>Development Economics in South Asia</li>
-                <li>Applied Econometrics and Machine Learning</li>
-                <li>PhD Life at Oxford</li>
-                <li>Research Methods and Data Analysis</li>
-            </ul>
+        <div class="research-item">
+          <strong>Chapter 3:</strong> To be confirmed
         </div>
-    </div>
+      </div>
 
-    <div id="contact-section" class="content hide">
-        <h1>Contact</h1>
-        
-        <div class="section">
-            <p><strong>Personal Email:</strong> mn529@cantab.ac.uk</p>
-            <p><strong>Academic Email:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
-            <p><strong>College:</strong> Wolfson College, University of Oxford</p>
-            <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
-            <p><strong>Address:</strong><br>
-               Department of Economics<br>
-               University of Oxford<br>
-               Manor Road Building<br>
-               Oxford OX1 3UQ<br>
-               United Kingdom</p>
+      <div class="section">
+        <h2>Current Data Projects</h2>
+        <div class="research-item">
+          <strong>Data for Afghanistan</strong><br>
+          <em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
+          Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
         </div>
-        
-        <div class="section">
-            <h2>Supervisors</h2>
-            <ul>
-                <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
-                <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Academic Profiles</h2>
-            <ul>
-                <li><a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a></li>
-                <li><a href="[your-google-scholar-link]" target="_blank">Google Scholar</a></li>
-                <li><a href="[your-orcid-link]" target="_blank">ORCID</a></li>
-                <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if available)</li>
-               <li><a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">Oxford Economics Department Profile</a></li>
-            </ul>
-        </div>
-    </div>
+      </div>
 
-    <script>
-        function showSection(section) {
-            // Hide all sections
-            document.getElementById('home-section').classList.add('hide');
-            document.getElementById('about-section').classList.add('hide');
-            document.getElementById('research-section').classList.add('hide');
-            document.getElementById('cv-section').classList.add('hide');
-            document.getElementById('blogs-section').classList.add('hide');
-            document.getElementById('contact-section').classList.add('hide');
-            
-            // Remove active class from all links
-            document.getElementById('home-link').classList.remove('active');
-            document.getElementById('about-link').classList.remove('active');
-            document.getElementById('research-link').classList.remove('active');
-            document.getElementById('cv-link').classList.remove('active');
-            document.getElementById('blogs-link').classList.remove('active');
-            document.getElementById('contact-link').classList.remove('active');
-            
-            // Show selected section and highlight link
-            document.getElementById(section + '-section').classList.remove('hide');
-            document.getElementById(section + '-link').classList.add('active');
+      <div class="section">
+        <h2>Presentations</h2>
+        <div class="research-item">
+          <strong>32nd Annual Graduate Workshop</strong> (April 2024)<br>
+          <em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Publications</h2>
+        <ul>
+          <li><em>[Publications will be added when available]</em></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CV -->
+    <section id="cv-section" class="content hide" role="tabpanel" aria-labelledby="cv-link">
+      <h1>Curriculum Vitae</h1>
+      <div class="section btn-link">
+        <p><strong>Download:</strong> <a href="cv.pdf" target="_blank" class="button" rel="noopener">Full CV (PDF)</a></p>
+      </div>
+    </section>
+
+    <!-- BLOGS -->
+    <section id="blogs-section" class="content hide" role="tabpanel" aria-labelledby="blogs-link">
+      <h1>Blogs</h1>
+      <div class="section">
+        <p><em>Blog posts and research thoughts will be added here.</em></p>
+      </div>
+      <div class="section">
+        <h2>Recent Posts</h2>
+        <div class="research-item">
+          <strong>Coming Soon: Research Updates</strong><br>
+          <em>I’ll be sharing insights from my DPhil research, reflections on conference experiences, and perspectives on various economic theories and their related research.</em>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Topics I Write About</h2>
+        <ul>
+          <li>Economic History and Colonial Institutions</li>
+          <li>Development Economics in South Asia</li>
+          <li>Applied Econometrics and Machine Learning</li>
+          <li>PhD Life at Oxford</li>
+          <li>Research Methods and Data Analysis</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact-section" class="content hide" role="tabpanel" aria-labelledby="contact-link">
+      <h1>Contact</h1>
+      <div class="section">
+        <p><strong>Personal Email:</strong> mn529@cantab.ac.uk</p>
+        <p><strong>Academic Email:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
+        <p><strong>College:</strong> Wolfson College, University of Oxford</p>
+        <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
+        <p><strong>Address:</strong><br>
+           Department of Economics<br>
+           University of Oxford<br>
+           Manor Road Building<br>
+           Oxford OX1 3UQ<br>
+           United Kingdom</p>
+      </div>
+      <div class="section">
+        <h2>Supervisors</h2>
+        <ul>
+          <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
+          <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
+        </ul>
+      </div>
+      <div class="section">
+        <h2>Academic Profiles</h2>
+        <ul>
+          <li><a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a></li>
+          <li><a href="[your-google-scholar-link]" target="_blank">Google Scholar</a></li>
+          <li><a href="[your-orcid-link]" target="_blank">ORCID</a></li>
+          <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if available)</li>
+          <li><a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">Oxford Economics Department Profile</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell" aria-hidden="false">
+    <small>© <span id="year"></span> Maiwand Nangyal — Site design tuned for clarity, credibility, and speed.</small>
+  </footer>
+
+  <script>
+    // Smoothly show sections + support deep-linking via hash
+    const sections = ["home", "about", "research", "cv", "blogs", "contact"];
+
+    function setActiveLink(id) {
+      sections.forEach(s => {
+        const link = document.getElementById(`${s}-link`);
+        const panel = document.getElementById(`${s}-section`);
+        if (!link || !panel) return;
+        if (s === id) {
+          link.classList.add("active");
+          link.setAttribute("aria-selected", "true");
+          panel.classList.remove("hide");
+          panel.style.opacity = 0;
+          panel.style.transform = "translateY(6px)";
+          requestAnimationFrame(() => {
+            panel.style.transition = "opacity var(--speed) ease, transform var(--speed) ease";
+            panel.style.opacity = 1;
+            panel.style.transform = "translateY(0)";
+          });
+        } else {
+          link.classList.remove("active");
+          link.removeAttribute("aria-selected");
+          panel.classList.add("hide");
         }
-    </script>
+      });
+    }
+
+    function showSection(section) {
+      if (!sections.includes(section)) section = "home";
+      setActiveLink(section);
+      if (location.hash.replace('#','') !== section) {
+        history.replaceState(null, "", `#${section}`);
+      }
+    }
+
+    // Initialise based on hash or default to home
+    window.addEventListener("DOMContentLoaded", () => {
+      const fromHash = location.hash ? location.hash.replace('#','') : "home";
+      showSection(fromHash);
+      document.getElementById('year').textContent = new Date().getFullYear();
+    });
+
+    // Keyboard shortcuts 1..6 to jump between tabs (presentation nicety)
+    window.addEventListener('keydown', (e) => {
+      const idx = parseInt(e.key, 10);
+      if (!isNaN(idx) && idx >= 1 && idx <= sections.length) {
+        showSection(sections[idx - 1]);
+      }
+    });
+  </script>
 </body>
 </html>
