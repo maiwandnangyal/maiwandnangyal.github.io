@@ -3,635 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maiwand Nangyal - Economics DPhil, Oxford</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Maiwand Nangyal</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            line-height: 1.7;
-            color: #2d3748;
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            min-height: 100vh;
-        }
-        
-        /* Header & Navigation */
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 33, 71, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-        }
-        
-        .nav-container {
-            max-width: 1200px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #fafbfc;
         }
         
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #002147;
-            text-decoration: none;
+        nav {
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,33,71,0.05);
         }
         
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-        
-        .nav-link {
-            color: #4a5568;
+        nav a {
+            margin-right: 30px;
+            color: #003366;
             text-decoration: none;
             font-weight: 500;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            position: relative;
+            transition: color 0.3s ease;
         }
         
-        .nav-link:hover,
-        .nav-link.active {
+        nav a:hover {
+            color: #0066cc;
+            text-decoration: underline;
+        }
+        
+        nav a.active {
             color: #002147;
-            background: rgba(0, 33, 71, 0.05);
+            font-weight: 600;
         }
         
-        /* Main Container */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: #002147;
         }
         
-        /* Page Sections */
-        .page-section {
-            background: white;
-            border-radius: 16px;
-            padding: 3rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            border: 1px solid rgba(0, 33, 71, 0.05);
+        .content {
+            margin-top: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,33,71,0.08);
+            border-left: 4px solid #0066cc;
+        }
+        
+        .intro {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #003366;
+            font-weight: 500;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
+        h2 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #002147;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 8px;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        li {
+            margin: 8px 0;
+            color: #003366;
+        }
+        
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #002147;
+            text-decoration: underline;
         }
         
         .hide {
             display: none;
         }
         
-        /* Home Page Specific */
-        .hero-section {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-        
-        .profile-photo {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            object-fit: cover;
-            object-position: center;
-            margin: 0 auto 2rem auto;
-            box-shadow: 0 20px 60px rgba(0, 33, 71, 0.15);
-            border: 4px solid white;
-            display: block;
-        }
-        
-        .hero-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #002147;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.3rem;
-            color: #4a5568;
-            margin-bottom: 2rem;
-            font-weight: 400;
-        }
-        
-        .welcome-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #2d3748;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        
-        .welcome-text strong {
-            color: #002147;
-            font-weight: 600;
-        }
-        
-        /* Typography */
-        h1 {
-            font-size: 2.25rem;
-            font-weight: 700;
-            color: #002147;
-            margin-bottom: 1.5rem;
-            line-height: 1.3;
-        }
-        
-        h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #002147;
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        
-        h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #2d3748;
-            margin-bottom: 0.75rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            color: #4a5568;
-        }
-        
-        /* Lists */
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        li {
-            margin-bottom: 0.75rem;
-            color: #4a5568;
-            position: relative;
-            padding-left: 1.5rem;
-        }
-        
-        li::before {
-            content: "→";
-            position: absolute;
-            left: 0;
-            color: #002147;
-            font-weight: 600;
-        }
-        
-        strong {
-            color: #002147;
-            font-weight: 600;
-        }
-        
-        /* Links */
-        a {
-            color: #002147;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-        
-        a:hover {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        
-        /* Research Items */
         .research-item {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #002147;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #d6e8f5;
         }
         
-        .research-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 33, 71, 0.1);
+        .research-item:last-child {
+            border-bottom: none;
         }
         
-        .research-item h3 {
+        .research-item strong {
             color: #002147;
-            margin-bottom: 0.5rem;
         }
         
         .research-item em {
-            color: #718096;
-            font-style: italic;
+            color: #003366;
         }
         
-        /* Grid Layout for Skills/Interests */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+        /* Photo styling for homepage */
+        .profile-photo {
+            float: right;
+            margin: 0 0 20px 30px;
+            max-width: 200px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0,33,71,0.15);
+            object-fit: cover;
+            object-position: center;
         }
         
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+        .home-bio {
+            text-align: justify;
+            margin-bottom: 30px;
         }
         
-        .card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid #e2e8f0;
-            transition: transform 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 30px rgba(0, 33, 71, 0.1);
-        }
-        
-        /* Contact Cards */
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .contact-card {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                height: auto;
-                padding: 1rem;
-            }
-            
-            .nav-menu {
-                margin-top: 1rem;
-                flex-wrap: wrap;
-                gap: 1rem;
-                justify-content: center;
-            }
-            
-            .main-container {
-                padding: 2rem 1rem;
-            }
-            
-            .page-section {
-                padding: 2rem 1.5rem;
-            }
-            
-            .hero-title {
-                font-size: 2rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.1rem;
-            }
-            
+        @media (max-width: 600px) {
             .profile-photo {
+                float: none;
+                display: block;
+                margin: 0 auto 20px auto;
+                max-width: 150px;
                 width: 150px;
                 height: 150px;
-            }
-            
-            .grid-2,
-            .grid-3,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Smooth scrolling and animations */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        .page-section {
-            animation: fadeIn 0.6s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav-container">
-            <a href="#" onclick="showSection('home')" class="logo">Maiwand Nangyal</a>
-            <ul class="nav-menu">
-                <li><a href="#" onclick="showSection('home')" class="nav-link active" id="home-link">Home</a></li>
-                <li><a href="#" onclick="showSection('about')" class="nav-link" id="about-link">About</a></li>
-                <li><a href="#" onclick="showSection('research')" class="nav-link" id="research-link">Research</a></li>
-                <li><a href="#" onclick="showSection('cv')" class="nav-link" id="cv-link">CV</a></li>
-                <li><a href="#" onclick="showSection('blogs')" class="nav-link" id="blogs-link">Blogs</a></li>
-                <li><a href="#" onclick="showSection('contact')" class="nav-link" id="contact-link">Contact</a></li>
+    <nav>
+        <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
+        <a href="#" onclick="showSection('about')" id="about-link">About</a>
+        <a href="#" onclick="showSection('research')" id="research-link">Research</a>
+        <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
+        <a href="#" onclick="showSection('blogs')" id="blogs-link">Blogs</a>
+        <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
+    </nav>
+
+    <div id="home-section" class="content">
+        <h1>Maiwand Nangyal</h1>
+        <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
+        
+        <!-- Add your photo here -->
+        <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo">
+        
+        <div class="home-bio">
+        <p><strong>Welcome to my website!</strong> I’m Maiwand Nangyal, a DPhil candidate in Economics at the University of Oxford, generously funded by the ESRC.</p>
+        
+        <p>My research explores the intersections of economic history, development economics, political economy, applied econometrics, and machine learning — with a particular focus on the long-run economic impact of colonial institutions in eastern British India.</p>
+        
+        <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney, and I am proud to be a member of Wolfson College.</p>
+        </div>
+    </div>
+
+    <div id="about-section" class="content hide">
+        <h1>About</h1>
+        
+        <div class="section">
+            <h2>Education</h2>
+                <ul>
+                    <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
+                        Primary Research Interests: Development Economics, Economic History, Political Economy<br>
+                        Secondary Research Interests: Applied Econometrics and Machine Learning.</li>
+                    <li><strong>MSc in Economic & Social History</strong>, University of Oxford (2023-2024)</li>
+                    <li><strong>MPhil in Economics</strong>, University of Cambridge (2020-2021)</li>
+                    <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
+                        First Class Honours with 18/20 "Firsts" and 3/3 commendations</li>
+                </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Skills</h2>
+                <ul>
+                    <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
+                    <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
+                    <li><strong>Tools:</strong> LaTeX, QGIS, AnyLogic, Mathematica</li>
+                    <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Agent-based Modeling</li>
+                </ul>
+        </div>
+
+         <div class="section">
+            <h2>Research Interests</h2>
+            <ul>
+                <li>Economic History</li>
+                <li>Development Economics</li>
+                <li>Political Economy</li>
+                <li>Applied Econometrics</li>
+                <li>Machine Learning</li>
             </ul>
-        </nav>
-    </header>
+        </div>
+        
+        <div class="section">
+            <h2>Funding</h2>
+            <ul>
+                <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
+            </ul>
+        </div>
+    </div>
 
-    <main class="main-container">
-        <section id="home-section" class="page-section">
-            <div class="hero-section">
-                <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo">
-                <h1 class="hero-title">Maiwand Nangyal</h1>
-                <p class="hero-subtitle">DPhil candidate in Economics at the University of Oxford</p>
-            </div>
-            
-            <div class="welcome-text">
-                <p><strong>Welcome to my website!</strong> I'm Maiwand Nangyal, a DPhil candidate in Economics at the University of Oxford, generously funded by the ESRC.</p>
-                
-                <p>My research explores the intersections of economic history, development economics, political economy, applied econometrics, and machine learning - with a particular focus on the long-run economic impact of colonial institutions in western British India.</p>
-                
-                <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney, and I am proud to be a member of Wolfson College.</p>
-            </div>
-        </section>
+    <div id="research-section" class="content hide">
+        <h1>Research</h1>
 
-        <section id="about-section" class="page-section hide">
-            <h1>About</h1>
-            
-            <div class="grid-2">
-                <div class="card">
-                    <h2>Education</h2>
-                    <ul>
-                        <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
-                            Primary Research Interests: Development Economics, Economic History, Political Economy<br>
-                            Secondary Research Interests: Applied Econometrics and Machine Learning.</li>
-                        <li><strong>MSc in Economic & Social History</strong>, University of Oxford (2023-2024)</li>
-                        <li><strong>MPhil in Economics</strong>, University of Cambridge (2020-2021)</li>
-                        <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
-                            First Class Honours with 18/20 "Firsts" and 3/3 commendations</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h2>Skills</h2>
-                    <ul>
-                        <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
-                        <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
-                        <li><strong>Tools:</strong> LaTeX, QGIS, AnyLogic, Mathematica</li>
-                        <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Agent-based Modeling</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="grid-2" style="margin-top: 2rem;">
-                <div class="card">
-                    <h2>Research Interests</h2>
-                    <ul>
-                        <li>Economic History</li>
-                        <li>Development Economics</li>
-                        <li>Political Economy</li>
-                        <li>Applied Econometrics</li>
-                        <li>Machine Learning</li>
-                    </ul>
-                </div>
-                
-                <div class="card">
-                    <h2>Funding</h2>
-                    <ul>
-                        <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <section id="research-section" class="page-section hide">
-            <h1>Research</h1>
-
+        <div class="section">
             <h2>Working Papers</h2>
             <div class="research-item">
-                <h3>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</h3>
-                <p><em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
-                Status: Under Development</p>
+                <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
+                <em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
+                Status: Under Development
             </div>
+        </div>
 
+        <div class="section">
             <h2>DPhil Research Chapters</h2>
             <div class="research-item">
-                <h3>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</h3>
-                <p><em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
-                Status: In Progress</p>
+                <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</strong><br>
+                <em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
+                Status: In Progress
             </div>
             
             <div class="research-item">
-                <h3>Chapter 2: To be confirmed</h3>
+                <strong>Chapter 2:</strong> To be confirmed
             </div>
             
             <div class="research-item">
-                <h3>Chapter 3: To be confirmed</h3>
+                <strong>Chapter 3:</strong> To be confirmed
             </div>
-            
+        </div>
+        
+        <div class="section">
             <h2>Current Data Projects</h2>
             <div class="research-item">
-                <h3>Data for Afghanistan</h3>
-                <p><em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
-                Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a></p>
+                <strong>Data for Afghanistan</strong><br>
+                <em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
+                Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
             </div>
-            
+        </div>
+        
+        <div class="section">
             <h2>Presentations</h2>
             <div class="research-item">
-                <h3>32nd Annual Graduate Workshop (April 2024)</h3>
-                <p><em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em></p>
+                <strong>32nd Annual Graduate Workshop</strong> (April 2024)<br>
+                <em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em>
             </div>
+        </div>
 
+        <div class="section">
             <h2>Publications</h2>
-            <div class="research-item">
-                <p><em>[Publications will be added when available]</em></p>
-            </div>
-        </section>
+            <ul>
+                <li><em>[Publications will be added when available]</em></li>
+            </ul>
+        </div>
+    </div>
 
-        <section id="cv-section" class="page-section hide">
-            <h1>Curriculum Vitae</h1>
-            
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <a href="cv.pdf" target="_blank" style="background: #002147; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block;">Download Full CV (PDF)</a>
-            </div>
-            
+    <div id="cv-section" class="content hide">
+        <h1>Curriculum Vitae</h1>
+        
+        <div class="section">
+            <p><strong>Download:</strong> <a href="cv.pdf" target="_blank">Full CV (PDF)</a></p>
+        </div>
+        
+        <div class="section">
             <h2>Education</h2>
-            <div class="research-item">
-                <h3>DPhil in Economics, University of Oxford (2024-2027)</h3>
-                <p><em>ESRC Doctoral Training Partnership (£115k)</em><br>
-                Primary Research: Development Economics, Economic History, Political Economy<br>
-                Supervisors: Professor Stephen Broadberry and Dr Eric Chaney</p>
-            </div>
-            
-            <div class="research-item">
-                <h3>MSc in Economic & Social History, University of Oxford (2023-2024)</h3>
-                <p><em>Full scholarship</em></p>
-            </div>
-            
-            <div class="research-item">
-                <h3>MPhil in Economics, University of Cambridge (2020-2021)</h3>
-                <p><em>Cambridge Trust Scholarship (£35k)</em></p>
-            </div>
-            
-            <div class="research-item">
-                <h3>BSc in Economics, University of Exeter (2016-2019)</h3>
-                <p><em>First Class Honours with 18/20 "Firsts" and 3/3 commendations</em></p>
-            </div>
-            
+            <ul>
+                <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
+                    <em>ESRC Doctoral Training Partnership (£115k)</em><br>
+                    Primary Research: Development Economics, Economic History, Political Economy<br>
+                    Supervisors: Professor Stephen Broadberry and Dr Eric Chaney</li>
+                <li><strong>MSc in Economic & Social History</strong>, University of Oxford (2023-2024)<br>
+                    <em>Full scholarship</em></li>
+                <li><strong>MPhil in Economics</strong>, University of Cambridge (2020-2021)<br>
+                    <em>Cambridge Trust Scholarship (£35k)</em></li>
+                <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
+                    <em>First Class Honours with 18/20 "Firsts" and 3/3 commendations</em></li>
+            </ul>
+        </div>
+        
+        <div class="section">
             <h2>Honors & Awards</h2>
-            <div class="grid-2">
-                <div class="card">
-                    <ul>
-                        <li><strong>ESRC GU DTP Studentship</strong> (2023-2027): Full Oxford MSc & DPhil scholarship, £115k</li>
-                        <li><strong>Cambridge Trust Scholarship</strong> (2020-21): Full Cambridge MPhil scholarship, £35k</li>
-                    </ul>
-                </div>
-                <div class="card">
-                    <ul>
-                        <li><strong>Dean's & School Commendations</strong>: Ranked top 5-10% during BSc performance</li>
-                        <li><strong>Faculty and College Travel Grant</strong>: Research travel to Pakistan (2024), £425</li>
-                    </ul>
-                </div>
-            </div>
-            
+            <ul>
+                <li><strong>ESRC GU DTP Studentship</strong> (2023-2027): Full Oxford MSc & DPhil scholarship, £115k</li>
+                <li><strong>Cambridge Trust Scholarship</strong> (2020-21): Full Cambridge MPhil scholarship, £35k</li>
+                <li><strong>Dean's & School Commendations</strong>: Ranked top 5-10% during BSc performance</li>
+                <li><strong>Faculty and College Travel Grant</strong>: Research travel to Pakistan (2024), £425</li>
+            </ul>
+        </div>
+        
+        <div class="section">
             <h2>Research Experience</h2>
-            <div class="research-item">
-                <h3>Data for Afghanistan - Director of Research (Feb 2025 – Present)</h3>
-            </div>
-            <div class="research-item">
-                <h3>DWP Fast Stream Economist - Senior Executive Officer equivalent (Sep 2021 - Sep 2023)</h3>
-            </div>
-            <div class="research-item">
-                <h3>University of Exeter - Research Assistant (May 2019 – June 2019)</h3>
-            </div>
-        </section>
+            <ul>
+                <li><strong>Data for Afghanistan</strong> - Director of Research (Feb 2025 – Present)</li>
+                <li><strong>DWP Fast Stream Economist</strong> - Senior Executive Officer equivalent (Sep 2021 - Sep 2023)</li>
+                <li><strong>University of Exeter</strong> - Research Assistant (May 2019 – June 2019)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Skills & Languages</h2>
+            <ul>
+                <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
+                <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
+                <li><strong>Software:</strong> LaTeX, QGIS, AnyLogic, Mathematica, Excel</li>
+                <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Propensity Score Matching</li>
+            </ul>
+        </div>
+    </div>
 
-        <section id="blogs-section" class="page-section hide">
-            <h1>Blogs</h1>
-            
-            <div class="research-item">
-                <p><em>Blog posts and research thoughts will be added here.</em></p>
-            </div>
-            
+    <div id="blogs-section" class="content hide">
+        <h1>Blogs</h1>
+        
+        <div class="section">
+            <p><em>Blog posts and research thoughts will be added here.</em></p>
+        </div>
+        
+        <div class="section">
             <h2>Recent Posts</h2>
             <div class="research-item">
-                <h3>Coming Soon: Research Updates</h3>
-                <p><em>I'll be sharing insights from my DPhil research, conference experiences, and thoughts on economic history and development economics.</em></p>
+                <strong>Coming Soon: Research Updates</strong><br>
+                <em>I'll be sharing insights from my DPhil research, conference experiences, and thoughts on economic history and development economics.</em>
             </div>
-            
+        </div>
+        
+        <div class="section">
             <h2>Topics I Write About</h2>
-            <div class="grid-3">
-                <div class="card">
-                    <h3>Economic History</h3>
-                    <p>Colonial Institutions</p>
-                </div>
-                <div class="card">
-                    <h3>Development Economics</h3>
-                    <p>South Asia Focus</p>
-                </div>
-                <div class="card">
-                    <h3>Research Methods</h3>
-                    <p>Applied Econometrics & ML</p>
-                </div>
-                <div class="card">
-                    <h3>PhD Life</h3>
-                    <p>Oxford Experience</p>
-                </div>
-                <div class="card">
-                    <h3>Data Analysis</h3>
-                    <p>Tools & Techniques</p>
-                </div>
-            </div>
-        </section>
+            <ul>
+                <li>Economic History and Colonial Institutions</li>
+                <li>Development Economics in South Asia</li>
+                <li>Applied Econometrics and Machine Learning</li>
+                <li>PhD Life at Oxford</li>
+                <li>Research Methods and Data Analysis</li>
+            </ul>
+        </div>
+    </div>
 
-        <section id="contact-section" class="page-section hide">
-            <h1>Contact</h1>
-            
-            <div class="contact-grid">
-                <div class="contact-card">
-                    <h3>Email</h3>
-                    <p><strong>Personal:</strong> mn529@cantab.ac.uk</p>
-                    <p><strong>Academic:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
-                </div>
-                
-                <div class="contact-card">
-                    <h3>Affiliation</h3>
-                    <p><strong>College:</strong> Wolfson College</p>
-                    <p><strong>Department:</strong> Economics, University of Oxford</p>
-                </div>
-                
-                <div class="contact-card">
-                    <h3>Address</h3>
-                    <p>Department of Economics<br>
-                    University of Oxford<br>
-                    Manor Road Building<br>
-                    Oxford OX1 3UQ<br>
-                    United Kingdom</p>
-                </div>
-            </div>
-            
+    <div id="contact-section" class="content hide">
+        <h1>Contact</h1>
+        
+        <div class="section">
+            <p><strong>Personal Email:</strong> mn529@cantab.ac.uk</p>
+            <p><strong>Academic Email:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
+            <p><strong>College:</strong> Wolfson College, University of Oxford</p>
+            <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
+            <p><strong>Address:</strong><br>
+               Department of Economics<br>
+               University of Oxford<br>
+               Manor Road Building<br>
+               Oxford OX1 3UQ<br>
+               United Kingdom</p>
+        </div>
+        
+        <div class="section">
             <h2>Supervisors</h2>
-            <div class="grid-2">
-                <div class="card">
-                    <h3>Professor Stephen Broadberry</h3>
-                    <p>Primary Supervisor<br>
-                    Professor of Economic History</p>
-                </div>
-                <div class="card">
-                    <h3>Dr Eric Chaney</h3>
-                    <p>Secondary Supervisor<br>
-                    Associate Professor of Economics</p>
-                </div>
-            </div>
-            
+            <ul>
+                <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
+                <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
             <h2>Academic Profiles</h2>
-            <div class="grid-3">
-                <div class="card" style="text-align: center;">
-                    <a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <a href="[your-google-scholar-link]" target="_blank">Google Scholar</a>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <a href="[your-orcid-link]" target="_blank">ORCID</a>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <a href="[your-repec-link]" target="_blank">RePEc</a>
-                </div>
-                <div class="card" style="text-align: center;">
-                    <a href="[oxford-profile-link]" target="_blank">Oxford Economics Profile</a>
-                </div>
-            </div>
-            
-
-        </section>
-    </main>
+            <ul>
+                <li><a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a></li>
+                <li><a href="[your-google-scholar-link]" target="_blank">Google Scholar</a></li>
+                <li><a href="[your-orcid-link]" target="_blank">ORCID</a></li>
+                <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if available)</li>
+                <li><a href="[oxford-profile-link]" target="_blank">Oxford Economics Department Profile</a></li>
+            </ul>
+        </div>
+    </div>
 
     <script>
         function showSection(section) {
             // Hide all sections
-            const sections = ['home', 'about', 'research', 'cv', 'blogs', 'contact'];
-            sections.forEach(sec => {
-                document.getElementById(sec + '-section').classList.add('hide');
-                document.getElementById(sec + '-link').classList.remove('active');
-            });
+            document.getElementById('home-section').classList.add('hide');
+            document.getElementById('about-section').classList.add('hide');
+            document.getElementById('research-section').classList.add('hide');
+            document.getElementById('cv-section').classList.add('hide');
+            document.getElementById('blogs-section').classList.add('hide');
+            document.getElementById('contact-section').classList.add('hide');
+            
+            // Remove active class from all links
+            document.getElementById('home-link').classList.remove('active');
+            document.getElementById('about-link').classList.remove('active');
+            document.getElementById('research-link').classList.remove('active');
+            document.getElementById('cv-link').classList.remove('active');
+            document.getElementById('blogs-link').classList.remove('active');
+            document.getElementById('contact-link').classList.remove('active');
             
             // Show selected section and highlight link
             document.getElementById(section + '-section').classList.remove('hide');
