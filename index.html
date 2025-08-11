@@ -83,6 +83,108 @@
         .hide {
             display: none;
         }
+        
+        /* Economics Visual Styles */
+        .economics-visual {
+            margin: 40px 0;
+        }
+        
+        .chart-container {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+        
+        .chart-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #002147;
+        }
+        
+        .chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 200px;
+            margin: 20px 0;
+            padding: 0 20px;
+        }
+        
+        .bar {
+            width: 40px;
+            background: linear-gradient(to top, #002147, #0066cc);
+            border-radius: 4px 4px 0 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .bar:hover {
+            transform: scale(1.1);
+            background: linear-gradient(to top, #0066cc, #4da6ff);
+        }
+        
+        .bar:hover::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            margin-bottom: 5px;
+        }
+        
+        .chart-labels {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .research-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .highlight-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .highlight-card:hover {
+            border-color: #002147;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,33,71,0.1);
+        }
+        
+        .highlight-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+            color: #002147;
+        }
+        
+        .highlight-card p {
+            margin: 0;
+            color: #666;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -94,17 +196,50 @@
     </nav>
 
     <div id="home-section" class="content">
-        <h1>Home</h1>
-        <p class="intro">This is the personal website of Maiwand Nangyal.</p>
+        <h1>Maiwand Nangyal</h1>
+        <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
+        
+        <div class="economics-visual">
+            <div class="chart-container">
+                <div class="chart-title">Economic Growth Over Time</div>
+                <div class="chart">
+                    <div class="bar" style="height: 40%" data-value="Colonial Period"></div>
+                    <div class="bar" style="height: 60%" data-value="Post-Independence"></div>
+                    <div class="bar" style="height: 85%" data-value="Modern Era"></div>
+                    <div class="bar" style="height: 95%" data-value="Digital Age"></div>
+                </div>
+                <div class="chart-labels">
+                    <span>1800</span>
+                    <span>1950</span>
+                    <span>2000</span>
+                    <span>2024</span>
+                </div>
+            </div>
+            
+            <div class="research-highlights">
+                <div class="highlight-card" onclick="showSection('research')">
+                    <h3>📊 Economic History</h3>
+                    <p>Colonial institutions in British India</p>
+                </div>
+                <div class="highlight-card" onclick="showSection('research')">
+                    <h3>🌍 Development Economics</h3>
+                    <p>Impact analysis & policy evaluation</p>
+                </div>
+                <div class="highlight-card" onclick="showSection('about')">
+                    <h3>🎓 ESRC Funded Research</h3>
+                    <p>University of Oxford DPhil</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="about-section" class="content hide">
         <h1>About</h1>
-        <p>I am a DPhil candidate in Economics at the University of Oxford.</p>
+        <p>I am a DPhil candidate in Economics at the University of Oxford and am grateful to be funded by the ESRC.</p>
         
-        <p>My research focuses on [your research area - e.g., development economics, behavioral economics, etc.]. I am particularly interested in [specific topics or questions you work on].</p>
+        <p>My research focuses on Economic History, Development Economics, Political Economy, Applied Econometrics and Machine Learning. I am particularly interested in investigating the economic impact of colonial institutions in eastern British India.</p>
         
-        <p>I am supervised by [Supervisor Name] and am a member of [College Name] College.</p>
+        <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney and am a member of Wolfson College.</p>
         
         <div class="section">
             <h2>Education</h2>
@@ -117,9 +252,20 @@
         <div class="section">
             <h2>Research Interests</h2>
             <ul>
-                <li>Research area 1</li>
-                <li>Research area 2</li>
-                <li>Research area 3</li>
+                <li>Economic History</li>
+                <li>Development Economics</li>
+                <li>Political Economy</li>
+                <li>Applied Econometrics</li>
+                <li>Machine Learning</li>
+                <li>Colonial institutions and their economic impact</li>
+                <li>Economic development in South Asia</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Funding</h2>
+            <ul>
+                <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
             </ul>
         </div>
     </div>
@@ -128,29 +274,41 @@
         <h1>Research</h1>
         
         <div class="section">
-            <h2>Working Papers</h2>
+            <h2>Current Research</h2>
             <ul>
-                <li><strong>[Paper Title 1]</strong><br>
-                    <em>[Brief description of the paper and main findings]</em><br>
-                    [Status: Draft / Under Review / etc.]</li>
-                <li><strong>[Paper Title 2]</strong><br>
-                    <em>[Brief description]</em><br>
-                    [Status]</li>
+                <li><strong>The Economic Impact of Colonial Institutions in Eastern British India</strong><br>
+                    <em>Investigating how colonial administrative and economic institutions shaped long-term development patterns in eastern British India, using applied econometric methods and machine learning techniques.</em><br>
+                    Status: PhD Thesis in Progress</li>
             </ul>
         </div>
         
         <div class="section">
-            <h2>Work in Progress</h2>
+            <h2>Research Areas</h2>
             <ul>
-                <li><strong>[Project Title]</strong><br>
-                    <em>[Brief description of ongoing work]</em></li>
+                <li><strong>Economic History</strong><br>
+                    <em>Focus on colonial economic institutions and their lasting impacts on development</em></li>
+                <li><strong>Development Economics</strong><br>
+                    <em>Institutional determinants of economic growth and development patterns</em></li>
+                <li><strong>Political Economy</strong><br>
+                    <em>Intersection of political institutions and economic outcomes in colonial and post-colonial contexts</em></li>
+                <li><strong>Applied Econometrics</strong><br>
+                    <em>Causal inference methods for historical economic analysis</em></li>
+                <li><strong>Machine Learning</strong><br>
+                    <em>Application of ML techniques to economic history and development economics</em></li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Working Papers</h2>
+            <ul>
+                <li><em>[Papers will be added as research progresses]</em></li>
             </ul>
         </div>
         
         <div class="section">
             <h2>Publications</h2>
             <ul>
-                <li><em>[Add published papers when you have them]</em></li>
+                <li><em>[Publications will be added when available]</em></li>
             </ul>
         </div>
     </div>
@@ -160,7 +318,8 @@
         
         <div class="section">
             <p><strong>Email:</strong> [your.email]@economics.ox.ac.uk</p>
-            <p><strong>Office:</strong> [Your office location, if you have one]</p>
+            <p><strong>College:</strong> Wolfson College, University of Oxford</p>
+            <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
             <p><strong>Address:</strong><br>
                Department of Economics<br>
                University of Oxford<br>
@@ -170,12 +329,21 @@
         </div>
         
         <div class="section">
-            <h2>Links</h2>
+            <h2>Supervisors</h2>
+            <ul>
+                <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
+                <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>Academic Profiles</h2>
             <ul>
                 <li><a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a></li>
                 <li><a href="[your-google-scholar-link]" target="_blank">Google Scholar</a></li>
                 <li><a href="[your-orcid-link]" target="_blank">ORCID</a></li>
-                <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if you have one)</li>
+                <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if available)</li>
+                <li><a href="[oxford-profile-link]" target="_blank">Oxford Economics Department Profile</a></li>
             </ul>
         </div>
     </div>
