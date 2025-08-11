@@ -148,12 +148,12 @@
             border-radius: 12px;
             padding: 20px;
             border: 2px solid #e6f2ff;
-            max-width: 400px;
+            max-width: 500px;
         }
 
         .chart-container {
-            width: 300px;
-            height: 200px;
+            width: 400px;
+            height: 250px;
             margin: 0 auto;
             position: relative;
             background: white;
@@ -168,92 +168,114 @@
         }
 
         .x-axis {
-            bottom: 0;
-            left: 0;
-            width: 100%;
+            bottom: 40px;
+            left: 40px;
+            width: calc(100% - 50px);
             height: 2px;
         }
 
         .y-axis {
-            bottom: 0;
-            left: 0;
+            bottom: 40px;
+            left: 40px;
             width: 2px;
-            height: 100%;
+            height: calc(100% - 50px);
         }
 
-        .supply-line, .demand-line {
+        .gdp-line {
             position: absolute;
-            width: 200px;
-            height: 2px;
-            transform-origin: left center;
-            transition: all 0.5s ease;
+            bottom: 40px;
+            left: 40px;
+            width: calc(100% - 50px);
+            height: calc(100% - 50px);
+            pointer-events: none;
         }
 
-        .supply-line {
-            background: #0066cc;
+        .gdp-path {
+            fill: none;
+            stroke: #0066cc;
+            stroke-width: 3;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            animation: drawLine 4s ease-in-out forwards;
+        }
+
+        .axis-labels {
+            position: absolute;
+            font-size: 0.8em;
+            color: #002147;
+            font-weight: 600;
+        }
+
+        .x-label {
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .y-label {
+            top: 10px;
+            left: 5px;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+
+        .time-markers {
+            position: absolute;
             bottom: 20px;
-            left: 20px;
-            transform: rotate(30deg);
-            animation: pulse-supply 2s infinite;
+            left: 40px;
+            width: calc(100% - 50px);
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7em;
+            color: #666;
         }
 
-        .demand-line {
-            background: #cc6600;
-            top: 20px;
-            left: 20px;
-            transform: rotate(-30deg);
-            animation: pulse-demand 2s infinite 1s;
-        }
-
-        .equilibrium-point {
+        .gdp-markers {
             position: absolute;
-            width: 8px;
-            height: 8px;
+            left: 5px;
+            bottom: 40px;
+            width: 35px;
+            height: calc(100% - 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.7em;
+            color: #666;
+        }
+
+        .data-point {
+            position: absolute;
+            width: 6px;
+            height: 6px;
             background: #002147;
             border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation: glow 1s infinite alternate;
+            opacity: 0;
+            animation: showPoint 0.5s ease forwards;
         }
 
-        .labels {
-            margin-top: 10px;
-            font-size: 0.9em;
+        .chart-title {
+            margin-bottom: 15px;
             color: #002147;
-        }
-
-        .supply-label {
-            color: #0066cc;
             font-weight: 600;
         }
 
-        .demand-label {
-            color: #cc6600;
-            font-weight: 600;
+        @keyframes drawLine {
+            to {
+                stroke-dashoffset: 0;
+            }
         }
 
-        @keyframes pulse-supply {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes showPoint {
+            to {
+                opacity: 1;
+            }
         }
 
-        @keyframes pulse-demand {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
-        }
-
-        @keyframes glow {
-            0% { box-shadow: 0 0 5px #002147; }
-            100% { box-shadow: 0 0 15px #002147; }
-        }
-
-        .chart-container:hover .supply-line {
-            transform: rotate(25deg);
-        }
-
-        .chart-container:hover .demand-line {
-            transform: rotate(-25deg);
+        .chart-container:hover .gdp-path {
+            stroke: #0088ff;
+            stroke-width: 4;
         }
         
         /* Footer styling */
