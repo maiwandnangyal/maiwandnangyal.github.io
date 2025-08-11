@@ -11,45 +11,59 @@
             margin: 0 auto;
             padding: 40px 20px;
             line-height: 1.6;
-            color: #333;
-            background-color: #fff;
+            color: #1a1a1a;
+            background-color: #fafbfc;
         }
         
         nav {
             margin-bottom: 40px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 2px solid #e6f2ff;
             padding-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,33,71,0.05);
         }
         
         nav a {
             margin-right: 30px;
-            color: #333;
+            color: #003366;
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.3s ease;
         }
         
         nav a:hover {
+            color: #0066cc;
             text-decoration: underline;
         }
         
         nav a.active {
-            color: #0066cc;
+            color: #002147;
+            font-weight: 600;
         }
         
         h1 {
             font-size: 2em;
             margin-bottom: 20px;
             font-weight: 600;
+            color: #002147;
         }
         
         .content {
             margin-top: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,33,71,0.08);
+            border-left: 4px solid #0066cc;
         }
         
         .intro {
             font-size: 1.1em;
             margin-bottom: 30px;
-            color: #555;
+            color: #003366;
+            font-weight: 500;
         }
         
         .section {
@@ -60,6 +74,9 @@
             font-size: 1.4em;
             margin-bottom: 15px;
             font-weight: 600;
+            color: #002147;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 8px;
         }
         
         ul {
@@ -69,14 +86,17 @@
         
         li {
             margin: 8px 0;
+            color: #003366;
         }
         
         a {
             color: #0066cc;
             text-decoration: none;
+            transition: color 0.3s ease;
         }
         
         a:hover {
+            color: #002147;
             text-decoration: underline;
         }
         
@@ -90,12 +110,13 @@
         }
         
         .chart-container {
-            background: #f8f9fa;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #f8fbff 0%, #e6f2ff 100%);
+            border-radius: 12px;
             padding: 30px;
             margin-bottom: 30px;
             text-align: center;
-            border: 1px solid #e9ecef;
+            border: 2px solid #d6e8ff;
+            box-shadow: 0 4px 15px rgba(0,33,71,0.1);
         }
         
         .chart-title {
@@ -116,16 +137,18 @@
         
         .bar {
             width: 40px;
-            background: linear-gradient(to top, #002147, #0066cc);
-            border-radius: 4px 4px 0 0;
+            background: linear-gradient(to top, #002147 0%, #003366 30%, #0066cc 70%, #4da6ff 100%);
+            border-radius: 6px 6px 0 0;
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
+            box-shadow: 0 2px 8px rgba(0,33,71,0.2);
         }
         
         .bar:hover {
-            transform: scale(1.1);
-            background: linear-gradient(to top, #0066cc, #4da6ff);
+            transform: scale(1.1) translateY(-5px);
+            background: linear-gradient(to top, #0066cc 0%, #4da6ff 30%, #66b3ff 70%, #99ccff 100%);
+            box-shadow: 0 6px 20px rgba(0,33,71,0.3);
         }
         
         .bar:hover::after {
@@ -134,21 +157,23 @@
             bottom: 100%;
             left: 50%;
             transform: translateX(-50%);
-            background: #333;
+            background: linear-gradient(135deg, #002147, #003366);
             color: white;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 6px;
             font-size: 0.8em;
             white-space: nowrap;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 12px rgba(0,33,71,0.3);
         }
         
         .chart-labels {
             display: flex;
             justify-content: space-around;
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 0.9em;
-            color: #666;
+            color: #003366;
+            font-weight: 500;
         }
         
         .research-highlights {
@@ -159,31 +184,35 @@
         }
         
         .highlight-card {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 20px;
+            background: linear-gradient(135deg, white 0%, #f8fbff 100%);
+            border: 2px solid #e6f2ff;
+            border-radius: 12px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,33,71,0.08);
         }
         
         .highlight-card:hover {
-            border-color: #002147;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,33,71,0.1);
+            border-color: #0066cc;
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,33,71,0.15);
+            background: linear-gradient(135deg, #f8fbff 0%, #e6f2ff 100%);
         }
         
         .highlight-card h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 12px 0;
             font-size: 1.1em;
             color: #002147;
+            font-weight: 600;
         }
         
         .highlight-card p {
             margin: 0;
-            color: #666;
+            color: #003366;
             font-size: 0.9em;
+            line-height: 1.5;
         }
     </style>
 </head>
