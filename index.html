@@ -6,102 +6,104 @@
     <title>Maiwand Nangyal</title>
     <style>
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Times New Roman', Times, serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e8f0f8;
+            color: #1a1a1a;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        
+        .header {
+            background-color: #d6e8f5;
+            padding: 15px 0;
+            border-bottom: 1px solid #b8d4e8;
+            text-align: center;
+        }
+        
+        .nav {
+            margin: 0;
+            padding: 0;
+            font-size: 18px;
+        }
+        
+        .nav a {
+            color: #002147;
+            text-decoration: underline;
+            margin: 0 15px;
+            font-weight: normal;
+        }
+        
+        .nav a:hover {
+            color: #003366;
+        }
+        
+        .nav a.active {
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .container {
             max-width: 800px;
             margin: 0 auto;
             padding: 40px 20px;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background-color: #fafbfc;
-        }
-        
-        nav {
-            margin-bottom: 40px;
-            border-bottom: 2px solid #e6f2ff;
-            padding-bottom: 20px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,33,71,0.05);
-        }
-        
-        nav a {
-            margin-right: 30px;
-            color: #003366;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: #0066cc;
-            text-decoration: underline;
-        }
-        
-        nav a.active {
-            color: #002147;
-            font-weight: 600;
+            text-align: center;
+            min-height: calc(100vh - 200px);
         }
         
         h1 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            font-weight: 600;
+            font-size: 28px;
+            margin-bottom: 30px;
             color: #002147;
+            font-weight: normal;
         }
         
         .content {
-            margin-top: 30px;
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 12px rgba(0,33,71,0.08);
-            border-left: 4px solid #0066cc;
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: #1a1a1a;
         }
         
-        .intro {
-            font-size: 1.1em;
-            margin-bottom: 30px;
-            color: #003366;
-            font-weight: 500;
+        .intro-text {
+            margin-bottom: 40px;
+            font-size: 18px;
         }
         
-        .section {
+        .oxford-logo-container {
             margin: 40px 0;
+            text-align: center;
         }
         
-        h2 {
-            font-size: 1.4em;
+        .oxford-logo {
+            max-width: 300px;
+            width: 100%;
+            height: auto;
+            border: 2px solid #002147;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .about-content, .research-content, .contact-content {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .about-content h2, .research-content h2, .contact-content h2 {
+            color: #002147;
+            font-size: 20px;
+            margin-top: 30px;
             margin-bottom: 15px;
-            font-weight: 600;
-            color: #002147;
-            border-bottom: 2px solid #e6f2ff;
-            padding-bottom: 8px;
+            font-weight: bold;
         }
         
-        ul {
-            list-style-type: none;
-            padding: 0;
+        .about-content ul, .research-content ul, .contact-content ul {
+            padding-left: 20px;
         }
         
-        li {
-            margin: 8px 0;
-            color: #003366;
-        }
-        
-        a {
-            color: #0066cc;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        a:hover {
-            color: #002147;
-            text-decoration: underline;
-        }
-        
-        .hide {
-            display: none;
+        .about-content li, .research-content li, .contact-content li {
+            margin-bottom: 8px;
         }
         
         .research-item {
@@ -121,31 +123,101 @@
         .research-item em {
             color: #003366;
         }
+        
+        .footer {
+            background-color: #d6e8f5;
+            padding: 25px 20px;
+            text-align: center;
+            border-top: 1px solid #b8d4e8;
+            margin-top: 60px;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .footer-links a {
+            color: #002147;
+            text-decoration: underline;
+            margin: 0 5px;
+        }
+        
+        .footer-links a:hover {
+            color: #003366;
+        }
+        
+        .copyright {
+            color: #003366;
+            margin-bottom: 8px;
+        }
+        
+        .license {
+            color: #003366;
+            margin-bottom: 8px;
+        }
+        
+        .license a {
+            color: #002147;
+            text-decoration: underline;
+        }
+        
+        .generator {
+            color: #456;
+            font-size: 12px;
+        }
+        
+        .generator a {
+            color: #002147;
+            text-decoration: underline;
+        }
+        
+        .hide {
+            display: none;
+        }
+        
+        a {
+            color: #002147;
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            color: #003366;
+        }
     </style>
 </head>
 <body>
-    <nav>
-        <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
-        <a href="#" onclick="showSection('about')" id="about-link">About</a>
-        <a href="#" onclick="showSection('research')" id="research-link">Research</a>
-        <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
-    </nav>
-
-    <div id="home-section" class="content">
-        <h1>Maiwand Nangyal</h1>
-        <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
+    <div class="header">
+        <nav class="nav">
+            <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
+            <a href="#" onclick="showSection('about')" id="about-link">About</a>
+            <a href="#" onclick="showSection('research')" id="research-link">Research</a>
+            <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
+        </nav>
     </div>
 
-    <div id="about-section" class="content hide">
-        <h1>About</h1>
-        <p>I am a DPhil candidate in Economics at the University of Oxford and am grateful to be funded by the ESRC.</p>
-        
-        <p>My research focuses on Economic History, Development Economics, Political Economy, Applied Econometrics and Machine Learning. I am particularly interested in investigating the economic impact of colonial institutions in eastern British India.</p>
-        
-        <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney and am a member of Wolfson College.</p>
-        
-        <div class="section">
-            <h2>Education</h2>
+    <div class="container">
+        <div id="home-section" class="content">
+            <h1>Home</h1>
+            <p class="intro-text">This is the personal website of Maiwand Nangyal.</p>
+            
+            <div class="oxford-logo-container">
+                <img src="https://www.ox.ac.uk/sites/files/oxford/styles/ow_medium_feature/public/field/field_image_main/b_economics.jpg" 
+                     alt="University of Oxford Economics Department" class="oxford-logo">
+            </div>
+        </div>
+
+        <div id="about-section" class="content hide">
+            <h1>About</h1>
+            <div class="about-content">
+                <p>I am a DPhil candidate in Economics at the University of Oxford and am grateful to be funded by the ESRC.</p>
+                
+                <p>My research focuses on Economic History, Development Economics, Political Economy, Applied Econometrics and Machine Learning. I am particularly interested in investigating the economic impact of colonial institutions in eastern British India.</p>
+                
+                <p>I am supervised by Professor Stephen Broadberry and Dr Eric Chaney and am a member of Wolfson College.</p>
+                
+                <h2>Education</h2>
                 <ul>
                     <li><strong>DPhil in Economics</strong>, University of Oxford (2024-2027)<br>
                         Primary Research Interests: Development Economics, Economic History, Political Economy<br>
@@ -155,124 +227,124 @@
                     <li><strong>BSc in Economics</strong>, University of Exeter (2016-2019)<br>
                         First Class Honours with 18/20 "Firsts" and 3/3 commendations</li>
                 </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Skills</h2>
+                
+                <h2>Skills</h2>
                 <ul>
                     <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi</li>
                     <li><strong>Programming:</strong> Stata, R, Julia, Python, SQL, SAS, Java</li>
                     <li><strong>Tools:</strong> LaTeX, QGIS, AnyLogic, Mathematica</li>
                     <li><strong>Methods:</strong> Econometrics, Machine Learning, NLP, Agent-based Modeling</li>
                 </ul>
+
+                <h2>Research Interests</h2>
+                <ul>
+                    <li>Economic History</li>
+                    <li>Development Economics</li>
+                    <li>Political Economy</li>
+                    <li>Applied Econometrics</li>
+                    <li>Machine Learning</li>
+                </ul>
+                
+                <h2>Funding</h2>
+                <ul>
+                    <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
+                </ul>
+            </div>
         </div>
 
-         <div class="section">
-            <h2>Research Interests</h2>
-            <ul>
-                <li>Economic History</li>
-                <li>Development Economics</li>
-                <li>Political Economy</li>
-                <li>Applied Econometrics</li>
-                <li>Machine Learning</li>
-            </ul>
+        <div id="research-section" class="content hide">
+            <h1>Research</h1>
+            <div class="research-content">
+                <h2>Working Papers</h2>
+                <div class="research-item">
+                    <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
+                    <em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
+                    Status: Under Development
+                </div>
+
+                <h2>DPhil Research Chapters</h2>
+                <div class="research-item">
+                    <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</strong><br>
+                    <em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
+                    Status: In Progress
+                </div>
+                
+                <div class="research-item">
+                    <strong>Chapter 2:</strong> To be confirmed
+                </div>
+                
+                <div class="research-item">
+                    <strong>Chapter 3:</strong> To be confirmed
+                </div>
+                
+                <h2>Current Data Projects</h2>
+                <div class="research-item">
+                    <strong>Data for Afghanistan</strong><br>
+                    <em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
+                    Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
+                </div>
+                
+                <h2>Presentations</h2>
+                <div class="research-item">
+                    <strong>32nd Annual Graduate Workshop</strong> (April 2024)<br>
+                    <em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em>
+                </div>
+
+                <h2>Publications</h2>
+                <div class="research-item">
+                    <em>[Publications will be added when available]</em>
+                </div>
+            </div>
         </div>
-        
-        <div class="section">
-            <h2>Funding</h2>
-            <ul>
-                <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
-            </ul>
+
+        <div id="contact-section" class="content hide">
+            <h1>Contact</h1>
+            <div class="contact-content">
+                <p><strong>Personal Email:</strong> mn529@cantab.ac.uk</p>
+                <p><strong>Academic Email:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
+                <p><strong>College:</strong> Wolfson College, University of Oxford</p>
+                <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
+                <p><strong>Address:</strong><br>
+                   Department of Economics<br>
+                   University of Oxford<br>
+                   Manor Road Building<br>
+                   Oxford OX1 3UQ<br>
+                   United Kingdom</p>
+                
+                <h2>Supervisors</h2>
+                <ul>
+                    <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
+                    <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
+                </ul>
+                
+                <h2>References</h2>
+                <p><em>References available upon request. Please contact referees only with prior agreement.</em></p>
+                <ul>
+                    <li><strong>Prof Stephen Broadberry</strong><br>
+                        Professor of Economic History, Department of Economics, University of Oxford</li>
+                    <li><strong>Dr Eric Chaney</strong><br>
+                        Associate Professor of Economics, Department of Economics, University of Oxford</li>
+                    <li><strong>Professor Sriya Iyer</strong><br>
+                        Professor of Economics, Faculty of Economics, University of Cambridge</li>
+                </ul>
+            </div>
         </div>
     </div>
 
-    <div id="research-section" class="content hide">
-        <h1>Research</h1>
-
-        <div class="section">
-            <h2>Working Papers</h2>
-            <div class="research-item">
-                <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
-                <em>Co-authored with Dr Ahmad Zia Wahdat</em><br>
-                Status: Under Development
-            </div>
+    <div class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/maiwandnangyal" target="_blank">GitHub</a>
+            <a href="https://bit.ly/3auvPvm" target="_blank">LinkedIn</a>
+            <a href="[your-orcid-link]" target="_blank">ORCID</a>
+            <a href="https://dataforafghanistan.org/posts" target="_blank">Data for Afghanistan</a>
+            <a href="cv.pdf" target="_blank">CV</a>
         </div>
-
-        <div class="section">
-            <h2>DPhil Research Chapters</h2>
-            <div class="research-item">
-                <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1891–2021</strong><br>
-                <em>Examines the long-term effects of direct rule, semi-autonomous administration, and princely states on two historically and contemporarily volatile regions.</em><br>
-                Status: In Progress
-            </div>
-            
-            <div class="research-item">
-                <strong>Chapter 2:</strong> To be confirmed
-            </div>
-            
-            <div class="research-item">
-                <strong>Chapter 3:</strong> To be confirmed
-            </div>
+        <div class="copyright">© 2025 Maiwand Nangyal</div>
+        <div class="license">
+            <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a>
         </div>
-        
-        <div class="section">
-            <h2>Current Data Projects</h2>
-            <div class="research-item">
-                <strong>Data for Afghanistan</strong><br>
-                <em>Director of Research (Feb 2025 – Present): Collaborating with Dr Ahmad Zia Wahdat to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
-                Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Presentations</h2>
-            <div class="research-item">
-                <strong>32nd Annual Graduate Workshop</strong> (April 2024)<br>
-                <em>Presented MSc dissertation research to the Economic & Social History research group at All Souls College, Oxford. Audience included Professors Sheilagh Ogilvie and Joel Mokyr.</em>
-            </div>
-        </div>
-
-        <div class="section">
-            <h2>Publications</h2>
-            <ul>
-                <li><em>[Publications will be added when available]</em></li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="contact-section" class="content hide">
-        <h1>Contact</h1>
-        
-        <div class="section">
-            <p><strong> Personal Email:</strong> mn529@cantab.ac.uk</p>
-            <p><strong> Academic Email:</strong> maiwand.nangyal@economics.ox.ac.uk</p>
-            <p><strong>College:</strong> Wolfson College, University of Oxford</p>
-            <p><strong>Department:</strong> Department of Economics, University of Oxford</p>
-            <p><strong>Address:</strong><br>
-               Department of Economics<br>
-               University of Oxford<br>
-               Manor Road Building<br>
-               Oxford OX1 3UQ<br>
-               United Kingdom</p>
-        </div>
-        
-        <div class="section">
-            <h2>Supervisors</h2>
-            <ul>
-                <li><strong>Professor Stephen Broadberry</strong> (Primary Supervisor)</li>
-                <li><strong>Dr Eric Chaney</strong> (Secondary Supervisor)</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Academic Profiles</h2>
-            <ul>
-                <li><a href="cv.pdf" target="_blank">Curriculum Vitae (PDF)</a></li>
-                <li><a href="[your-google-scholar-link]" target="_blank">Google Scholar</a></li>
-                <li><a href="[your-orcid-link]" target="_blank">ORCID</a></li>
-                <li><a href="[your-repec-link]" target="_blank">RePEc</a> (if available)</li>
-                <li><a href="[oxford-profile-link]" target="_blank">Oxford Economics Department Profile</a></li>
-            </ul>
+        <div class="generator">
+            Site generated with <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
         </div>
     </div>
 
