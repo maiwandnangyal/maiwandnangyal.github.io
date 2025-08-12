@@ -142,23 +142,24 @@
         
         /* Dunning-Kruger Effect Diagram */
         .economics-diagram {
-            margin: 30px auto;
+            margin: 40px auto;
             text-align: center;
             background: white;
-            border-radius: 4px;
-            padding: 25px;
-            border: 1px solid #ddd;
-            max-width: 520px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid #e0e4e7;
+            max-width: 580px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
 
         .chart-container {
-            width: 420px;
-            height: 280px;
-            margin: 15px auto;
+            width: 480px;
+            height: 320px;
+            margin: 20px auto;
             position: relative;
-            background: white;
-            border: 1px solid #333;
+            background: #fafbfc;
+            border: 1px solid #ddd;
+            border-radius: 4px;
             overflow: hidden;
         }
 
@@ -168,116 +169,146 @@
         }
 
         .x-axis {
-            bottom: 50px;
-            left: 60px;
-            width: calc(100% - 80px);
-            height: 1px;
+            bottom: 60px;
+            left: 80px;
+            width: calc(100% - 100px);
+            height: 2px;
         }
 
         .y-axis {
-            bottom: 50px;
-            left: 60px;
-            width: 1px;
-            height: calc(100% - 70px);
+            bottom: 60px;
+            left: 80px;
+            width: 2px;
+            height: calc(100% - 80px);
         }
 
         .dunning-kruger-line {
             position: absolute;
-            bottom: 50px;
-            left: 60px;
-            width: calc(100% - 80px);
-            height: calc(100% - 70px);
+            bottom: 60px;
+            left: 80px;
+            width: calc(100% - 100px);
+            height: calc(100% - 80px);
             pointer-events: none;
         }
 
         .dk-path {
             fill: none;
-            stroke: #333;
-            stroke-width: 2;
-            stroke-dasharray: 1200;
-            stroke-dashoffset: 1200;
+            stroke: #2c3e50;
+            stroke-width: 3;
+            stroke-dasharray: 1400;
+            stroke-dashoffset: 1400;
             animation: drawDKLine 5s ease-in-out forwards;
         }
 
         .axis-labels {
             position: absolute;
-            font-size: 14px;
-            color: #333;
-            font-weight: normal;
-            font-family: 'Times New Roman', serif;
+            font-size: 16px;
+            color: #2c3e50;
+            font-weight: 600;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
 
         .x-label {
             bottom: 20px;
-            right: 5px;
+            left: 50%;
+            transform: translateX(-50%);
             font-style: italic;
         }
 
         .y-label {
-            top: 5px;
-            left: 15px;
-            transform: rotate(-90deg);
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%) rotate(-90deg);
             transform-origin: center;
             font-style: italic;
         }
 
         .education-markers {
             position: absolute;
-            bottom: 30px;
-            left: 60px;
-            width: calc(100% - 80px);
-            height: 20px;
+            bottom: 35px;
+            left: 80px;
+            width: calc(100% - 100px);
+            height: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 12px;
-            color: #333;
-            font-family: 'Times New Roman', serif;
+            font-size: 13px;
+            color: #34495e;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 500;
         }
 
         .confidence-markers {
             position: absolute;
-            left: 20px;
-            bottom: 50px;
-            width: 40px;
-            height: calc(100% - 70px);
+            left: 30px;
+            bottom: 60px;
+            width: 50px;
+            height: calc(100% - 80px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: flex-end;
-            font-size: 12px;
-            color: #333;
-            font-family: 'Times New Roman', serif;
+            font-size: 13px;
+            color: #34495e;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 500;
         }
 
         .dk-point {
             position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #333;
+            width: 6px;
+            height: 6px;
+            background: #e74c3c;
             border-radius: 50%;
             opacity: 0;
             animation: showDKPoint 0.5s ease forwards;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .chart-title {
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-            font-size: 16px;
-            font-family: 'Times New Roman', serif;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-weight: 700;
+            font-size: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            letter-spacing: -0.5px;
         }
 
         .figure-caption {
-            margin-top: 15px;
-            font-size: 13px;
-            color: #333;
-            line-height: 1.4;
-            font-family: 'Times New Roman', serif;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #5a6c7d;
+            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             text-align: left;
-            max-width: 420px;
+            max-width: 480px;
             margin-left: auto;
             margin-right: auto;
+            font-weight: 400;
+        }
+
+        @keyframes drawDKLine {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        @keyframes showDKPoint {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .chart-container:hover .dk-path {
+            stroke: #34495e;
+            stroke-width: 3.5;
+            transition: all 0.3s ease;
+        }
+
+        .economics-diagram:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
         }
 
         @keyframes drawDKLine {
@@ -324,12 +355,30 @@
             }
             
             .economics-diagram {
-                max-width: 470px;
+                max-width: 95%;
+                padding: 20px;
             }
             
             .chart-container {
-                width: 380px;
-                height: 240px;
+                width: 95%;
+                max-width: 400px;
+                height: 280px;
+            }
+            
+            .axis-labels {
+                font-size: 14px;
+            }
+            
+            .education-markers, .confidence-markers {
+                font-size: 11px;
+            }
+            
+            .chart-title {
+                font-size: 18px;
+            }
+            
+            .figure-caption {
+                font-size: 13px;
             }
         }
     </style>
@@ -349,7 +398,7 @@
         <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
         
         <div class="economics-diagram">
-            <h3 class="chart-title">Dunning-Kruger effect</h3>
+            <h3 class="chart-title">Dunning-Kruger Effect</h3>
             <div class="chart-container">
                 <div class="axis x-axis"></div>
                 <div class="axis y-axis"></div>
@@ -372,16 +421,16 @@
                 </div>
                 
                 <div class="dunning-kruger-line">
-                    <svg width="100%" height="100%" viewBox="0 0 340 180">
-                        <path class="dk-path" d="M 0,120 Q 40,80 80,60 Q 120,100 160,120 Q 200,110 240,100 Q 280,90 340,80" />
+                    <svg width="100%" height="100%" viewBox="0 0 380 200">
+                        <path class="dk-path" d="M 0,140 Q 50,100 95,80 Q 140,120 190,140 Q 240,130 285,120 Q 330,110 380,100" />
                     </svg>
                 </div>
                 
                 <!-- Key points on the curve -->
-                <div class="dk-point" style="left: 23%; bottom: 67%; animation-delay: 5.5s;"></div>
-                <div class="dk-point" style="left: 47%; bottom: 33%; animation-delay: 6s;"></div>
-                <div class="dk-point" style="left: 71%; bottom: 44%; animation-delay: 6.5s;"></div>
-                <div class="dk-point" style="right: 2%; bottom: 56%; animation-delay: 7s;"></div>
+                <div class="dk-point" style="left: 25%; bottom: 70%; animation-delay: 5.5s;"></div>
+                <div class="dk-point" style="left: 50%; bottom: 30%; animation-delay: 6s;"></div>
+                <div class="dk-point" style="left: 75%; bottom: 40%; animation-delay: 6.5s;"></div>
+                <div class="dk-point" style="right: 0%; bottom: 50%; animation-delay: 7s;"></div>
             </div>
             <div class="figure-caption">
                 The relationship between academic experience and confidence levels across educational stages. The curve demonstrates the classic Dunning-Kruger effect, showing initial overconfidence in early stages of learning, followed by a decline as awareness of knowledge gaps increases, and gradual recovery as genuine expertise develops.
