@@ -144,56 +144,56 @@
         .economics-diagram {
             margin: 30px auto;
             text-align: center;
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid #e6f2ff;
-            max-width: 500px;
+            background: white;
+            border-radius: 4px;
+            padding: 25px;
+            border: 1px solid #ddd;
+            max-width: 520px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .chart-container {
-            width: 400px;
-            height: 250px;
-            margin: 0 auto;
+            width: 420px;
+            height: 280px;
+            margin: 15px auto;
             position: relative;
             background: white;
-            border: 2px solid #002147;
-            border-radius: 8px;
+            border: 1px solid #333;
             overflow: hidden;
         }
 
         .axis {
             position: absolute;
-            background: #002147;
+            background: #333;
         }
 
         .x-axis {
-            bottom: 40px;
-            left: 40px;
-            width: calc(100% - 50px);
-            height: 2px;
+            bottom: 50px;
+            left: 60px;
+            width: calc(100% - 80px);
+            height: 1px;
         }
 
         .y-axis {
-            bottom: 40px;
-            left: 40px;
-            width: 2px;
-            height: calc(100% - 50px);
+            bottom: 50px;
+            left: 60px;
+            width: 1px;
+            height: calc(100% - 70px);
         }
 
         .dunning-kruger-line {
             position: absolute;
-            bottom: 40px;
-            left: 40px;
-            width: calc(100% - 50px);
-            height: calc(100% - 50px);
+            bottom: 50px;
+            left: 60px;
+            width: calc(100% - 80px);
+            height: calc(100% - 70px);
             pointer-events: none;
         }
 
         .dk-path {
             fill: none;
-            stroke: #0066cc;
-            stroke-width: 3;
+            stroke: #333;
+            stroke-width: 2;
             stroke-dasharray: 1200;
             stroke-dashoffset: 1200;
             animation: drawDKLine 5s ease-in-out forwards;
@@ -201,74 +201,87 @@
 
         .axis-labels {
             position: absolute;
-            font-size: 0.8em;
-            color: #002147;
-            font-weight: 600;
+            font-size: 11px;
+            color: #333;
+            font-weight: normal;
+            font-family: 'Times New Roman', serif;
         }
 
         .x-label {
-            bottom: -15px;
-            right: 10px;
+            bottom: 20px;
+            right: 5px;
+            font-style: italic;
         }
 
         .y-label {
-            top: -15px;
-            left: -15px;
+            top: 5px;
+            left: 15px;
             transform: rotate(-90deg);
             transform-origin: center;
+            font-style: italic;
         }
 
         .education-markers {
             position: absolute;
-            bottom: 15px;
-            left: 40px;
-            width: calc(100% - 50px);
-            height: 25px;
+            bottom: 30px;
+            left: 60px;
+            width: calc(100% - 80px);
+            height: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.75em;
-            color: #666;
-            font-weight: 600;
+            font-size: 9px;
+            color: #333;
+            font-family: 'Times New Roman', serif;
         }
 
         .confidence-markers {
             position: absolute;
-            left: 5px;
-            bottom: 40px;
-            width: 35px;
-            height: calc(100% - 50px);
+            left: 20px;
+            bottom: 50px;
+            width: 40px;
+            height: calc(100% - 70px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             align-items: flex-end;
-            font-size: 0.7em;
-            color: #666;
+            font-size: 9px;
+            color: #333;
+            font-family: 'Times New Roman', serif;
         }
 
         .dk-point {
             position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #cc6600;
+            width: 4px;
+            height: 4px;
+            background: #333;
             border-radius: 50%;
             opacity: 0;
             animation: showDKPoint 0.5s ease forwards;
-            border: 2px solid white;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .chart-title {
-            margin-bottom: 15px;
-            color: #002147;
-            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+            font-size: 12px;
+            font-family: 'Times New Roman', serif;
         }
 
-        .dk-labels {
-            margin-top: 10px;
-            font-size: 0.8em;
-            color: #666;
+        .figure-caption {
+            margin-top: 15px;
+            font-size: 10px;
+            color: #333;
             line-height: 1.4;
+            font-family: 'Times New Roman', serif;
+            text-align: left;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .figure-number {
+            font-weight: bold;
         }
 
         @keyframes drawDKLine {
@@ -284,8 +297,8 @@
         }
 
         .chart-container:hover .dk-path {
-            stroke: #0088ff;
-            stroke-width: 4;
+            stroke: #555;
+            stroke-width: 2.5;
         }
         
         /* Footer styling */
@@ -315,12 +328,12 @@
             }
             
             .economics-diagram {
-                max-width: 450px;
+                max-width: 470px;
             }
             
             .chart-container {
-                width: 350px;
-                height: 200px;
+                width: 380px;
+                height: 240px;
             }
         }
     </style>
@@ -340,7 +353,7 @@
         <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
         
         <div class="economics-diagram">
-            <h3 class="chart-title">The Academic Confidence Journey</h3>
+            <h3 class="chart-title">Figure 1. Dunning-Kruger effect</h3>
             <div class="chart-container">
                 <div class="axis x-axis"></div>
                 <div class="axis y-axis"></div>
@@ -363,19 +376,19 @@
                 </div>
                 
                 <div class="dunning-kruger-line">
-                    <svg width="100%" height="100%" viewBox="0 0 320 170">
-                        <path class="dk-path" d="M 0,120 Q 40,80 80,60 Q 120,100 160,120 Q 200,110 240,100 Q 280,90 320,80" />
+                    <svg width="100%" height="100%" viewBox="0 0 340 180">
+                        <path class="dk-path" d="M 0,120 Q 40,80 80,60 Q 120,100 160,120 Q 200,110 240,100 Q 280,90 340,80" />
                     </svg>
                 </div>
                 
                 <!-- Key points on the curve -->
-                <div class="dk-point" style="left: 25%; bottom: 65%; animation-delay: 5.5s;"></div>
-                <div class="dk-point" style="left: 50%; bottom: 29%; animation-delay: 6s;"></div>
-                <div class="dk-point" style="left: 75%; bottom: 41%; animation-delay: 6.5s;"></div>
-                <div class="dk-point" style="right: 0%; bottom: 53%; animation-delay: 7s;"></div>
+                <div class="dk-point" style="left: 23%; bottom: 67%; animation-delay: 5.5s;"></div>
+                <div class="dk-point" style="left: 47%; bottom: 33%; animation-delay: 6s;"></div>
+                <div class="dk-point" style="left: 71%; bottom: 44%; animation-delay: 6.5s;"></div>
+                <div class="dk-point" style="right: 2%; bottom: 56%; animation-delay: 7s;"></div>
             </div>
-            <div class="dk-labels">
-                <em>The journey of academic confidence through educational stages</em>
+            <div class="figure-caption">
+                <span class="figure-number">Figure 1.</span> The relationship between academic experience and confidence levels across educational stages. The curve demonstrates the classic Dunning-Kruger effect, showing initial overconfidence in early stages of learning, followed by a decline as awareness of knowledge gaps increases, and gradual recovery as genuine expertise develops.
             </div>
         </div>
         
