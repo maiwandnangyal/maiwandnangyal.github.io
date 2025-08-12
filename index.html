@@ -140,7 +140,7 @@
             margin-bottom: 30px;
         }
         
-        /* Economics Diagram */
+        /* Dunning-Kruger Effect Diagram */
         .economics-diagram {
             margin: 30px auto;
             text-align: center;
@@ -181,7 +181,7 @@
             height: calc(100% - 50px);
         }
 
-        .gdp-line {
+        .dunning-kruger-line {
             position: absolute;
             bottom: 40px;
             left: 40px;
@@ -190,13 +190,13 @@
             pointer-events: none;
         }
 
-        .gdp-path {
+        .dk-path {
             fill: none;
             stroke: #0066cc;
             stroke-width: 3;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            animation: drawLine 4s ease-in-out forwards;
+            stroke-dasharray: 1200;
+            stroke-dashoffset: 1200;
+            animation: drawDKLine 5s ease-in-out forwards;
         }
 
         .axis-labels {
@@ -218,20 +218,21 @@
             transform-origin: center;
         }
 
-        .time-markers {
+        .education-markers {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 40px;
             width: calc(100% - 50px);
-            height: 20px;
+            height: 25px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.7em;
+            font-size: 0.75em;
             color: #666;
+            font-weight: 600;
         }
 
-        .gdp-markers {
+        .confidence-markers {
             position: absolute;
             left: 5px;
             bottom: 40px;
@@ -245,14 +246,16 @@
             color: #666;
         }
 
-        .data-point {
+        .dk-point {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #002147;
+            width: 8px;
+            height: 8px;
+            background: #cc6600;
             border-radius: 50%;
             opacity: 0;
-            animation: showPoint 0.5s ease forwards;
+            animation: showDKPoint 0.5s ease forwards;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .chart-title {
@@ -261,19 +264,26 @@
             font-weight: 600;
         }
 
-        @keyframes drawLine {
+        .dk-labels {
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        @keyframes drawDKLine {
             to {
                 stroke-dashoffset: 0;
             }
         }
 
-        @keyframes showPoint {
+        @keyframes showDKPoint {
             to {
                 opacity: 1;
             }
         }
 
-        .chart-container:hover .gdp-path {
+        .chart-container:hover .dk-path {
             stroke: #0088ff;
             stroke-width: 4;
         }
@@ -286,6 +296,12 @@
             text-align: center;
             color: #64748b;
             font-size: 0.9em;
+        }
+
+        .visitor-count {
+            color: #002147;
+            font-weight: 600;
+            margin-left: 10px;
         }
         
         @media (max-width: 600px) {
@@ -324,23 +340,21 @@
         <p class="intro">DPhil candidate in Economics at the University of Oxford</p>
         
         <div class="economics-diagram">
-            <h3 class="chart-title">GDP Growth Over Time</h3>
+            <h3 class="chart-title">The Academic Confidence Journey</h3>
             <div class="chart-container">
                 <div class="axis x-axis"></div>
                 <div class="axis y-axis"></div>
-                <div class="axis-labels x-label">Time</div>
-                <div class="axis-labels y-label">GDP</div>
+                <div class="axis-labels x-label">Experience</div>
+                <div class="axis-labels y-label">Confidence</div>
                 
-                <div class="time-markers">
-                    <span>1891</span>
-                    <span>1920</span>
-                    <span>1950</span>
-                    <span>1980</span>
-                    <span>2000</span>
-                    <span>2021</span>
+                <div class="education-markers">
+                    <span>High School</span>
+                    <span>Bachelor's</span>
+                    <span>Master's</span>
+                    <span>PhD</span>
                 </div>
                 
-                <div class="gdp-markers">
+                <div class="confidence-markers">
                     <span>High</span>
                     <span></span>
                     <span>Med</span>
@@ -348,17 +362,20 @@
                     <span>Low</span>
                 </div>
                 
-                <div class="gdp-line">
+                <div class="dunning-kruger-line">
                     <svg width="100%" height="100%" viewBox="0 0 320 170">
-                        <path class="gdp-path" d="M 0,140 Q 50,120 80,100 T 160,80 Q 200,60 240,70 T 320,50" />
+                        <path class="dk-path" d="M 0,120 Q 40,80 80,60 Q 120,100 160,120 Q 200,110 240,100 Q 280,90 320,80" />
                     </svg>
                 </div>
                 
-                <div class="data-point" style="left: 0%; bottom: 18%; animation-delay: 4s;"></div>
-                <div class="data-point" style="left: 25%; bottom: 41%; animation-delay: 4.5s;"></div>
-                <div class="data-point" style="left: 50%; bottom: 53%; animation-delay: 5s;"></div>
-                <div class="data-point" style="left: 75%; bottom: 59%; animation-delay: 5.5s;"></div>
-                <div class="data-point" style="right: 0%; bottom: 71%; animation-delay: 6s;"></div>
+                <!-- Key points on the curve -->
+                <div class="dk-point" style="left: 25%; bottom: 65%; animation-delay: 5.5s;"></div>
+                <div class="dk-point" style="left: 50%; bottom: 29%; animation-delay: 6s;"></div>
+                <div class="dk-point" style="left: 75%; bottom: 41%; animation-delay: 6.5s;"></div>
+                <div class="dk-point" style="right: 0%; bottom: 53%; animation-delay: 7s;"></div>
+            </div>
+            <div class="dk-labels">
+                <em>The journey of academic confidence through educational stages</em>
             </div>
         </div>
         
@@ -550,10 +567,32 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Maiwand Nangyal. All rights reserved.</p>
+        <p>&copy; 2025 Maiwand Nangyal. All rights reserved. <span class="visitor-count" id="visitor-count">| Visitors: Loading...</span></p>
     </footer>
 
     <script>
+        // Simple visitor counter using localStorage
+        function updateVisitorCount() {
+            // Get current count from localStorage
+            let visits = localStorage.getItem('siteVisits');
+            
+            // If no visits recorded, start at 1, otherwise increment
+            if (visits === null) {
+                visits = 1;
+            } else {
+                visits = parseInt(visits) + 1;
+            }
+            
+            // Store updated count
+            localStorage.setItem('siteVisits', visits);
+            
+            // Display the count
+            document.getElementById('visitor-count').textContent = `| Visitors: ${visits}`;
+        }
+
+        // Update visitor count when page loads
+        window.addEventListener('load', updateVisitorCount);
+
         function showSection(section) {
             // Hide all sections
             document.getElementById('home-section').classList.add('hide');
