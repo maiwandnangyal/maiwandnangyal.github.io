@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://maiwandnangyal.github.io/sitemap.xml
