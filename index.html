@@ -155,12 +155,6 @@
             color: #64748b;
             font-size: 0.9em;
         }
-
-        .visitor-count {
-            color: #002147;
-            font-weight: 600;
-            margin-left: 10px;
-        }
         
         @media (max-width: 600px) {
             .profile-photo {
@@ -394,32 +388,10 @@
     </div>
 
     <footer>
-        <p>&copy; 2025 Maiwand Nangyal. All rights reserved. <span class="visitor-count" id="visitor-count">| Visit#: Loading...</span></p>
+        <p>&copy; 2025 Maiwand Nangyal. All rights reserved.</p>
     </footer>
 
     <script>
-        // Simple visitor counter using localStorage
-        function updateVisitorCount() {
-            // Get current count from localStorage
-            let visits = localStorage.getItem('siteVisits');
-            
-            // If no visits recorded, start at 1, otherwise increment
-            if (visits === null) {
-                visits = 1;
-            } else {
-                visits = parseInt(visits) + 1;
-            }
-            
-            // Store updated count
-            localStorage.setItem('siteVisits', visits);
-            
-            // Display the count
-            document.getElementById('visitor-count').textContent = `| Visit: ${visits}`;
-        }
-
-        // Update visitor count when page loads
-        window.addEventListener('load', updateVisitorCount);
-
         function showSection(section) {
             // Hide all sections
             document.getElementById('home-section').classList.add('hide');
