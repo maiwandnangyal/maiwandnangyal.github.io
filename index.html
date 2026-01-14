@@ -146,6 +146,15 @@
             margin-bottom: 30px;
         }
         
+        .address-container {
+            display: flex;
+            gap: 4rem;
+        }
+        
+        .address-box {
+            min-width: 200px;
+        }
+        
         /* Footer styling */
         footer {
             margin-top: 60px;
@@ -170,6 +179,15 @@
                 margin-right: 15px;
                 font-size: 0.9em;
             }
+            
+            .address-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .address-box {
+                min-width: auto;
+            }
         }
     </style>
 </head>
@@ -178,8 +196,8 @@
         <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
         <a href="#" onclick="showSection('about')" id="about-link">About</a>
         <a href="#" onclick="showSection('research')" id="research-link">Research</a>
-        <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
         <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
+        <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
         <a href="#" onclick="showSection('blogs')" id="blogs-link">Blogs</a>
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
     </nav>
@@ -309,35 +327,6 @@
         </div>
     </div>
 
-    <div id="teaching-section" class="content hide">
-        <h1>Teaching</h1>
-        
-        <div class="section">
-            <p>I teach courses in Economics and Economic History at the University of Oxford.</p>
-        </div>
-        
-        <div class="section">
-            <h2>Current Courses (Hilary Term 2026)</h2>
-            
-            <div class="research-item">
-                <strong>Economics for Economic Historians (EfEH)</strong><br>
-                <em>Term:</em> Hilary Term 2026<br>
-                <em>Format:</em> Eight 2-hour classes<br>
-                <em>Office Hours:</em> Mondays, 5:00-6:00 PM, Seminar Room F, Manor Road Building<br><br>
-                
-                <strong>Course Structure:</strong><br>
-                Week 1: Introduction to Economics<br>
-                Weeks 2-4: Microeconomics<br>
-                Weeks 5-6: Macroeconomics<br>
-                Week 7: Applied Econometrics<br>
-                Week 8: Final Presentations (10 minutes each)<br><br>
-                
-                <strong>Course Materials:</strong> <a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank">Access lecture slides and resources</a><br>
-                <em>Password will be provided in class and via email to enrolled students.</em>
-            </div>
-        </div>
-    </div>
-
     <div id="cv-section" class="content hide">
         <h1>Curriculum Vitae</h1>
         
@@ -354,6 +343,29 @@
 
         
         
+    </div>
+
+    <div id="teaching-section" class="content hide">
+        <h1>Teaching</h1>
+        
+        <div class="section">
+            <p>I teach courses in Economics and Economic History at the University of Oxford.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Current Courses (Hilary Term 2026)</h2>
+            
+            <div class="research-item">
+                <strong>Economics for Economic Historians (EfEH)</strong><br>
+                <em>Term:</em> Hilary Term 2026<br>
+                <em>Format:</em> Eight 2-hour classes<br>
+                <em>Office Hours:</em> Mondays, 5:00-6:00 PM, Seminar Room F, Manor Road Building<br><br>
+                
+                <strong>Course Structure:</strong> Week 1: Introduction to Economics; Weeks 2-4: Microeconomics; Weeks 5-6: Macroeconomics; Week 7: Applied Econometrics; Week 8: Final Presentations (10 minutes each).<br><br>
+                
+                <strong>Course Materials:</strong> <a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank">Access lecture slides and resources</a>. <em>Password will be provided in class and via email to enrolled students.</em>
+            </div>
+        </div>
     </div>
 
     <div id="blogs-section" class="content hide">
@@ -401,8 +413,8 @@
         <a href="https://www.economics.ox.ac.uk/home" target="_blank">Department of Economics, University of Oxford</a>
     </div>
     
-    <div style="display: flex; gap: 4rem;">
-    <div style="min-width: 200px;">
+    <div class="address-container">
+    <div class="address-box">
         <p><strong>Department Address:</strong><br>
            Department of Economics<br>
            University of Oxford<br>
@@ -413,7 +425,7 @@
            United Kingdom</p>
     </div>
     
-    <div style="min-width: 200px;">
+    <div class="address-box">
         <p><strong>Postal Correspondence Address:</strong><br>
            Wolfson College<br>
            Linton Road<br>
@@ -453,8 +465,8 @@
             document.getElementById('home-section').classList.add('hide');
             document.getElementById('about-section').classList.add('hide');
             document.getElementById('research-section').classList.add('hide');
-            document.getElementById('teaching-section').classList.add('hide');
             document.getElementById('cv-section').classList.add('hide');
+            document.getElementById('teaching-section').classList.add('hide');
             document.getElementById('blogs-section').classList.add('hide');
             document.getElementById('contact-section').classList.add('hide');
             
@@ -462,8 +474,8 @@
             document.getElementById('home-link').classList.remove('active');
             document.getElementById('about-link').classList.remove('active');
             document.getElementById('research-link').classList.remove('active');
-            document.getElementById('teaching-link').classList.remove('active');
             document.getElementById('cv-link').classList.remove('active');
+            document.getElementById('teaching-link').classList.remove('active');
             document.getElementById('blogs-link').classList.remove('active');
             document.getElementById('contact-link').classList.remove('active');
             
