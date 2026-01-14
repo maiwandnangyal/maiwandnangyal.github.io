@@ -372,35 +372,36 @@
                 
                 <strong>Course Structure:</strong><br>
                 <table style="width: 100%; max-width: 600px; margin: 10px 0; border-collapse: collapse;">
-    <thead>
-        <tr style="border-bottom: 2px solid #002147;">
-            <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Week</th>
-            <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Content</th>
-        </tr>
-    </thead>
-    <tbody style="border-top: 1px solid #d6e8f5;">
-        <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">1</td>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Introduction to Economics</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">2-4</td>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Microeconomics</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">5-6</td>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Macroeconomics</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">7</td>
-            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Applied Econometrics</td>
-        </tr>
-        <tr>
-            <td style="padding: 8px; border-bottom: 2px solid #002147;">8</td>
-            <td style="padding: 8px; border-bottom: 2px solid #002147;">Final Presentations (10 minutes each)</td>
-        </tr>
-    </tbody>
-    </table>
+                    <thead>
+                        <tr style="border-bottom: 2px solid #002147;">
+                            <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Week</th>
+                            <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Content</th>
+                        </tr>
+                    </thead>
+                    <tbody style="border-top: 1px solid #d6e8f5;">
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">1</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Introduction to Economics</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">2-4</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Microeconomics</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">5-6</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Macroeconomics</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">7</td>
+                            <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Applied Econometrics</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border-bottom: 2px solid #002147;">8</td>
+                            <td style="padding: 8px; border-bottom: 2px solid #002147;">Final Presentations (10 minutes each)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
                 
                 <strong>Course Materials:</strong> <a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank">Access lecture slides and resources</a><br>
                 <em>Password will be provided in class and via email to enrolled students.</em>
@@ -522,7 +523,18 @@
             // Show selected section and highlight link
             document.getElementById(section + '-section').classList.remove('hide');
             document.getElementById(section + '-link').classList.add('active');
+            
+            // Update URL hash
+            window.location.hash = section;
         }
+        
+        // Check URL hash on page load
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1); // Remove the '#'
+            if (hash && document.getElementById(hash + '-section')) {
+                showSection(hash);
+            }
+        });
         
         function toggleCourse(courseId) {
             const courseContent = document.getElementById(courseId);
