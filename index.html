@@ -500,54 +500,63 @@
         <p>&copy; 2025 Maiwand Nangyal. All rights reserved.</p>
     </footer>
 
-    <script>
-        function showSection(section) {
-            // Hide all sections
-            document.getElementById('home-section').classList.add('hide');
-            document.getElementById('about-section').classList.add('hide');
-            document.getElementById('research-section').classList.add('hide');
-            document.getElementById('cv-section').classList.add('hide');
-            document.getElementById('teaching-section').classList.add('hide');
-            document.getElementById('blogs-section').classList.add('hide');
-            document.getElementById('contact-section').classList.add('hide');
-            
-            // Remove active class from all links
-            document.getElementById('home-link').classList.remove('active');
-            document.getElementById('about-link').classList.remove('active');
-            document.getElementById('research-link').classList.remove('active');
-            document.getElementById('cv-link').classList.remove('active');
-            document.getElementById('teaching-link').classList.remove('active');
-            document.getElementById('blogs-link').classList.remove('active');
-            document.getElementById('contact-link').classList.remove('active');
-            
-            // Show selected section and highlight link
-            document.getElementById(section + '-section').classList.remove('hide');
-            document.getElementById(section + '-link').classList.add('active');
-            
-            // Update URL hash
-            window.location.hash = section;
-        }
+<script>
+    function showSection(section) {
+        // Hide all sections
+        document.getElementById('home-section').classList.add('hide');
+        document.getElementById('about-section').classList.add('hide');
+        document.getElementById('research-section').classList.add('hide');
+        document.getElementById('cv-section').classList.add('hide');
+        document.getElementById('teaching-section').classList.add('hide');
+        document.getElementById('blogs-section').classList.add('hide');
+        document.getElementById('contact-section').classList.add('hide');
         
-        // Check URL hash on page load
-        window.addEventListener('load', function() {
-            const hash = window.location.hash.substring(1); // Remove the '#'
-            if (hash && document.getElementById(hash + '-section')) {
-                showSection(hash);
-            }
-        });
+        // Remove active class from all links
+        document.getElementById('home-link').classList.remove('active');
+        document.getElementById('about-link').classList.remove('active');
+        document.getElementById('research-link').classList.remove('active');
+        document.getElementById('cv-link').classList.remove('active');
+        document.getElementById('teaching-link').classList.remove('active');
+        document.getElementById('blogs-link').classList.remove('active');
+        document.getElementById('contact-link').classList.remove('active');
         
-        function toggleCourse(courseId) {
-            const courseContent = document.getElementById(courseId);
-            const courseHeader = event.currentTarget;
-            
-            if (courseContent.classList.contains('hide')) {
-                courseContent.classList.remove('hide');
-                courseHeader.classList.add('expanded');
-            } else {
-                courseContent.classList.add('hide');
-                courseHeader.classList.remove('expanded');
-            }
+        // Show selected section and highlight link
+        document.getElementById(section + '-section').classList.remove('hide');
+        document.getElementById(section + '-link').classList.add('active');
+        
+        // Update URL hash
+        window.location.hash = section;
+    }
+    
+    // Function to check and load section from hash
+    function loadSectionFromHash() {
+        const hash = window.location.hash.substring(1); // Remove the '#'
+        if (hash && document.getElementById(hash + '-section')) {
+            showSection(hash);
         }
-    </script>
+    }
+    
+    // Check hash on DOMContentLoaded (fires earlier than load)
+    document.addEventListener('DOMContentLoaded', loadSectionFromHash);
+    
+    // Also check on full page load as backup
+    window.addEventListener('load', loadSectionFromHash);
+    
+    // Listen for hash changes (when user clicks back/forward buttons)
+    window.addEventListener('hashchange', loadSectionFromHash);
+    
+    function toggleCourse(courseId) {
+        const courseContent = document.getElementById(courseId);
+        const courseHeader = event.currentTarget;
+        
+        if (courseContent.classList.contains('hide')) {
+            courseContent.classList.remove('hide');
+            courseHeader.classList.add('expanded');
+        } else {
+            courseContent.classList.add('hide');
+            courseHeader.classList.remove('expanded');
+        }
+    }
+</script>
 </body>
 </html>
