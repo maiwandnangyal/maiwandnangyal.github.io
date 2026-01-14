@@ -146,6 +146,77 @@
             margin-bottom: 30px;
         }
         
+        /* Course expandable section styling */
+        .course-header {
+            background-color: #e6f2ff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+            border-left: 4px solid #0066cc;
+        }
+        
+        .course-header:hover {
+            background-color: #d6e8f5;
+        }
+        
+        .course-header h3 {
+            margin: 0;
+            color: #002147;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-header .arrow {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .course-header.expanded .arrow {
+            transform: rotate(90deg);
+        }
+        
+        .course-content {
+            padding: 20px;
+            background-color: #f8fbff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #d6e8f5;
+        }
+        
+        .course-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .course-table th,
+        .course-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #d6e8f5;
+        }
+        
+        .course-table th {
+            background-color: #e6f2ff;
+            color: #002147;
+            font-weight: 600;
+        }
+        
+        .course-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .dropbox-link {
+            background-color: #e6f2ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #0066cc;
+        }
+        
         /* Footer styling */
         footer {
             margin-top: 60px;
@@ -165,6 +236,11 @@
                 width: 293px;
                 height: 293px;
             }
+            
+            nav a {
+                margin-right: 15px;
+                font-size: 0.9em;
+            }
         }
     </style>
 </head>
@@ -173,6 +249,7 @@
         <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
         <a href="#" onclick="showSection('about')" id="about-link">About</a>
         <a href="#" onclick="showSection('research')" id="research-link">Research</a>
+        <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
         <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
         <a href="#" onclick="showSection('blogs')" id="blogs-link">Blogs</a>
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
@@ -303,6 +380,69 @@
         </div>
     </div>
 
+    <div id="teaching-section" class="content hide">
+        <h1>Teaching</h1>
+        
+        <div class="section">
+            <p>I teach courses in Economics and Economic History at the University of Oxford.</p>
+        </div>
+        
+        <div class="section">
+            <h2>Current Courses (Hilary Term 2026)</h2>
+            
+            <!-- History for Economic Historians Course -->
+            <div class="course-header" onclick="toggleCourse('efeh-course')">
+                <h3>
+                    History for Economic Historians (EfEH)
+                    <span class="arrow">▶</span>
+                </h3>
+            </div>
+            <div id="efeh-course" class="course-content hide">
+                <p><strong>Term:</strong> Hilary Term 2026</p>
+                <p><strong>Format:</strong> Eight 2-hour classes</p>
+                <p><strong>Office Hours:</strong> Mondays, 5:00-6:00 PM, Seminar Room F, Manor Road Building</p>
+                
+                <h4>Course Structure:</h4>
+                <table class="course-table">
+                    <thead>
+                        <tr>
+                            <th>Week</th>
+                            <th>Content</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Introduction to Economics</td>
+                        </tr>
+                        <tr>
+                            <td>2-4</td>
+                            <td>Microeconomics</td>
+                        </tr>
+                        <tr>
+                            <td>5-6</td>
+                            <td>Macroeconomics</td>
+                        </tr>
+                        <tr>
+                            <td>7</td>
+                            <td>Applied Econometrics</td>
+                        </tr>
+                        <tr>
+                            <td>8</td>
+                            <td>Final Presentations (10 minutes each)</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="dropbox-link">
+                    <p><strong>📁 Course Materials:</strong></p>
+                    <p><a href="[YOUR_DROPBOX_LINK_HERE]" target="_blank">Access Lecture Slides and Resources</a></p>
+                    <p><em>Password will be provided in class and via email to enrolled students.</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="cv-section" class="content hide">
         <h1>Curriculum Vitae</h1>
         
@@ -418,6 +558,7 @@
             document.getElementById('home-section').classList.add('hide');
             document.getElementById('about-section').classList.add('hide');
             document.getElementById('research-section').classList.add('hide');
+            document.getElementById('teaching-section').classList.add('hide');
             document.getElementById('cv-section').classList.add('hide');
             document.getElementById('blogs-section').classList.add('hide');
             document.getElementById('contact-section').classList.add('hide');
@@ -426,6 +567,7 @@
             document.getElementById('home-link').classList.remove('active');
             document.getElementById('about-link').classList.remove('active');
             document.getElementById('research-link').classList.remove('active');
+            document.getElementById('teaching-link').classList.remove('active');
             document.getElementById('cv-link').classList.remove('active');
             document.getElementById('blogs-link').classList.remove('active');
             document.getElementById('contact-link').classList.remove('active');
@@ -433,6 +575,19 @@
             // Show selected section and highlight link
             document.getElementById(section + '-section').classList.remove('hide');
             document.getElementById(section + '-link').classList.add('active');
+        }
+        
+        function toggleCourse(courseId) {
+            const courseContent = document.getElementById(courseId);
+            const courseHeader = event.currentTarget;
+            
+            if (courseContent.classList.contains('hide')) {
+                courseContent.classList.remove('hide');
+                courseHeader.classList.add('expanded');
+            } else {
+                courseContent.classList.add('hide');
+                courseHeader.classList.remove('expanded');
+            }
         }
     </script>
 </body>
