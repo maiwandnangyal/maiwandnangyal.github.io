@@ -151,31 +151,13 @@
             background-color: #e6f2ff;
             padding: 15px 20px;
             border-radius: 8px;
-            cursor: pointer;
             margin-bottom: 10px;
-            transition: background-color 0.3s ease;
             border-left: 4px solid #0066cc;
-        }
-        
-        .course-header:hover {
-            background-color: #d6e8f5;
         }
         
         .course-header h3 {
             margin: 0;
             color: #002147;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .course-header .arrow {
-            font-size: 1.2em;
-            transition: transform 0.3s ease;
-        }
-        
-        .course-header.expanded .arrow {
-            transform: rotate(90deg);
         }
         
         .course-content {
@@ -391,13 +373,10 @@
             <h2>Current Courses (Hilary Term 2026)</h2>
             
             <!-- Economics for Economic Historians Course -->
-            <div class="course-header" onclick="toggleCourse('efeh-course')">
-                <h3>
-                    Economics for Economic Historians (EfEH)
-                    <span class="arrow">▶</span>
-                </h3>
+            <div class="course-header">
+                <h3>Economics for Economic Historians (EfEH)</h3>
             </div>
-            <div id="efeh-course" class="course-content hide">
+            <div id="efeh-course" class="course-content">
                 <p><strong>Term:</strong> Hilary Term 2026</p>
                 <p><strong>Format:</strong> Eight 2-hour classes</p>
                 <p><strong>Office Hours:</strong> Mondays, 5:00-6:00 PM, Seminar Room F, Manor Road Building</p>
