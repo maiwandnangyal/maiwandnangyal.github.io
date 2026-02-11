@@ -201,11 +201,9 @@
 <body>
     <nav>
         <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
-        <a href="#" onclick="showSection('about')" id="about-link">About</a>
         <a href="#" onclick="showSection('research')" id="research-link">Research</a>
         <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
         <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
-        <a href="#" onclick="showSection('blogs')" id="blogs-link">Blogs</a>
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
     </nav>
 
@@ -226,62 +224,6 @@
         <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside this, I am the Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform which compiles high-quality data and visualisations for empirical research on Afghanistan.</p>
         
         <p><em>Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</em></p>
-        </div>
-    </div>
-
-    <div id="about-section" class="content hide">
-        <h1>About</h1>
-        
-                        <div class="section">
-                    <h2>Education</h2>
-                    <dl class="education-list">
-                        <dt>2024–2027</dt>
-                        <dd>
-                            <strong>DPhil in Economics</strong>, University of Oxford<br>
-                        </dd>
-                        
-                        <dt>2023–2024</dt>
-                        <dd><strong>MSc in Economic & Social History</strong>, University of Oxford</dd>
-                        
-                        <dt>2020–2021</dt>
-                        <dd><strong>MPhil in Economics</strong>, University of Cambridge</dd>
-                        
-                        <dt>2016–2019</dt>
-                        <dd>
-                            <strong>BSc in Economics</strong>, University of Exeter<br>
-                            First Class Honours with 18/20 "Firsts" and 3/3 commendations
-                        </dd>
-                    </dl>
-                </div>
-        
-        <div class="section">
-            <h2>Skills</h2>
-                <ul>
-                  <li><strong>Languages:</strong> English (native), Pashto (native), Dari, Urdu, Hindi.</li>
-                    <li><strong>Methods:</strong> Econometrics, Impact Evaluations, Machine Learning, Natural Language Processing, Agent-based Dynamic Microsimulation Modelling.</li>
-                    <li><strong>Programming:</strong> Stata, R, Python, Julia, SAS (Enterprise Guide, Studio, Enterprise Miner), SQL, Java.</li>
-                    <li><strong>Modelling, Visualisation &amp; Tools:</strong> AnyLogic, QGIS, Mathematica, Excel, Word, PowerPoint.</li>
-                    <li><strong>Documentation:</strong> LaTeX, Overleaf, R&nbsp;Markdown.</li>
-                </ul>
-
-        </div>
-
-         <div class="section">
-            <h2>Research Interests</h2>
-            <ul>
-                <li>Economic History</li>
-                <li>Development Economics</li>
-                <li>Political Economy</li>
-                <li>Applied Econometrics</li>
-                <li>Machine Learning</li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Funding</h2>
-            <ul>
-                <li><strong>ESRC Doctoral Training Partnership</strong>, University of Oxford</li>
-            </ul>
         </div>
     </div>
 
@@ -488,33 +430,6 @@
         </div>
     </div>
 
-    <div id="blogs-section" class="content hide">
-        <h1>Blogs</h1>
-        
-        <div class="section">
-            <p><em>Blog posts and research thoughts will be added here.</em></p>
-        </div>
-        
-        <div class="section">
-            <h2>Recent Posts</h2>
-            <div class="research-item">
-                <strong>Coming Soon: Research Updates</strong><br>
-                <em>I'll be sharing insights from my DPhil research, reflections on conference experiences, and perspectives on various economic theories and their related research.</em>
-            </div>
-        </div>
-        
-        <div class="section">
-            <h2>Topics I Write About</h2>
-            <ul>
-                <li>Economic History and Colonial Institutions</li>
-                <li>Development Economics in South Asia</li>
-                <li>Applied Econometrics and Machine Learning</li>
-                <li>PhD Life at Oxford</li>
-                <li>Research Methods and Data Analysis</li>
-            </ul>
-        </div>
-    </div>
-
     <div id="contact-section" class="content hide">
         <h1>Contact</h1>
         
@@ -583,20 +498,16 @@
     function showSection(section) {
         // Hide all sections
         document.getElementById('home-section').classList.add('hide');
-        document.getElementById('about-section').classList.add('hide');
         document.getElementById('research-section').classList.add('hide');
         document.getElementById('cv-section').classList.add('hide');
         document.getElementById('teaching-section').classList.add('hide');
-        document.getElementById('blogs-section').classList.add('hide');
         document.getElementById('contact-section').classList.add('hide');
         
         // Remove active class from all links
         document.getElementById('home-link').classList.remove('active');
-        document.getElementById('about-link').classList.remove('active');
         document.getElementById('research-link').classList.remove('active');
         document.getElementById('cv-link').classList.remove('active');
         document.getElementById('teaching-link').classList.remove('active');
-        document.getElementById('blogs-link').classList.remove('active');
         document.getElementById('contact-link').classList.remove('active');
         
         // Show selected section and highlight link
