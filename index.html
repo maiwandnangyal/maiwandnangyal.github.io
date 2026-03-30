@@ -596,7 +596,8 @@
     </div>
 
     <footer>
-        <p>&copy; 2025-2026 Maiwand Nangyal. All rights reserved.</p>
+<p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     </footer>
 
 <script>
