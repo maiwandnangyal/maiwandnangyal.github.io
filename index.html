@@ -664,47 +664,6 @@
     </footer>
 
 <script>
-    function showSection(section) {
-        document.getElementById('home-section').classList.add('hide');
-        document.getElementById('research-section').classList.add('hide');
-        document.getElementById('cv-section').classList.add('hide');
-        document.getElementById('teaching-section').classList.add('hide');
-        document.getElementById('contact-section').classList.add('hide');
-        document.getElementById('pashto-section').classList.add('hide');
-        
-        document.getElementById('home-link').classList.remove('active');
-        document.getElementById('research-link').classList.remove('active');
-        document.getElementById('cv-link').classList.remove('active');
-        document.getElementById('teaching-link').classList.remove('active');
-        document.getElementById('contact-link').classList.remove('active');
-        document.getElementById('pashto-link').classList.remove('active');
-        
-        document.getElementById(section + '-section').classList.remove('hide');
-        document.getElementById(section + '-link').classList.add('active');
-        
-        window.location.hash = section;
-    }
-    
-    function loadSectionFromHash() {
-        const hash = window.location.hash.substring(1);
-        if (hash && document.getElementById(hash + '-section')) {
-            showSection(hash);
-        }
-    }
-    
-    document.addEventListener('DOMContentLoaded', loadSectionFromHash);
-    window.addEventListener('load', loadSectionFromHash);
-    window.addEventListener('hashchange', loadSectionFromHash);
-    
-    function toggleCourse(contentId) {
-        const content = document.getElementById(contentId);
-        const chevron = document.getElementById('efeh-chevron');
-        const isHidden = content.classList.contains('hide');
-        content.classList.toggle('hide');
-        chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
-    }
-</script>
-<script>
 (function () {
     const canvas = document.getElementById('bamyanCanvas');
     const ctx = canvas.getContext('2d');
@@ -731,9 +690,7 @@
     }
 
     function drawSun() {
-        // Sun top right
         const sx = W - 22, sy = 12;
-        // Glow
         const glow = ctx.createRadialGradient(sx, sy, 2, sx, sy, 14);
         glow.addColorStop(0, 'rgba(255,230,100,0.5)');
         glow.addColorStop(1, 'rgba(255,230,100,0)');
@@ -741,7 +698,6 @@
         ctx.beginPath();
         ctx.arc(sx, sy, 14, 0, Math.PI * 2);
         ctx.fill();
-        // Sun disc
         ctx.beginPath();
         ctx.arc(sx, sy, 6, 0, Math.PI * 2);
         ctx.fillStyle = '#f5c842';
@@ -762,19 +718,120 @@
         cloud(145, 12, 0.65);
     }
 
+    function drawBuddha(x, y, w, h) {
+        const cx = x + w / 2;
+
+        // Body/robe — fills lower niche
+        const robeGrad = ctx.createLinearGradient(cx - w * 0.3, 0, cx + w * 0.3, 0);
+        robeGrad.addColorStop(0, 'rgba(120,85,35,0.95)');
+        robeGrad.addColorStop(0.5, 'rgba(165,125,60,0.95)');
+        robeGrad.addColorStop(1, 'rgba(120,85,35,0.95)');
+        ctx.fillStyle = robeGrad;
+        ctx.beginPath();
+        ctx.moveTo(cx - w * 0.30, y + h);
+        ctx.lineTo(cx + w * 0.30, y + h);
+        ctx.lineTo(cx + w * 0.17, y + h * 0.36);
+        ctx.lineTo(cx - w * 0.17, y + h * 0.36);
+        ctx.closePath();
+        ctx.fill();
+
+        // Robe fold lines
+        ctx.strokeStyle = 'rgba(80,50,10,0.4)';
+        ctx.lineWidth = 0.6;
+        [[-0.07, 0.38, -0.13, 1.0],
+         [0.07, 0.38, 0.13, 1.0],
+         [0.0, 0.38, 0.0, 1.0]
+        ].forEach(([fx1, fy1, fx2, fy2]) => {
+            ctx.beginPath();
+            ctx.moveTo(cx + fx1 * w, y + fy1 * h);
+            ctx.lineTo(cx + fx2 * w, y + fy2 * h);
+            ctx.stroke();
+        });
+
+        // Neck
+        ctx.fillStyle = 'rgba(150,105,50,0.95)';
+        ctx.fillRect(cx - w * 0.06, y + h * 0.25, w * 0.12, h * 0.12);
+
+        // Head — oval
+        ctx.beginPath();
+        ctx.ellipse(cx, y + h * 0.18, w * 0.12, h * 0.14, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(150,105,50,0.95)';
+        ctx.fill();
+
+        // Ushnisha (topknot)
+        ctx.beginPath();
+        ctx.ellipse(cx, y + h * 0.07, w * 0.07, h * 0.07, 0, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(130,90,40,0.95)';
+        ctx.fill();
+
+        // Face features
+        // Eyes
+        ctx.fillStyle = 'rgba(50,25,5,0.8)';
+        ctx.beginPath();
+        ctx.ellipse(cx - w * 0.04, y + h * 0.17, w * 0.025, h * 0.02, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + w * 0.04, y + h * 0.17, w * 0.025, h * 0.02, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Subtle smile
+        ctx.strokeStyle = 'rgba(80,45,10,0.6)';
+        ctx.lineWidth = 0.6;
+        ctx.beginPath();
+        ctx.arc(cx, y + h * 0.20, w * 0.04, 0.15, Math.PI - 0.15);
+        ctx.stroke();
+
+        // Arms — hands in meditation mudra
+        ctx.fillStyle = 'rgba(140,100,45,0.85)';
+        // Left arm
+        ctx.beginPath();
+        ctx.ellipse(cx - w * 0.22, y + h * 0.55, w * 0.07, h * 0.06, -0.3, 0, Math.PI * 2);
+        ctx.fill();
+        // Right arm
+        ctx.beginPath();
+        ctx.ellipse(cx + w * 0.22, y + h * 0.55, w * 0.07, h * 0.06, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawNiche(x, y, w, h) {
+        // Niche interior shadow
+        const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
+        nicheGrad.addColorStop(0, 'rgba(40,20,5,0.85)');
+        nicheGrad.addColorStop(0.5, 'rgba(55,30,8,0.65)');
+        nicheGrad.addColorStop(1, 'rgba(40,20,5,0.85)');
+        ctx.fillStyle = nicheGrad;
+        ctx.beginPath();
+        ctx.moveTo(x, y + h);
+        ctx.lineTo(x, y + h * 0.35);
+        ctx.quadraticCurveTo(x, y, x + w / 2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
+        ctx.lineTo(x + w, y + h);
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw Buddha inside
+        drawBuddha(x, y, w, h);
+
+        // Niche arch rim
+        ctx.strokeStyle = 'rgba(200,160,90,0.7)';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(x, y + h * 0.35);
+        ctx.quadraticCurveTo(x, y, x + w / 2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
+        ctx.stroke();
+    }
+
     function drawCliff() {
-        // Main cliff face — sandy ochre rock spanning full width
         const cliffTop = H * 0.18;
         const cliffBase = H * 0.62;
 
-        // Cliff gradient — warm sandstone
         const cliffGrad = ctx.createLinearGradient(0, cliffTop, 0, cliffBase);
         cliffGrad.addColorStop(0, '#c8a96e');
         cliffGrad.addColorStop(0.4, '#b8935a');
         cliffGrad.addColorStop(1, '#9a7840');
 
         ctx.fillStyle = cliffGrad;
-        // Jagged cliff top profile
         ctx.beginPath();
         ctx.moveTo(0, cliffTop + 8);
         ctx.lineTo(10, cliffTop + 2);
@@ -797,7 +854,7 @@
         ctx.closePath();
         ctx.fill();
 
-        // Cliff shadow/depth streaks
+        // Rock shadow streaks
         ctx.strokeStyle = 'rgba(100,70,20,0.15)';
         ctx.lineWidth = 1;
         [[30, cliffTop+8, 28, cliffBase-4],
@@ -811,13 +868,11 @@
             ctx.stroke();
         });
 
-        // Left large niche (larger Buddha)
-        const n1x = 42, n1y = cliffTop + 6, n1w = 22, n1h = 30;
-        drawNiche(n1x, n1y, n1w, n1h);
+        // Left large niche — larger Buddha
+        drawNiche(30, cliffTop + 4, 24, 32);
 
-        // Right large niche (smaller Buddha)
-        const n2x = 138, n2y = cliffTop + 9, n2w = 17, n2h = 24;
-        drawNiche(n2x, n2y, n2w, n2h);
+        // Right niche — smaller Buddha
+        drawNiche(132, cliffTop + 7, 18, 25);
 
         // Small cave holes
         [[95, cliffTop+14, 6, 7],
@@ -832,36 +887,7 @@
         });
     }
 
-    function drawNiche(x, y, w, h) {
-        // Niche shadow interior
-        const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
-        nicheGrad.addColorStop(0, 'rgba(40,20,5,0.85)');
-        nicheGrad.addColorStop(0.5, 'rgba(55,30,8,0.7)');
-        nicheGrad.addColorStop(1, 'rgba(40,20,5,0.85)');
-        ctx.fillStyle = nicheGrad;
-
-        // Arched niche shape
-        ctx.beginPath();
-        ctx.moveTo(x, y + h);
-        ctx.lineTo(x, y + h * 0.35);
-        ctx.quadraticCurveTo(x, y, x + w / 2, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
-        ctx.lineTo(x + w, y + h);
-        ctx.closePath();
-        ctx.fill();
-
-        // Niche rim highlight
-        ctx.strokeStyle = 'rgba(180,140,80,0.6)';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(x, y + h * 0.35);
-        ctx.quadraticCurveTo(x, y, x + w / 2, y);
-        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
-        ctx.stroke();
-    }
-
     function drawValley() {
-        // Green valley floor below cliff
         const valleyTop = H * 0.62;
         const grad = ctx.createLinearGradient(0, valleyTop, 0, H - 10);
         grad.addColorStop(0, '#7ab648');
@@ -870,7 +896,6 @@
         ctx.fillStyle = grad;
         ctx.fillRect(0, valleyTop, W, H - 10 - valleyTop);
 
-        // Small shrubs/bushes
         [[15, H-16], [60, H-18], [105, H-15], [160, H-17], [200, H-16]].forEach(([bx, by]) => {
             ctx.fillStyle = '#4a7a28';
             ctx.beginPath();
@@ -887,14 +912,12 @@
         const roadH = 6;
         const roadWidth = W * easeInOut(progress);
 
-        // Road surface
         const roadGrad = ctx.createLinearGradient(0, roadY - roadH, 0, roadY);
         roadGrad.addColorStop(0, '#555555');
         roadGrad.addColorStop(1, '#333333');
         ctx.fillStyle = roadGrad;
         ctx.fillRect(0, roadY - roadH, roadWidth, roadH);
 
-        // Road edge line
         ctx.strokeStyle = '#f5c842';
         ctx.lineWidth = 0.8;
         ctx.beginPath();
@@ -902,7 +925,6 @@
         ctx.lineTo(roadWidth, roadY - roadH);
         ctx.stroke();
 
-        // Centre dashed white line
         ctx.strokeStyle = 'rgba(255,255,255,0.7)';
         ctx.lineWidth = 0.8;
         ctx.setLineDash([8, 6]);
@@ -912,7 +934,6 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Animated construction dot at road tip
         if (progress > 0 && progress < 1) {
             ctx.beginPath();
             ctx.arc(roadWidth, roadY - roadH / 2, 2.5, 0, Math.PI * 2);
@@ -927,7 +948,6 @@
                 pausing = false;
                 startTime = timestamp;
             } else {
-                // Still draw full scene during pause
                 ctx.clearRect(0, 0, W, H);
                 drawSky();
                 drawSun();
