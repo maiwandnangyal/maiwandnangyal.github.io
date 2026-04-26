@@ -631,6 +631,7 @@
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     </footer>
 
+
 <script>
     function showSection(section) {
         document.getElementById('home-section').classList.add('hide');
@@ -638,12 +639,14 @@
         document.getElementById('cv-section').classList.add('hide');
         document.getElementById('teaching-section').classList.add('hide');
         document.getElementById('contact-section').classList.add('hide');
+        document.getElementById('pashto-section').classList.add('hide');
         
         document.getElementById('home-link').classList.remove('active');
         document.getElementById('research-link').classList.remove('active');
         document.getElementById('cv-link').classList.remove('active');
         document.getElementById('teaching-link').classList.remove('active');
         document.getElementById('contact-link').classList.remove('active');
+        document.getElementById('pashto-link').classList.remove('active');
         
         document.getElementById(section + '-section').classList.remove('hide');
         document.getElementById(section + '-link').classList.add('active');
