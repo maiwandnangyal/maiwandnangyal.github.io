@@ -257,7 +257,7 @@
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
         <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
     </div>
-<canvas id="treeCanvas" width="220" height="70" style="display: block; flex-shrink: 0;"></canvas>
+<canvas id="cityCanvas" width="220" height="70" style="display: block; flex-shrink: 0; border-radius: 4px;"></canvas>
     </nav>
 
     <div id="home-section" class="content">
@@ -706,221 +706,167 @@
 </script>
 <script>
 (function () {
-    const canvas = document.getElementById('treeCanvas');
+    const canvas = document.getElementById('cityCanvas');
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
 
-    const DURATION = 5000; // ms for full grow cycle
-    const PAUSE = 1500;    // ms pause at full growth before reset
+    const DURATION = 5000;
+    const PAUSE = 2000;
 
     let startTime = null;
     let pausing = false;
     let pauseStart = null;
 
-    // Easing
     function easeInOut(t) {
         return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
-    // Draw ground
-    function drawGround(progress) {
-        // Ground line
-        ctx.strokeStyle = '#002147';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(20, H - 10);
-        ctx.lineTo(W - 20, H - 10);
-        ctx.stroke();
+    // Buildings definition: x (0-1 of W), width, max height
+    const buildings = [
+        { x: 0.04, w: 14, h: 38 },
+        { x: 0.12, w: 10, h: 28 },
+        { x: 0.20, w: 16, h: 48 },
+        { x: 0.30, w: 12, h: 55 },
+        { x: 0.40, w: 18, h: 42 },
+        { x: 0.52, w: 13, h: 60 },
+        { x: 0.62, w: 10, h: 35 },
+        { x: 0.70, w: 16, h: 50 },
+        { x: 0.80, w: 12, h: 44 },
+        { x: 0.88, w: 14, h: 32 },
+    ];
 
-        // Roots - appear in first 20% of progress
-        const rootP = Math.min(progress / 0.2, 1);
-        if (rootP > 0) {
-            ctx.strokeStyle = `rgba(0, 33, 71, ${rootP * 0.5})`;
-            ctx.lineWidth = 1;
-            // Left root
+    // Each building rises at a slightly different time
+    const buildingDelay = buildings.map((_, i) => 0.3 + (i / buildings.length) * 0.4);
+
+    function drawSky(progress) {
+        // Desert orange/tan → deep Oxford navy
+        const r = Math.round(210 - progress * 210);
+        const g = Math.round(170 - progress * 137);
+        const b = Math.round(100 + progress * (71 - 100 + 71));
+        const skyColor = `rgb(${Math.max(0,r)},${Math.max(0,g)},${Math.max(0, Math.round(100 + progress * 105))})`;
+
+        const grad = ctx.createLinearGradient(0, 0, 0, H - 12);
+        if (progress < 0.5) {
+            // Desert: warm tan to sandy
+            const t = progress / 0.5;
+            grad.addColorStop(0, `rgb(${Math.round(210 - t*210)},${Math.round(170 - t*120)},${Math.round(100 - t*40)})`);
+            grad.addColorStop(1, `rgb(${Math.round(230 - t*200)},${Math.round(190 - t*130)},${Math.round(140 - t*80)})`);
+        } else {
+            // City night: transition to dark navy
+            const t = (progress - 0.5) / 0.5;
+            grad.addColorStop(0, `rgb(${Math.round(0)},${Math.round(50 - t*17)},${Math.round(60 + t*111)})`);
+            grad.addColorStop(1, `rgb(${Math.round(0)},${Math.round(33)},${Math.round(71)})`);
+        }
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H - 12);
+    }
+
+    function drawSun(progress) {
+        // Sun sets and disappears by progress 0.4
+        const sunP = Math.max(0, 1 - progress / 0.4);
+        if (sunP <= 0) return;
+        const sunX = W * 0.75;
+        const sunY = (H - 12) * (0.25 + (1 - sunP) * 0.5);
+        ctx.globalAlpha = sunP;
+        ctx.beginPath();
+        ctx.arc(sunX, sunY, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#f5c842';
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+
+    function drawStars(progress) {
+        // Stars appear after progress 0.5
+        const starP = Math.max(0, (progress - 0.5) / 0.5);
+        if (starP <= 0) return;
+        ctx.globalAlpha = starP * 0.8;
+        ctx.fillStyle = '#c8e6ff';
+        const stars = [
+            [20, 8], [45, 14], [70, 6], [100, 10], [130, 5],
+            [155, 12], [175, 7], [195, 15], [30, 20], [110, 18]
+        ];
+        stars.forEach(([sx, sy]) => {
             ctx.beginPath();
-            ctx.moveTo(W / 2, H - 10);
-            ctx.quadraticCurveTo(W / 2 - 12 * rootP, H - 4, W / 2 - 22 * rootP, H - 8);
-            ctx.stroke();
-            // Right root
+            ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
+            ctx.fill();
+        });
+        ctx.globalAlpha = 1;
+    }
+
+    function drawDesert(progress) {
+        // Ground: sand fades to dark ground as buildings rise
+        const t = Math.min(progress / 0.5, 1);
+        const r = Math.round(194 - t * 194);
+        const g = Math.round(154 - t * 121);
+        const b = Math.round(91 - t * 20);
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        ctx.fillRect(0, H - 12, W, 12);
+
+        // Sand dunes - fade out as progress increases
+        const duneAlpha = Math.max(0, 1 - progress / 0.45);
+        if (duneAlpha > 0) {
+            ctx.globalAlpha = duneAlpha;
+            ctx.fillStyle = `rgb(${Math.round(210)},${Math.round(175)},${Math.round(110)})`;
             ctx.beginPath();
-            ctx.moveTo(W / 2, H - 10);
-            ctx.quadraticCurveTo(W / 2 + 12 * rootP, H - 4, W / 2 + 22 * rootP, H - 8);
-            ctx.stroke();
-            // Centre deep root
-            ctx.beginPath();
-            ctx.moveTo(W / 2, H - 10);
-            ctx.lineTo(W / 2, H - 4 + 4 * rootP);
-            ctx.stroke();
+            ctx.moveTo(0, H - 12);
+            ctx.quadraticCurveTo(30, H - 28, 70, H - 12);
+            ctx.quadraticCurveTo(110, H - 22, 150, H - 12);
+            ctx.quadraticCurveTo(185, H - 26, W, H - 12);
+            ctx.lineTo(W, H);
+            ctx.lineTo(0, H);
+            ctx.closePath();
+            ctx.fill();
+            ctx.globalAlpha = 1;
         }
     }
 
-    // Draw trunk
-    function drawTrunk(progress) {
-        const trunkP = Math.max(0, Math.min((progress - 0.1) / 0.3, 1));
-        if (trunkP <= 0) return;
-        const trunkH = 28 * trunkP;
-        const baseY = H - 10;
-        const topY = baseY - trunkH;
+    function drawBuildings(progress) {
+        buildings.forEach((b, i) => {
+            const delay = buildingDelay[i];
+            const bP = Math.max(0, Math.min((progress - delay) / 0.25, 1));
+            if (bP <= 0) return;
 
-        ctx.strokeStyle = '#002147';
-        ctx.lineWidth = 2.5;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(W / 2, baseY);
-        ctx.lineTo(W / 2, topY);
-        ctx.stroke();
-    }
+            const x = b.x * W;
+            const maxH = b.h;
+            const currentH = maxH * easeInOut(bP);
+            const y = H - 12 - currentH;
 
-    // Draw branches
-    function drawBranches(progress) {
-        const branchP = Math.max(0, Math.min((progress - 0.35) / 0.35, 1));
-        if (branchP <= 0) return;
+            // Building body
+            const shade = 20 + Math.floor(i % 3) * 15;
+            ctx.fillStyle = `rgb(${shade},${shade + 33},${shade + 71})`;
+            ctx.fillRect(x, y, b.w, currentH);
 
-        const baseY = H - 10;
-        const trunkTop = baseY - 28;
+            // Windows — only show when building mostly risen
+            if (bP > 0.7) {
+                const winAlpha = (bP - 0.7) / 0.3;
+                ctx.globalAlpha = winAlpha;
+                const winRows = Math.floor(currentH / 8);
+                const winCols = Math.floor(b.w / 5);
+                for (let wr = 0; wr < winRows; wr++) {
+                    for (let wc = 0; wc < winCols; wc++) {
+                        // Randomly lit windows
+                        const lit = ((i * 7 + wr * 3 + wc * 5) % 4) !== 0;
+                        ctx.fillStyle = lit ? '#c8e6ff' : '#001433';
+                        ctx.fillRect(x + 2 + wc * 5, y + 3 + wr * 8, 2, 3);
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
 
-        // Left branch
-        ctx.strokeStyle = '#002147';
-        ctx.lineWidth = 1.5;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(W / 2, trunkTop + 10);
-        ctx.quadraticCurveTo(
-            W / 2 - 18 * branchP, trunkTop - 2,
-            W / 2 - 28 * branchP, trunkTop - 12 * branchP
-        );
-        ctx.stroke();
-
-        // Right branch
-        ctx.beginPath();
-        ctx.moveTo(W / 2, trunkTop + 6);
-        ctx.quadraticCurveTo(
-            W / 2 + 20 * branchP, trunkTop,
-            W / 2 + 32 * branchP, trunkTop - 8 * branchP
-        );
-        ctx.stroke();
-
-        // Upper left branch
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(W / 2, trunkTop + 2);
-        ctx.quadraticCurveTo(
-            W / 2 - 10 * branchP, trunkTop - 8 * branchP,
-            W / 2 - 16 * branchP, trunkTop - 18 * branchP
-        );
-        ctx.stroke();
-
-        // Upper right branch
-        ctx.beginPath();
-        ctx.moveTo(W / 2, trunkTop);
-        ctx.quadraticCurveTo(
-            W / 2 + 10 * branchP, trunkTop - 10 * branchP,
-            W / 2 + 14 * branchP, trunkTop - 20 * branchP
-        );
-        ctx.stroke();
-    }
-
-    // Draw icons on branches
-    function drawIcons(progress) {
-        const iconP = Math.max(0, Math.min((progress - 0.65) / 0.35, 1));
-        if (iconP <= 0) return;
-
-        const baseY = H - 10;
-        const trunkTop = baseY - 28;
-        const alpha = iconP;
-
-        ctx.globalAlpha = alpha;
-
-        // COIN on left branch tip
-        const coinX = W / 2 - 28;
-        const coinY = trunkTop - 12;
-        ctx.beginPath();
-        ctx.arc(coinX, coinY, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#0066cc';
-        ctx.fill();
-        ctx.strokeStyle = '#002147';
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-        // £ symbol inside coin
-        ctx.fillStyle = 'white';
-        ctx.font = 'bold 5px sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('$', coinX, coinY);
-
-        // BUILDING on right branch tip
-        const bldX = W / 2 + 32;
-        const bldY = trunkTop - 8;
-        ctx.fillStyle = '#002147';
-        ctx.fillRect(bldX - 5, bldY - 7, 10, 8);
-        // Windows
-        ctx.fillStyle = '#c8e6ff';
-        ctx.fillRect(bldX - 3, bldY - 6, 2, 2);
-        ctx.fillRect(bldX + 1, bldY - 6, 2, 2);
-        ctx.fillRect(bldX - 3, bldY - 3, 2, 2);
-        ctx.fillRect(bldX + 1, bldY - 3, 2, 2);
-
-        // PERSON on upper left branch tip
-        const perX = W / 2 - 16;
-        const perY = trunkTop - 18;
-        ctx.fillStyle = '#0066cc';
-        // Head
-        ctx.beginPath();
-        ctx.arc(perX, perY - 4, 2.5, 0, Math.PI * 2);
-        ctx.fill();
-        // Body
-        ctx.strokeStyle = '#0066cc';
-        ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.moveTo(perX, perY - 1.5);
-        ctx.lineTo(perX, perY + 3);
-        ctx.stroke();
-        // Arms
-        ctx.beginPath();
-        ctx.moveTo(perX - 2.5, perY + 1);
-        ctx.lineTo(perX + 2.5, perY + 1);
-        ctx.stroke();
-        // Legs
-        ctx.beginPath();
-        ctx.moveTo(perX, perY + 3);
-        ctx.lineTo(perX - 2, perY + 6);
-        ctx.moveTo(perX, perY + 3);
-        ctx.lineTo(perX + 2, perY + 6);
-        ctx.stroke();
-
-        // UPWARD ARROW on upper right branch tip (growth)
-        const arrX = W / 2 + 14;
-        const arrY = trunkTop - 20;
-        ctx.strokeStyle = '#002147';
-        ctx.lineWidth = 1.5;
-        ctx.lineCap = 'round';
-        ctx.beginPath();
-        ctx.moveTo(arrX, arrY + 5);
-        ctx.lineTo(arrX, arrY - 3);
-        ctx.moveTo(arrX - 2.5, arrY);
-        ctx.lineTo(arrX, arrY - 3);
-        ctx.lineTo(arrX + 2.5, arrY);
-        ctx.stroke();
-
-        ctx.globalAlpha = 1;
-    }
-
-    // Draw leaves as a soft canopy
-    function drawLeaves(progress) {
-        const leafP = Math.max(0, Math.min((progress - 0.5) / 0.3, 1));
-        if (leafP <= 0) return;
-
-        const baseY = H - 10;
-        const trunkTop = baseY - 28;
-
-        ctx.globalAlpha = leafP * 0.18;
-        ctx.fillStyle = '#0066cc';
-        ctx.beginPath();
-        ctx.ellipse(W / 2, trunkTop - 8, 32 * leafP, 16 * leafP, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.globalAlpha = 1;
+            // Rooftop antenna on tallest buildings
+            if (b.h > 45 && bP > 0.9) {
+                const antAlpha = (bP - 0.9) / 0.1;
+                ctx.globalAlpha = antAlpha;
+                ctx.strokeStyle = '#0066cc';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x + b.w / 2, y);
+                ctx.lineTo(x + b.w / 2, y - 5);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+        });
     }
 
     function draw(timestamp) {
@@ -940,14 +886,12 @@
         const progress = easeInOut(rawP);
 
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, W, H);
 
-        drawGround(progress);
-        drawTrunk(progress);
-        drawBranches(progress);
-        drawLeaves(progress);
-        drawIcons(progress);
+        drawSky(progress);
+        drawStars(progress);
+        drawSun(progress);
+        drawDesert(progress);
+        drawBuildings(progress);
 
         if (rawP >= 1) {
             pausing = true;
