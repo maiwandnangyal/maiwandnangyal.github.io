@@ -721,7 +721,6 @@
     function drawBuddha(x, y, w, h) {
         const cx = x + w / 2;
 
-        // Body/robe — fills lower niche
         const robeGrad = ctx.createLinearGradient(cx - w * 0.3, 0, cx + w * 0.3, 0);
         robeGrad.addColorStop(0, 'rgba(120,85,35,0.95)');
         robeGrad.addColorStop(0.5, 'rgba(165,125,60,0.95)');
@@ -735,7 +734,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Robe fold lines
         ctx.strokeStyle = 'rgba(80,50,10,0.4)';
         ctx.lineWidth = 0.6;
         [[-0.07, 0.38, -0.13, 1.0],
@@ -748,24 +746,19 @@
             ctx.stroke();
         });
 
-        // Neck
         ctx.fillStyle = 'rgba(150,105,50,0.95)';
         ctx.fillRect(cx - w * 0.06, y + h * 0.25, w * 0.12, h * 0.12);
 
-        // Head — oval
         ctx.beginPath();
         ctx.ellipse(cx, y + h * 0.18, w * 0.12, h * 0.14, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(150,105,50,0.95)';
         ctx.fill();
 
-        // Ushnisha (topknot)
         ctx.beginPath();
         ctx.ellipse(cx, y + h * 0.07, w * 0.07, h * 0.07, 0, 0, Math.PI * 2);
         ctx.fillStyle = 'rgba(130,90,40,0.95)';
         ctx.fill();
 
-        // Face features
-        // Eyes
         ctx.fillStyle = 'rgba(50,25,5,0.8)';
         ctx.beginPath();
         ctx.ellipse(cx - w * 0.04, y + h * 0.17, w * 0.025, h * 0.02, 0, 0, Math.PI * 2);
@@ -774,27 +767,22 @@
         ctx.ellipse(cx + w * 0.04, y + h * 0.17, w * 0.025, h * 0.02, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Subtle smile
         ctx.strokeStyle = 'rgba(80,45,10,0.6)';
         ctx.lineWidth = 0.6;
         ctx.beginPath();
         ctx.arc(cx, y + h * 0.20, w * 0.04, 0.15, Math.PI - 0.15);
         ctx.stroke();
 
-        // Arms — hands in meditation mudra
         ctx.fillStyle = 'rgba(140,100,45,0.85)';
-        // Left arm
         ctx.beginPath();
         ctx.ellipse(cx - w * 0.22, y + h * 0.55, w * 0.07, h * 0.06, -0.3, 0, Math.PI * 2);
         ctx.fill();
-        // Right arm
         ctx.beginPath();
         ctx.ellipse(cx + w * 0.22, y + h * 0.55, w * 0.07, h * 0.06, 0.3, 0, Math.PI * 2);
         ctx.fill();
     }
 
     function drawNiche(x, y, w, h) {
-        // Niche interior shadow
         const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
         nicheGrad.addColorStop(0, 'rgba(40,20,5,0.85)');
         nicheGrad.addColorStop(0.5, 'rgba(55,30,8,0.65)');
@@ -809,10 +797,8 @@
         ctx.closePath();
         ctx.fill();
 
-        // Draw Buddha inside
         drawBuddha(x, y, w, h);
 
-        // Niche arch rim
         ctx.strokeStyle = 'rgba(200,160,90,0.7)';
         ctx.lineWidth = 1.2;
         ctx.beginPath();
@@ -854,7 +840,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Rock shadow streaks
         ctx.strokeStyle = 'rgba(100,70,20,0.15)';
         ctx.lineWidth = 1;
         [[30, cliffTop+8, 28, cliffBase-4],
@@ -868,13 +853,9 @@
             ctx.stroke();
         });
 
-        // Left large niche — larger Buddha
         drawNiche(30, cliffTop + 4, 24, 32);
-
-        // Right niche — smaller Buddha
         drawNiche(132, cliffTop + 7, 18, 25);
 
-        // Small cave holes
         [[95, cliffTop+14, 6, 7],
          [108, cliffTop+18, 5, 6],
          [75, cliffTop+20, 4, 5],
@@ -904,6 +885,65 @@
             ctx.beginPath();
             ctx.arc(bx + 5, by + 1, 3, 0, Math.PI * 2);
             ctx.fill();
+        });
+    }
+
+    function drawModernBuildings(progress) {
+        const valleyTop = H * 0.62;
+        const groundY = H - 10;
+
+        // Buildings defined by x position (right side), width, max height, and appear delay
+        const buildings = [
+            { x: W - 16, w: 11, maxH: 24, delay: 0.55 },
+            { x: W - 30, w:  9, maxH: 32, delay: 0.65 },
+            { x: W - 44, w: 10, maxH: 20, delay: 0.75 },
+            { x: W - 57, w:  8, maxH: 28, delay: 0.82 },
+        ];
+
+        buildings.forEach((b, i) => {
+            const bP = Math.max(0, Math.min((progress - b.delay) / 0.2, 1));
+            if (bP <= 0) return;
+
+            const currentH = b.maxH * easeInOut(bP);
+            const bx = b.x;
+            const by = groundY - 6 - currentH; // sit on top of road level
+
+            // Building body
+            const bldGrad = ctx.createLinearGradient(bx, by, bx + b.w, by);
+            bldGrad.addColorStop(0, '#002147');
+            bldGrad.addColorStop(0.5, '#003a7a');
+            bldGrad.addColorStop(1, '#002147');
+            ctx.fillStyle = bldGrad;
+            ctx.fillRect(bx, by, b.w, currentH);
+
+            // Windows — appear once building mostly risen
+            if (bP > 0.6) {
+                const winAlpha = (bP - 0.6) / 0.4;
+                ctx.globalAlpha = winAlpha;
+                const winRows = Math.floor(currentH / 6);
+                const winCols = Math.floor(b.w / 4);
+                for (let wr = 0; wr < winRows; wr++) {
+                    for (let wc = 0; wc < winCols; wc++) {
+                        const lit = ((i * 5 + wr * 3 + wc * 7) % 3) !== 0;
+                        ctx.fillStyle = lit ? '#c8e6ff' : '#001433';
+                        ctx.fillRect(bx + 1 + wc * 4, by + 2 + wr * 6, 2, 2);
+                    }
+                }
+                ctx.globalAlpha = 1;
+            }
+
+            // Rooftop antenna on taller buildings
+            if (b.maxH > 25 && bP > 0.85) {
+                const antAlpha = (bP - 0.85) / 0.15;
+                ctx.globalAlpha = antAlpha;
+                ctx.strokeStyle = '#0066cc';
+                ctx.lineWidth = 0.8;
+                ctx.beginPath();
+                ctx.moveTo(bx + b.w / 2, by);
+                ctx.lineTo(bx + b.w / 2, by - 4);
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
         });
     }
 
@@ -955,6 +995,7 @@
                 drawCliff();
                 drawValley();
                 drawRoad(1);
+                drawModernBuildings(1);
                 requestAnimationFrame(draw);
                 return;
             }
@@ -971,6 +1012,7 @@
         drawCliff();
         drawValley();
         drawRoad(rawP);
+        drawModernBuildings(rawP);
 
         if (rawP >= 1) {
             pausing = true;
