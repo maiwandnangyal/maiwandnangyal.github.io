@@ -257,7 +257,7 @@
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
         <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
     </div>
-<canvas id="cityCanvas" width="220" height="70" style="display: block; flex-shrink: 0; border-radius: 4px;"></canvas>
+<canvas id="bamyanCanvas" width="220" height="70" style="display: block; flex-shrink: 0; border-radius: 4px;"></canvas>
     </nav>
 
     <div id="home-section" class="content">
@@ -706,12 +706,12 @@
 </script>
 <script>
 (function () {
-    const canvas = document.getElementById('cityCanvas');
+    const canvas = document.getElementById('bamyanCanvas');
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
 
-    const DURATION = 5000;
+    const ROAD_DURATION = 3500;
     const PAUSE = 2000;
 
     let startTime = null;
@@ -722,151 +722,203 @@
         return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
-    // Buildings definition: x (0-1 of W), width, max height
-    const buildings = [
-        { x: 0.04, w: 14, h: 38 },
-        { x: 0.12, w: 10, h: 28 },
-        { x: 0.20, w: 16, h: 48 },
-        { x: 0.30, w: 12, h: 55 },
-        { x: 0.40, w: 18, h: 42 },
-        { x: 0.52, w: 13, h: 60 },
-        { x: 0.62, w: 10, h: 35 },
-        { x: 0.70, w: 16, h: 50 },
-        { x: 0.80, w: 12, h: 44 },
-        { x: 0.88, w: 14, h: 32 },
-    ];
-
-    // Each building rises at a slightly different time
-    const buildingDelay = buildings.map((_, i) => 0.3 + (i / buildings.length) * 0.4);
-
-    function drawSky(progress) {
-        // Desert orange/tan → deep Oxford navy
-        const r = Math.round(210 - progress * 210);
-        const g = Math.round(170 - progress * 137);
-        const b = Math.round(100 + progress * (71 - 100 + 71));
-        const skyColor = `rgb(${Math.max(0,r)},${Math.max(0,g)},${Math.max(0, Math.round(100 + progress * 105))})`;
-
-        const grad = ctx.createLinearGradient(0, 0, 0, H - 12);
-        if (progress < 0.5) {
-            // Desert: warm tan to sandy
-            const t = progress / 0.5;
-            grad.addColorStop(0, `rgb(${Math.round(210 - t*210)},${Math.round(170 - t*120)},${Math.round(100 - t*40)})`);
-            grad.addColorStop(1, `rgb(${Math.round(230 - t*200)},${Math.round(190 - t*130)},${Math.round(140 - t*80)})`);
-        } else {
-            // City night: transition to dark navy
-            const t = (progress - 0.5) / 0.5;
-            grad.addColorStop(0, `rgb(${Math.round(0)},${Math.round(50 - t*17)},${Math.round(60 + t*111)})`);
-            grad.addColorStop(1, `rgb(${Math.round(0)},${Math.round(33)},${Math.round(71)})`);
-        }
+    function drawSky() {
+        const grad = ctx.createLinearGradient(0, 0, 0, H * 0.65);
+        grad.addColorStop(0, '#87ceeb');
+        grad.addColorStop(1, '#c9e8f5');
         ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, W, H - 12);
+        ctx.fillRect(0, 0, W, H * 0.65);
     }
 
-    function drawSun(progress) {
-        // Sun sets and disappears by progress 0.4
-        const sunP = Math.max(0, 1 - progress / 0.4);
-        if (sunP <= 0) return;
-        const sunX = W * 0.75;
-        const sunY = (H - 12) * (0.25 + (1 - sunP) * 0.5);
-        ctx.globalAlpha = sunP;
+    function drawSun() {
+        // Sun top right
+        const sx = W - 22, sy = 12;
+        // Glow
+        const glow = ctx.createRadialGradient(sx, sy, 2, sx, sy, 14);
+        glow.addColorStop(0, 'rgba(255,230,100,0.5)');
+        glow.addColorStop(1, 'rgba(255,230,100,0)');
+        ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(sunX, sunY, 6, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 14, 0, Math.PI * 2);
+        ctx.fill();
+        // Sun disc
+        ctx.beginPath();
+        ctx.arc(sx, sy, 6, 0, Math.PI * 2);
         ctx.fillStyle = '#f5c842';
         ctx.fill();
-        ctx.globalAlpha = 1;
     }
 
-    function drawStars(progress) {
-        // Stars appear after progress 0.5
-        const starP = Math.max(0, (progress - 0.5) / 0.5);
-        if (starP <= 0) return;
-        ctx.globalAlpha = starP * 0.8;
-        ctx.fillStyle = '#c8e6ff';
-        const stars = [
-            [20, 8], [45, 14], [70, 6], [100, 10], [130, 5],
-            [155, 12], [175, 7], [195, 15], [30, 20], [110, 18]
-        ];
-        stars.forEach(([sx, sy]) => {
+    function drawClouds() {
+        function cloud(x, y, scale) {
+            ctx.fillStyle = 'rgba(255,255,255,0.85)';
             ctx.beginPath();
-            ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
+            ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
+            ctx.arc(x + 7 * scale, y - 2 * scale, 6 * scale, 0, Math.PI * 2);
+            ctx.arc(x + 14 * scale, y, 4 * scale, 0, Math.PI * 2);
             ctx.fill();
-        });
-        ctx.globalAlpha = 1;
-    }
-
-    function drawDesert(progress) {
-        // Ground: sand fades to dark ground as buildings rise
-        const t = Math.min(progress / 0.5, 1);
-        const r = Math.round(194 - t * 194);
-        const g = Math.round(154 - t * 121);
-        const b = Math.round(91 - t * 20);
-        ctx.fillStyle = `rgb(${r},${g},${b})`;
-        ctx.fillRect(0, H - 12, W, 12);
-
-        // Sand dunes - fade out as progress increases
-        const duneAlpha = Math.max(0, 1 - progress / 0.45);
-        if (duneAlpha > 0) {
-            ctx.globalAlpha = duneAlpha;
-            ctx.fillStyle = `rgb(${Math.round(210)},${Math.round(175)},${Math.round(110)})`;
-            ctx.beginPath();
-            ctx.moveTo(0, H - 12);
-            ctx.quadraticCurveTo(30, H - 28, 70, H - 12);
-            ctx.quadraticCurveTo(110, H - 22, 150, H - 12);
-            ctx.quadraticCurveTo(185, H - 26, W, H - 12);
-            ctx.lineTo(W, H);
-            ctx.lineTo(0, H);
-            ctx.closePath();
-            ctx.fill();
-            ctx.globalAlpha = 1;
         }
+        cloud(18, 10, 0.7);
+        cloud(80, 7, 0.6);
+        cloud(145, 12, 0.65);
     }
 
-    function drawBuildings(progress) {
-        buildings.forEach((b, i) => {
-            const delay = buildingDelay[i];
-            const bP = Math.max(0, Math.min((progress - delay) / 0.25, 1));
-            if (bP <= 0) return;
+    function drawCliff() {
+        // Main cliff face — sandy ochre rock spanning full width
+        const cliffTop = H * 0.18;
+        const cliffBase = H * 0.62;
 
-            const x = b.x * W;
-            const maxH = b.h;
-            const currentH = maxH * easeInOut(bP);
-            const y = H - 12 - currentH;
+        // Cliff gradient — warm sandstone
+        const cliffGrad = ctx.createLinearGradient(0, cliffTop, 0, cliffBase);
+        cliffGrad.addColorStop(0, '#c8a96e');
+        cliffGrad.addColorStop(0.4, '#b8935a');
+        cliffGrad.addColorStop(1, '#9a7840');
 
-            // Building body
-            const shade = 20 + Math.floor(i % 3) * 15;
-            ctx.fillStyle = `rgb(${shade},${shade + 33},${shade + 71})`;
-            ctx.fillRect(x, y, b.w, currentH);
+        ctx.fillStyle = cliffGrad;
+        // Jagged cliff top profile
+        ctx.beginPath();
+        ctx.moveTo(0, cliffTop + 8);
+        ctx.lineTo(10, cliffTop + 2);
+        ctx.lineTo(22, cliffTop + 6);
+        ctx.lineTo(35, cliffTop);
+        ctx.lineTo(50, cliffTop + 4);
+        ctx.lineTo(65, cliffTop + 1);
+        ctx.lineTo(80, cliffTop + 5);
+        ctx.lineTo(100, cliffTop + 2);
+        ctx.lineTo(115, cliffTop + 6);
+        ctx.lineTo(130, cliffTop);
+        ctx.lineTo(148, cliffTop + 3);
+        ctx.lineTo(165, cliffTop + 1);
+        ctx.lineTo(180, cliffTop + 5);
+        ctx.lineTo(195, cliffTop + 2);
+        ctx.lineTo(210, cliffTop + 4);
+        ctx.lineTo(W, cliffTop + 6);
+        ctx.lineTo(W, cliffBase);
+        ctx.lineTo(0, cliffBase);
+        ctx.closePath();
+        ctx.fill();
 
-            // Windows — only show when building mostly risen
-            if (bP > 0.7) {
-                const winAlpha = (bP - 0.7) / 0.3;
-                ctx.globalAlpha = winAlpha;
-                const winRows = Math.floor(currentH / 8);
-                const winCols = Math.floor(b.w / 5);
-                for (let wr = 0; wr < winRows; wr++) {
-                    for (let wc = 0; wc < winCols; wc++) {
-                        // Randomly lit windows
-                        const lit = ((i * 7 + wr * 3 + wc * 5) % 4) !== 0;
-                        ctx.fillStyle = lit ? '#c8e6ff' : '#001433';
-                        ctx.fillRect(x + 2 + wc * 5, y + 3 + wr * 8, 2, 3);
-                    }
-                }
-                ctx.globalAlpha = 1;
-            }
-
-            // Rooftop antenna on tallest buildings
-            if (b.h > 45 && bP > 0.9) {
-                const antAlpha = (bP - 0.9) / 0.1;
-                ctx.globalAlpha = antAlpha;
-                ctx.strokeStyle = '#0066cc';
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.moveTo(x + b.w / 2, y);
-                ctx.lineTo(x + b.w / 2, y - 5);
-                ctx.stroke();
-                ctx.globalAlpha = 1;
-            }
+        // Cliff shadow/depth streaks
+        ctx.strokeStyle = 'rgba(100,70,20,0.15)';
+        ctx.lineWidth = 1;
+        [[30, cliffTop+8, 28, cliffBase-4],
+         [75, cliffTop+5, 73, cliffBase-6],
+         [120, cliffTop+6, 118, cliffBase-5],
+         [170, cliffTop+4, 168, cliffBase-4]
+        ].forEach(([x1,y1,x2,y2]) => {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
         });
+
+        // Left large niche (larger Buddha)
+        const n1x = 42, n1y = cliffTop + 6, n1w = 22, n1h = 30;
+        drawNiche(n1x, n1y, n1w, n1h);
+
+        // Right large niche (smaller Buddha)
+        const n2x = 138, n2y = cliffTop + 9, n2w = 17, n2h = 24;
+        drawNiche(n2x, n2y, n2w, n2h);
+
+        // Small cave holes
+        [[95, cliffTop+14, 6, 7],
+         [108, cliffTop+18, 5, 6],
+         [75, cliffTop+20, 4, 5],
+         [165, cliffTop+16, 5, 6]
+        ].forEach(([cx, cy, cw, ch]) => {
+            ctx.fillStyle = 'rgba(60,35,10,0.45)';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, cw/2, ch/2, 0, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    function drawNiche(x, y, w, h) {
+        // Niche shadow interior
+        const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
+        nicheGrad.addColorStop(0, 'rgba(40,20,5,0.85)');
+        nicheGrad.addColorStop(0.5, 'rgba(55,30,8,0.7)');
+        nicheGrad.addColorStop(1, 'rgba(40,20,5,0.85)');
+        ctx.fillStyle = nicheGrad;
+
+        // Arched niche shape
+        ctx.beginPath();
+        ctx.moveTo(x, y + h);
+        ctx.lineTo(x, y + h * 0.35);
+        ctx.quadraticCurveTo(x, y, x + w / 2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
+        ctx.lineTo(x + w, y + h);
+        ctx.closePath();
+        ctx.fill();
+
+        // Niche rim highlight
+        ctx.strokeStyle = 'rgba(180,140,80,0.6)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(x, y + h * 0.35);
+        ctx.quadraticCurveTo(x, y, x + w / 2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + h * 0.35);
+        ctx.stroke();
+    }
+
+    function drawValley() {
+        // Green valley floor below cliff
+        const valleyTop = H * 0.62;
+        const grad = ctx.createLinearGradient(0, valleyTop, 0, H - 10);
+        grad.addColorStop(0, '#7ab648');
+        grad.addColorStop(0.5, '#5a9432');
+        grad.addColorStop(1, '#4a7a28');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, valleyTop, W, H - 10 - valleyTop);
+
+        // Small shrubs/bushes
+        [[15, H-16], [60, H-18], [105, H-15], [160, H-17], [200, H-16]].forEach(([bx, by]) => {
+            ctx.fillStyle = '#4a7a28';
+            ctx.beginPath();
+            ctx.arc(bx, by, 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(bx + 5, by + 1, 3, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    function drawRoad(progress) {
+        const roadY = H - 10;
+        const roadH = 6;
+        const roadWidth = W * easeInOut(progress);
+
+        // Road surface
+        const roadGrad = ctx.createLinearGradient(0, roadY - roadH, 0, roadY);
+        roadGrad.addColorStop(0, '#555555');
+        roadGrad.addColorStop(1, '#333333');
+        ctx.fillStyle = roadGrad;
+        ctx.fillRect(0, roadY - roadH, roadWidth, roadH);
+
+        // Road edge line
+        ctx.strokeStyle = '#f5c842';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(0, roadY - roadH);
+        ctx.lineTo(roadWidth, roadY - roadH);
+        ctx.stroke();
+
+        // Centre dashed white line
+        ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+        ctx.lineWidth = 0.8;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(0, roadY - roadH / 2);
+        ctx.lineTo(roadWidth, roadY - roadH / 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Animated construction dot at road tip
+        if (progress > 0 && progress < 1) {
+            ctx.beginPath();
+            ctx.arc(roadWidth, roadY - roadH / 2, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = '#f5c842';
+            ctx.fill();
+        }
     }
 
     function draw(timestamp) {
@@ -875,6 +927,14 @@
                 pausing = false;
                 startTime = timestamp;
             } else {
+                // Still draw full scene during pause
+                ctx.clearRect(0, 0, W, H);
+                drawSky();
+                drawSun();
+                drawClouds();
+                drawCliff();
+                drawValley();
+                drawRoad(1);
                 requestAnimationFrame(draw);
                 return;
             }
@@ -882,16 +942,15 @@
 
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
-        const rawP = Math.min(elapsed / DURATION, 1);
-        const progress = easeInOut(rawP);
+        const rawP = Math.min(elapsed / ROAD_DURATION, 1);
 
         ctx.clearRect(0, 0, W, H);
-
-        drawSky(progress);
-        drawStars(progress);
-        drawSun(progress);
-        drawDesert(progress);
-        drawBuildings(progress);
+        drawSky();
+        drawSun();
+        drawClouds();
+        drawCliff();
+        drawValley();
+        drawRoad(rawP);
 
         if (rawP >= 1) {
             pausing = true;
