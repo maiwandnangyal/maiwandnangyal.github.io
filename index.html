@@ -248,14 +248,17 @@
     </style>
 </head>
 <body>
-    <nav>
+    <nav style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+    <div>
         <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
         <a href="#" onclick="showSection('research')" id="research-link">Research</a>
         <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
         <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
         <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
-    </nav>
+    </div>
+    <canvas id="divergeCanvas" width="220" height="70" style="display: block; flex-shrink: 0;"></canvas>
+</nav>
 
     <div id="home-section" class="content">
         <h1>Maiwand Nangyal</h1>
@@ -272,6 +275,11 @@
         <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a proud member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside my doctoral research, I serve as Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform producing high-quality data and visualisations for empirical research on Afghanistan (one of the world's most data-scarce, conflict-affected countries).</p>
         
         <p><em>Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</em></p>
+        
+        
+        
+        
+        
         </div>
     </div>
 
@@ -696,5 +704,138 @@
         chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
     }
 </script>
+<script>
+(function() {
+    const canvas = document.getElementById('divergeCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const padL = 8, padR = 8, padT = 8, padB = 16;
+    const chartW = W - padL - padR;
+    const chartH = H - padT - padB;
+
+    const yearStart = 1901;
+    const yearEnd = 2023;
+    const totalYears = yearEnd - yearStart;
+
+    function xPos(year) {
+        return padL + ((year - yearStart) / totalYears) * chartW;
+    }
+
+    function treatedY(year) {
+        const t = (year - yearStart) / totalYears;
+        let val = 0.25 + 0.55 * Math.pow(t, 0.7);
+        if (year > 1940 && year < 1960) val -= 0.06 * Math.sin((year - 1940) / 20 * Math.PI);
+        return val;
+    }
+
+    function controlY(year) {
+        const t = (year - yearStart) / totalYears;
+        let val = 0.25 + 0.22 * Math.pow(t, 0.85);
+        if (year > 1970 && year < 1995) val -= 0.04 * Math.sin((year - 1970) / 25 * Math.PI);
+        return val;
+    }
+
+    function toCanvasY(val) {
+        return padT + chartH - val * chartH;
+    }
+
+    let progress = 0;
+    let startTime = null;
+    const duration = 3200;
+
+    function drawStatic() {
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, W, H);
+
+        ctx.strokeStyle = '#d6e8f5';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(padL, padT);
+        ctx.lineTo(padL, padT + chartH);
+        ctx.lineTo(W - padR, padT + chartH);
+        ctx.stroke();
+
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '8px -apple-system, sans-serif';
+        ctx.textAlign = 'center';
+        [1901, 1947, 2023].forEach(yr => {
+            ctx.fillText(yr, xPos(yr), padT + chartH + 10);
+        });
+
+        ctx.strokeStyle = '#c7d9ef';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 2]);
+        ctx.beginPath();
+        ctx.moveTo(xPos(1947), padT);
+        ctx.lineTo(xPos(1947), padT + chartH);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+
+    function drawLines(prog) {
+        const years = [];
+        for (let y = yearStart; y <= yearEnd; y++) years.push(y);
+        const endIdx = Math.floor(prog * (years.length - 1));
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 2;
+        ctx.lineJoin = 'round';
+        ctx.setLineDash([]);
+        for (let i = 0; i <= endIdx; i++) {
+            const x = xPos(years[i]);
+            const y = toCanvasY(treatedY(years[i]));
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.strokeStyle = '#0066cc';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([4, 3]);
+        for (let i = 0; i <= endIdx; i++) {
+            const x = xPos(years[i]);
+            const y = toCanvasY(controlY(years[i]));
+            i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        if (endIdx > 0) {
+            const yr = years[endIdx];
+            ctx.beginPath();
+            ctx.arc(xPos(yr), toCanvasY(treatedY(yr)), 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#002147';
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(xPos(yr), toCanvasY(controlY(yr)), 3, 0, Math.PI * 2);
+            ctx.fillStyle = '#0066cc';
+            ctx.fill();
+        }
+    }
+
+    function animate(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        progress = Math.min(elapsed / duration, 1);
+        const eased = progress < 0.5
+            ? 2 * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+
+        drawStatic();
+        drawLines(eased);
+
+        if (progress < 1) requestAnimationFrame(animate);
+    }
+
+    drawStatic();
+    requestAnimationFrame(animate);
+})();
+</script>
+
 </body>
 </html>
