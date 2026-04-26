@@ -257,8 +257,8 @@
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
         <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
     </div>
-<canvas id="heatCanvas" width="220" height="70" style="display: block; flex-shrink: 0; border-radius: 4px;"></canvas>
-</nav>
+<canvas id="treeCanvas" width="220" height="70" style="display: block; flex-shrink: 0;"></canvas>
+    </nav>
 
     <div id="home-section" class="content">
         <h1>Maiwand Nangyal</h1>
@@ -705,69 +705,253 @@
     }
 </script>
 <script>
-(function() {
-    const canvas = document.getElementById('heatCanvas');
+(function () {
+    const canvas = document.getElementById('treeCanvas');
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
 
-    const cols = 22;
-    const rows = 7;
-    const cellW = W / cols;
-    const cellH = H / rows;
+    const DURATION = 5000; // ms for full grow cycle
+    const PAUSE = 1500;    // ms pause at full growth before reset
 
-    // Each column has its own speed and phase offset
-    const colPhase = [];
-    const colSpeed = [];
-    for (let c = 0; c < cols; c++) {
-        colPhase[c] = Math.random() * Math.PI * 2;
-        colSpeed[c] = 0.3 + Math.random() * 0.5;
+    let startTime = null;
+    let pausing = false;
+    let pauseStart = null;
+
+    // Easing
+    function easeInOut(t) {
+        return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
 
-    // Row offset adds vertical wave variation
-    const rowOffset = [];
-    for (let r = 0; r < rows; r++) {
-        rowOffset[r] = (r / rows) * Math.PI * 0.6;
-    }
+    // Draw ground
+    function drawGround(progress) {
+        // Ground line
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(20, H - 10);
+        ctx.lineTo(W - 20, H - 10);
+        ctx.stroke();
 
-    function getBrightness(col, row, time) {
-        const wave = Math.sin(time * colSpeed[col] + colPhase[col] + rowOffset[row]);
-        return (wave + 1) / 2; // normalise to 0–1
-    }
-
-    function interpolateColor(brightness) {
-        // Dark navy (#002147) → mid blue (#0066cc) → light ice blue (#c8e6ff)
-        if (brightness < 0.5) {
-            const t = brightness / 0.5;
-            const r = Math.round(0 + t * 0);
-            const g = Math.round(33 + t * (102 - 33));
-            const b = Math.round(71 + t * (204 - 71));
-            return `rgb(${r},${g},${b})`;
-        } else {
-            const t = (brightness - 0.5) / 0.5;
-            const r = Math.round(0 + t * 200);
-            const g = Math.round(102 + t * (230 - 102));
-            const b = Math.round(204 + t * (255 - 204));
-            return `rgb(${r},${g},${b})`;
+        // Roots - appear in first 20% of progress
+        const rootP = Math.min(progress / 0.2, 1);
+        if (rootP > 0) {
+            ctx.strokeStyle = `rgba(0, 33, 71, ${rootP * 0.5})`;
+            ctx.lineWidth = 1;
+            // Left root
+            ctx.beginPath();
+            ctx.moveTo(W / 2, H - 10);
+            ctx.quadraticCurveTo(W / 2 - 12 * rootP, H - 4, W / 2 - 22 * rootP, H - 8);
+            ctx.stroke();
+            // Right root
+            ctx.beginPath();
+            ctx.moveTo(W / 2, H - 10);
+            ctx.quadraticCurveTo(W / 2 + 12 * rootP, H - 4, W / 2 + 22 * rootP, H - 8);
+            ctx.stroke();
+            // Centre deep root
+            ctx.beginPath();
+            ctx.moveTo(W / 2, H - 10);
+            ctx.lineTo(W / 2, H - 4 + 4 * rootP);
+            ctx.stroke();
         }
     }
 
-    let lastTime = 0;
+    // Draw trunk
+    function drawTrunk(progress) {
+        const trunkP = Math.max(0, Math.min((progress - 0.1) / 0.3, 1));
+        if (trunkP <= 0) return;
+        const trunkH = 28 * trunkP;
+        const baseY = H - 10;
+        const topY = baseY - trunkH;
+
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 2.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(W / 2, baseY);
+        ctx.lineTo(W / 2, topY);
+        ctx.stroke();
+    }
+
+    // Draw branches
+    function drawBranches(progress) {
+        const branchP = Math.max(0, Math.min((progress - 0.35) / 0.35, 1));
+        if (branchP <= 0) return;
+
+        const baseY = H - 10;
+        const trunkTop = baseY - 28;
+
+        // Left branch
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(W / 2, trunkTop + 10);
+        ctx.quadraticCurveTo(
+            W / 2 - 18 * branchP, trunkTop - 2,
+            W / 2 - 28 * branchP, trunkTop - 12 * branchP
+        );
+        ctx.stroke();
+
+        // Right branch
+        ctx.beginPath();
+        ctx.moveTo(W / 2, trunkTop + 6);
+        ctx.quadraticCurveTo(
+            W / 2 + 20 * branchP, trunkTop,
+            W / 2 + 32 * branchP, trunkTop - 8 * branchP
+        );
+        ctx.stroke();
+
+        // Upper left branch
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(W / 2, trunkTop + 2);
+        ctx.quadraticCurveTo(
+            W / 2 - 10 * branchP, trunkTop - 8 * branchP,
+            W / 2 - 16 * branchP, trunkTop - 18 * branchP
+        );
+        ctx.stroke();
+
+        // Upper right branch
+        ctx.beginPath();
+        ctx.moveTo(W / 2, trunkTop);
+        ctx.quadraticCurveTo(
+            W / 2 + 10 * branchP, trunkTop - 10 * branchP,
+            W / 2 + 14 * branchP, trunkTop - 20 * branchP
+        );
+        ctx.stroke();
+    }
+
+    // Draw icons on branches
+    function drawIcons(progress) {
+        const iconP = Math.max(0, Math.min((progress - 0.65) / 0.35, 1));
+        if (iconP <= 0) return;
+
+        const baseY = H - 10;
+        const trunkTop = baseY - 28;
+        const alpha = iconP;
+
+        ctx.globalAlpha = alpha;
+
+        // COIN on left branch tip
+        const coinX = W / 2 - 28;
+        const coinY = trunkTop - 12;
+        ctx.beginPath();
+        ctx.arc(coinX, coinY, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#0066cc';
+        ctx.fill();
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+        // £ symbol inside coin
+        ctx.fillStyle = 'white';
+        ctx.font = 'bold 5px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('$', coinX, coinY);
+
+        // BUILDING on right branch tip
+        const bldX = W / 2 + 32;
+        const bldY = trunkTop - 8;
+        ctx.fillStyle = '#002147';
+        ctx.fillRect(bldX - 5, bldY - 7, 10, 8);
+        // Windows
+        ctx.fillStyle = '#c8e6ff';
+        ctx.fillRect(bldX - 3, bldY - 6, 2, 2);
+        ctx.fillRect(bldX + 1, bldY - 6, 2, 2);
+        ctx.fillRect(bldX - 3, bldY - 3, 2, 2);
+        ctx.fillRect(bldX + 1, bldY - 3, 2, 2);
+
+        // PERSON on upper left branch tip
+        const perX = W / 2 - 16;
+        const perY = trunkTop - 18;
+        ctx.fillStyle = '#0066cc';
+        // Head
+        ctx.beginPath();
+        ctx.arc(perX, perY - 4, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+        // Body
+        ctx.strokeStyle = '#0066cc';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(perX, perY - 1.5);
+        ctx.lineTo(perX, perY + 3);
+        ctx.stroke();
+        // Arms
+        ctx.beginPath();
+        ctx.moveTo(perX - 2.5, perY + 1);
+        ctx.lineTo(perX + 2.5, perY + 1);
+        ctx.stroke();
+        // Legs
+        ctx.beginPath();
+        ctx.moveTo(perX, perY + 3);
+        ctx.lineTo(perX - 2, perY + 6);
+        ctx.moveTo(perX, perY + 3);
+        ctx.lineTo(perX + 2, perY + 6);
+        ctx.stroke();
+
+        // UPWARD ARROW on upper right branch tip (growth)
+        const arrX = W / 2 + 14;
+        const arrY = trunkTop - 20;
+        ctx.strokeStyle = '#002147';
+        ctx.lineWidth = 1.5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(arrX, arrY + 5);
+        ctx.lineTo(arrX, arrY - 3);
+        ctx.moveTo(arrX - 2.5, arrY);
+        ctx.lineTo(arrX, arrY - 3);
+        ctx.lineTo(arrX + 2.5, arrY);
+        ctx.stroke();
+
+        ctx.globalAlpha = 1;
+    }
+
+    // Draw leaves as a soft canopy
+    function drawLeaves(progress) {
+        const leafP = Math.max(0, Math.min((progress - 0.5) / 0.3, 1));
+        if (leafP <= 0) return;
+
+        const baseY = H - 10;
+        const trunkTop = baseY - 28;
+
+        ctx.globalAlpha = leafP * 0.18;
+        ctx.fillStyle = '#0066cc';
+        ctx.beginPath();
+        ctx.ellipse(W / 2, trunkTop - 8, 32 * leafP, 16 * leafP, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
 
     function draw(timestamp) {
-        const time = timestamp / 1000;
-
-        for (let c = 0; c < cols; c++) {
-            for (let r = 0; r < rows; r++) {
-                const brightness = getBrightness(c, r, time);
-                ctx.fillStyle = interpolateColor(brightness);
-                ctx.fillRect(
-                    c * cellW + 0.5,
-                    r * cellH + 0.5,
-                    cellW - 1,
-                    cellH - 1
-                );
+        if (pausing) {
+            if (timestamp - pauseStart >= PAUSE) {
+                pausing = false;
+                startTime = timestamp;
+            } else {
+                requestAnimationFrame(draw);
+                return;
             }
+        }
+
+        if (!startTime) startTime = timestamp;
+        const elapsed = timestamp - startTime;
+        const rawP = Math.min(elapsed / DURATION, 1);
+        const progress = easeInOut(rawP);
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, W, H);
+
+        drawGround(progress);
+        drawTrunk(progress);
+        drawBranches(progress);
+        drawLeaves(progress);
+        drawIcons(progress);
+
+        if (rawP >= 1) {
+            pausing = true;
+            pauseStart = timestamp;
         }
 
         requestAnimationFrame(draw);
@@ -776,6 +960,5 @@
     requestAnimationFrame(draw);
 })();
 </script>
-
 </body>
 </html>
