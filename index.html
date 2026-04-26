@@ -7,6 +7,9 @@
     
     <!-- Favicon - Oxford logo -->
     <link rel="icon" type="image/x-icon" href="https://www.ox.ac.uk/sites/files/oxford/favicon.ico">
+
+    <!-- Pashto font: Noto Naskh Arabic (clean, not Urdu Nastaliq) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -192,6 +195,31 @@
             color: #64748b;
             font-size: 0.9em;
         }
+
+        /* Pashto page styling */
+        .pashto-content {
+            font-family: 'Noto Naskh Arabic', serif;
+            direction: rtl;
+            text-align: right;
+            font-size: 1.15em;
+            line-height: 2.2;
+            color: #1a1a1a;
+        }
+
+        .pashto-content h1 {
+            font-family: 'Noto Naskh Arabic', serif;
+            text-align: right;
+        }
+
+        .pashto-content .intro {
+            font-family: 'Noto Naskh Arabic', serif;
+            text-align: right;
+        }
+
+        .pashto-content p {
+            margin-bottom: 1.2em;
+            text-align: justify;
+        }
         
         @media (max-width: 600px) {
             .profile-photo {
@@ -226,6 +254,7 @@
         <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
         <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
         <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
+        <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
     </nav>
 
     <div id="home-section" class="content">
@@ -240,13 +269,10 @@
         
         <p>My PhD research investigates how colonial institutions shaped long-run development in South Asia, combining Development Economics, Economic History and Political Economy with modern Econometrics and Machine Learning. My current work traces the lasting economic legacy of British administrative policy in western British India - exploiting heterogeneous inter-regional variation in colonial governance to identify divergent long-run development outcomes - with direct implications for how we think about state capacity, institutional design, and development policy today.</p>
         
-        <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a proud member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside my doctoral research, I serve as Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform producing high-quality data and visualisations for empirical research on Afghanistan (one of the world’s most data-scarce, conflict-affected countries).</p>
+        <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a proud member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside my doctoral research, I serve as Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform producing high-quality data and visualisations for empirical research on Afghanistan (one of the world's most data-scarce, conflict-affected countries).</p>
         
         <p><em>Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</em></p>
         </div>
-
-       
-        
     </div>
 
     <div id="research-section" class="content hide">
@@ -598,7 +624,7 @@
         </div>
     </div>
 
-           <!-- ==================== PASHTO PAGE ==================== -->
+    <!-- ==================== PASHTO PAGE ==================== -->
     <div id="pashto-section" class="content hide pashto-content" lang="ps">
 
         <h1>ميوند ننګيال</h1>
@@ -624,13 +650,10 @@
     </div>
     <!-- ==================== END PASHTO PAGE ==================== -->
 
-
-    
     <footer>
 <p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     </footer>
-
 
 <script>
     function showSection(section) {
