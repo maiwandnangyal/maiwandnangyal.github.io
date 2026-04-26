@@ -829,7 +829,15 @@
         drawStatic();
         drawLines(eased);
 
-        if (progress < 1) requestAnimationFrame(animate);
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            setTimeout(() => {
+                startTime = null;
+                progress = 0;
+                requestAnimationFrame(animate);
+            }, 1800);
+        }
     }
 
     drawStatic();
