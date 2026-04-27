@@ -814,9 +814,8 @@
         ctx.fill();
     }
 
-    // Niche now takes a cliffBase so niches are anchored to bottom of cliff
     function drawNiche(x, cliffBase, w, h) {
-        const y = cliffBase - h; // anchor bottom of niche to cliff base
+        const y = cliffBase - h;
 
         const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
         nicheGrad.addColorStop(0,   'rgba(35,18,4,0.88)');
@@ -840,80 +839,6 @@
         ctx.moveTo(x, y + h*0.35);
         ctx.quadraticCurveTo(x, y, x + w/2, y);
         ctx.quadraticCurveTo(x + w, y, x + w, y + h*0.35);
-        ctx.stroke();
-    }
-
-    // Animated Afghan flag
-    function drawAfghanFlag(timestamp) {
-        const fx = W - 90;    // flag pole base x
-        const fy = H * 0.08;  // flag pole base y (top of cliff area)
-        const poleH  = 28;
-        const flagW  = 36;
-        const flagH  = 22;
-        const t = timestamp / 800; // wave speed
-
-        // Pole
-        ctx.strokeStyle = '#888';
-        ctx.lineWidth = 1.2;
-        ctx.beginPath();
-        ctx.moveTo(fx, fy + poleH);
-        ctx.lineTo(fx, fy);
-        ctx.stroke();
-
-        // Wave function — sine wave along flag width
-        function waveY(px, stripY) {
-            return stripY + Math.sin(px / 8 + t) * 2.5;
-        }
-
-        const strips = [
-            { color: '#000000' }, // black
-            { color: '#D32011' }, // red
-            { color: '#009A44' }, // green
-        ];
-        const stripH = flagH / 3;
-
-        strips.forEach((s, si) => {
-            ctx.beginPath();
-            ctx.fillStyle = s.color;
-
-            const baseY = fy + si * stripH;
-
-            // Top edge of strip
-            ctx.moveTo(fx, baseY);
-            for (let px = 0; px <= flagW; px += 2) {
-                ctx.lineTo(fx + px, waveY(px, baseY));
-            }
-            // Bottom edge of strip (reverse)
-            for (let px = flagW; px >= 0; px -= 2) {
-                ctx.lineTo(fx + px, waveY(px, baseY + stripH));
-            }
-            ctx.closePath();
-            ctx.fill();
-
-            // Strip border line
-            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-            ctx.lineWidth = 0.4;
-            ctx.beginPath();
-            ctx.moveTo(fx, baseY + stripH);
-            for (let px = 0; px <= flagW; px += 2) {
-                ctx.lineTo(fx + px, waveY(px, baseY + stripH));
-            }
-            ctx.stroke();
-        });
-
-        // Flag outline
-        ctx.strokeStyle = 'rgba(0,0,0,0.25)';
-        ctx.lineWidth = 0.6;
-        ctx.beginPath();
-        ctx.moveTo(fx, fy);
-        for (let px = 0; px <= flagW; px += 2) {
-            ctx.lineTo(fx + px, waveY(px, fy));
-        }
-        for (let px = flagW; px >= 0; px -= 2) {
-            ctx.lineTo(fx + px, waveY(px, fy + flagH));
-        }
-        ctx.lineTo(fx, fy + flagH);
-        ctx.closePath();
         ctx.stroke();
     }
 
@@ -949,7 +874,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Rock shadow streaks
         ctx.strokeStyle = 'rgba(80,55,15,0.12)';
         ctx.lineWidth = 1;
         [[80,cliffTop+6,78,cliffBase-8],
@@ -964,11 +888,9 @@
             ctx.stroke();
         });
 
-        // Niches anchored to cliff base
         drawNiche(110, cliffBase, 42, 52);
         drawNiche(300, cliffBase, 32, 42);
 
-        // Small cave holes — upper portion of cliff only
         [[220, cliffTop+18, 9, 11],
          [240, cliffTop+28, 7,  9],
          [180, cliffTop+32, 6,  8],
@@ -1122,7 +1044,6 @@
                     drawBird(b.x, b.y, b.wingPhase, b.size);
                 });
                 drawCliff();
-                drawAfghanFlag(timestamp);
                 drawValley();
                 drawRoad(1);
                 drawModernBuildings(1);
@@ -1153,7 +1074,6 @@
         });
 
         drawCliff();
-        drawAfghanFlag(timestamp);
         drawValley();
         drawRoad(rawP);
         drawModernBuildings(rawP);
