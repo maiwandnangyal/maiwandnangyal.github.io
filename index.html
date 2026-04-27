@@ -980,6 +980,23 @@
     let pausing = false;
     let pauseStart = null;
 
+    // Clouds
+    const clouds = [
+        { x: 30,  y: 4, scale: 0.28, speed: 0.04 },
+        { x: 100, y: 6, scale: 0.22, speed: 0.03 },
+        { x: 170, y: 3, scale: 0.25, speed: 0.05 },
+    ];
+
+    // Birds
+    const birds = Array.from({ length: 5 }, (_, i) => ({
+        x: 20 + i * 40,
+        y: 8 + Math.sin(i * 1.4) * 6,
+        speed: 0.12 + Math.random() * 0.10,
+        wingPhase: Math.random() * Math.PI * 2,
+        wingSpeed: 3 + Math.random() * 2,
+        size: 0.8 + Math.random() * 0.5,
+    }));
+
     function easeInOut(t) {
         return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
     }
@@ -1007,18 +1024,39 @@
         ctx.fill();
     }
 
-    function drawClouds() {
-        function cloud(x, y, scale) {
-            ctx.fillStyle = 'rgba(255,255,255,0.85)';
-            ctx.beginPath();
-            ctx.arc(x, y, 5 * scale, 0, Math.PI * 2);
-            ctx.arc(x + 7 * scale, y - 2 * scale, 6 * scale, 0, Math.PI * 2);
-            ctx.arc(x + 14 * scale, y, 4 * scale, 0, Math.PI * 2);
-            ctx.fill();
-        }
-        cloud(18, 10, 0.7);
-        cloud(80, 7, 0.6);
-        cloud(145, 12, 0.65);
+    function drawCloud(x, y, scale) {
+        ctx.fillStyle = 'rgba(255,255,255,0.82)';
+        ctx.beginPath();
+        ctx.arc(x,            y,            10 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 14*scale, y - 4*scale,  13 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 28*scale, y,             9 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 18*scale, y + 3*scale,   8 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 6*scale,  y + 2*scale,   7 * scale, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawBird(x, y, wingAngle, size) {
+        ctx.strokeStyle = 'rgba(20,20,40,0.85)';
+        ctx.lineWidth = size * 0.7;
+        ctx.lineCap = 'round';
+
+        // Left wing
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(
+            x - size * 2.5, y - Math.sin(wingAngle) * size * 2,
+            x - size * 5,   y + Math.sin(wingAngle) * size * 0.4
+        );
+        ctx.stroke();
+
+        // Right wing
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(
+            x + size * 2.5, y - Math.sin(wingAngle) * size * 2,
+            x + size * 5,   y + Math.sin(wingAngle) * size * 0.4
+        );
+        ctx.stroke();
     }
 
     function drawBuddha(x, y, w, h) {
@@ -1209,19 +1247,15 @@
             const bx = b.x;
             const by = groundY - 6 - currentH;
 
-            // Building body — concrete grey/beige daytime
             ctx.fillStyle = '#c8bfb0';
             ctx.fillRect(bx, by, b.w, currentH);
 
-            // Darker side panel for 3D effect
             ctx.fillStyle = '#a89f92';
             ctx.fillRect(bx + b.w - 3, by, 3, currentH);
 
-            // Flat roof
             ctx.fillStyle = '#b0a898';
             ctx.fillRect(bx - 1, by - 2, b.w + 2, 3);
 
-            // Windows — daytime dark reflective glass
             if (bP > 0.6) {
                 const winAlpha = (bP - 0.6) / 0.4;
                 ctx.globalAlpha = winAlpha;
@@ -1232,15 +1266,12 @@
                 const rows = Math.floor(currentH / floorH);
 
                 for (let wr = 0; wr < rows; wr++) {
-                    // Floor separation line
                     ctx.fillStyle = '#a89f92';
                     ctx.fillRect(bx, by + wr * floorH, b.w, 1);
 
                     for (let wc = 0; wc < cols; wc++) {
-                        // Dark reflective glass — blue tint, no glow
                         ctx.fillStyle = '#5b8fa8';
                         ctx.fillRect(bx + 2 + wc * 6, by + 2 + wr * floorH, winW, winH);
-                        // Glass reflection highlight
                         ctx.fillStyle = 'rgba(255,255,255,0.3)';
                         ctx.fillRect(bx + 2 + wc * 6, by + 2 + wr * floorH, 1, 2);
                     }
@@ -1248,7 +1279,6 @@
                 ctx.globalAlpha = 1;
             }
 
-            // Rooftop antenna on taller buildings
             if (b.maxH > 28 && bP > 0.85) {
                 const antAlpha = (bP - 0.85) / 0.15;
                 ctx.globalAlpha = antAlpha;
@@ -1303,6 +1333,8 @@
     }
 
     function draw(timestamp) {
+        const t = timestamp / 1000;
+
         if (pausing) {
             if (timestamp - pauseStart >= PAUSE) {
                 pausing = false;
@@ -1311,7 +1343,22 @@
                 ctx.clearRect(0, 0, W, H);
                 drawSky();
                 drawSun();
-                drawClouds();
+
+                // Animate clouds during pause too
+                clouds.forEach(c => {
+                    c.x += c.speed;
+                    if (c.x > W + 60) c.x = -60;
+                    drawCloud(c.x, c.y, c.scale);
+                });
+
+                // Animate birds during pause too
+                birds.forEach(b => {
+                    b.x += b.speed;
+                    b.wingPhase += b.wingSpeed * 0.016;
+                    if (b.x > W + 20) { b.x = -20; b.y = 5 + Math.random() * 20; }
+                    drawBird(b.x, b.y, b.wingPhase, b.size);
+                });
+
                 drawCliff();
                 drawValley();
                 drawRoad(1);
@@ -1328,7 +1375,22 @@
         ctx.clearRect(0, 0, W, H);
         drawSky();
         drawSun();
-        drawClouds();
+
+        // Animate clouds
+        clouds.forEach(c => {
+            c.x += c.speed;
+            if (c.x > W + 60) c.x = -60;
+            drawCloud(c.x, c.y, c.scale);
+        });
+
+        // Animate birds
+        birds.forEach(b => {
+            b.x += b.speed;
+            b.wingPhase += b.wingSpeed * 0.016;
+            if (b.x > W + 20) { b.x = -20; b.y = 5 + Math.random() * 20; }
+            drawBird(b.x, b.y, b.wingPhase, b.size);
+        });
+
         drawCliff();
         drawValley();
         drawRoad(rawP);
