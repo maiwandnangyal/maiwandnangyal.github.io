@@ -671,290 +671,486 @@
     const W = canvas.width;
     const H = canvas.height;
 
-    // Cloud state
+    // Clouds
     const clouds = [
-        { x: 80,  y: 14, scale: 1.1, speed: 0.18 },
-        { x: 280, y: 8,  scale: 0.8, speed: 0.12 },
-        { x: 480, y: 18, scale: 1.0, speed: 0.15 },
-        { x: 650, y: 10, scale: 0.7, speed: 0.20 },
+        { x: 60,  y: 12, scale: 1.0, speed: 0.14, opacity: 0.88 },
+        { x: 240, y: 7,  scale: 0.75, speed: 0.10, opacity: 0.80 },
+        { x: 430, y: 15, scale: 0.90, speed: 0.12, opacity: 0.85 },
+        { x: 600, y: 9,  scale: 0.65, speed: 0.16, opacity: 0.78 },
+        { x: 700, y: 18, scale: 0.55, speed: 0.11, opacity: 0.72 },
     ];
 
-    // Bird state — each bird has position, wing phase, speed
-    const birds = Array.from({ length: 7 }, (_, i) => ({
-        x: 100 + i * 90,
-        y: 18 + Math.sin(i * 1.3) * 12,
-        speed: 0.25 + Math.random() * 0.2,
+    // Birds
+    const birds = Array.from({ length: 8 }, (_, i) => ({
+        x: 30 + i * 95,
+        y: 14 + Math.sin(i * 1.7) * 16,
+        speed: 0.22 + Math.random() * 0.18,
         wingPhase: Math.random() * Math.PI * 2,
-        wingSpeed: 2.5 + Math.random() * 1.5,
-        size: 2.5 + Math.random() * 1.5,
+        wingSpeed: 2.8 + Math.random() * 2.0,
+        size: 1.8 + Math.random() * 1.4,
+        glide: Math.random() > 0.5,
     }));
 
+    // Oxford stone palette
+    const STONE_LIGHT  = '#e8dcc8';
+    const STONE_MID    = '#d4c4a0';
+    const STONE_DARK   = '#b8a478';
+    const STONE_SHADOW = '#9a8860';
+    const DOME_HIGH    = '#ede0c4';
+    const DOME_MID     = '#d0bc98';
+    const DOME_DARK    = '#b09870';
+
     function drawSky() {
-        const grad = ctx.createLinearGradient(0, 0, 0, H * 0.72);
-        grad.addColorStop(0, '#5ba3d9');
-        grad.addColorStop(0.5, '#87ceeb');
-        grad.addColorStop(1, '#c9e8f5');
+        const grad = ctx.createLinearGradient(0, 0, 0, H * 0.70);
+        grad.addColorStop(0,   '#4a8fc2');
+        grad.addColorStop(0.4, '#6fb0d8');
+        grad.addColorStop(0.8, '#a8d4ee');
+        grad.addColorStop(1,   '#c8e8f8');
         ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, W, H * 0.72);
+        ctx.fillRect(0, 0, W, H * 0.70);
     }
 
-    function drawGround() {
-        // Ground — Oxford grass green
-        const grad = ctx.createLinearGradient(0, H * 0.72, 0, H);
-        grad.addColorStop(0, '#5a8f35');
-        grad.addColorStop(1, '#3d6b22');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, H * 0.72, W, H * 0.28);
-
-        // Path/cobblestone foreground strip
-        ctx.fillStyle = '#b8a98a';
-        ctx.fillRect(W * 0.3, H * 0.78, W * 0.4, H * 0.07);
-        // Path lines
-        ctx.strokeStyle = '#a09070';
-        ctx.lineWidth = 0.5;
-        for (let i = 0; i < 8; i++) {
-            ctx.beginPath();
-            ctx.moveTo(W * 0.3 + i * (W * 0.4 / 8), H * 0.78);
-            ctx.lineTo(W * 0.3 + i * (W * 0.4 / 8), H * 0.85);
-            ctx.stroke();
-        }
-    }
-
-    function drawCloud(x, y, scale) {
-        ctx.fillStyle = 'rgba(255,255,255,0.92)';
-        ctx.shadowColor = 'rgba(180,200,220,0.4)';
-        ctx.shadowBlur = 6;
+    function drawSun() {
+        const sx = W * 0.82, sy = H * 0.08;
+        // Atmospheric haze glow
+        const haze = ctx.createRadialGradient(sx, sy, 0, sx, sy, 40);
+        haze.addColorStop(0,   'rgba(255,240,180,0.28)');
+        haze.addColorStop(0.5, 'rgba(255,230,150,0.10)');
+        haze.addColorStop(1,   'rgba(255,220,120,0)');
+        ctx.fillStyle = haze;
+        ctx.fillRect(sx - 40, sy - 40, 80, 80);
+        // Sun disc
+        const sunGrad = ctx.createRadialGradient(sx, sy, 0, sx, sy, 9);
+        sunGrad.addColorStop(0,   '#fff8e0');
+        sunGrad.addColorStop(0.5, '#f8d84a');
+        sunGrad.addColorStop(1,   '#f0c030');
         ctx.beginPath();
-        ctx.arc(x,           y,           12 * scale, 0, Math.PI * 2);
-        ctx.arc(x + 16*scale, y - 5*scale, 15 * scale, 0, Math.PI * 2);
-        ctx.arc(x + 32*scale, y,           11 * scale, 0, Math.PI * 2);
-        ctx.arc(x + 22*scale, y + 4*scale, 10 * scale, 0, Math.PI * 2);
-        ctx.arc(x + 8*scale,  y + 3*scale, 9  * scale, 0, Math.PI * 2);
+        ctx.arc(sx, sy, 9, 0, Math.PI * 2);
+        ctx.fillStyle = sunGrad;
         ctx.fill();
-        ctx.shadowBlur = 0;
     }
 
-    function drawBird(x, y, wingAngle, size) {
-        ctx.strokeStyle = '#1a1a2e';
-        ctx.lineWidth = size * 0.6;
-        ctx.lineCap = 'round';
+    function drawCloud(x, y, scale, opacity) {
+        ctx.save();
+        ctx.globalAlpha = opacity;
 
-        // Left wing
+        // Shadow layer beneath
+        ctx.fillStyle = 'rgba(180,200,220,0.25)';
+        ctx.beginPath();
+        ctx.ellipse(x + 18*scale, y + 10*scale, 22*scale, 5*scale, 0, 0, Math.PI*2);
+        ctx.fill();
+
+        // Main puffs — layered for depth
+        const puffs = [
+            { ox: 0,       oy: 4,  r: 10 },
+            { ox: 12*scale, oy: 0,  r: 14 },
+            { ox: 26*scale, oy: 2,  r: 11 },
+            { ox: 38*scale, oy: 5,  r:  9 },
+            { ox: 20*scale, oy: 8,  r:  8 },
+            { ox:  8*scale, oy: 7,  r:  7 },
+            { ox: 30*scale, oy: 8,  r:  7 },
+        ];
+
+        // Dark base of cloud
+        puffs.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(x + p.ox, y + p.oy*scale + 3, p.r * scale, 0, Math.PI*2);
+            ctx.fillStyle = 'rgba(190,210,230,0.5)';
+            ctx.fill();
+        });
+
+        // Bright white tops
+        puffs.forEach(p => {
+            const g = ctx.createRadialGradient(
+                x + p.ox - p.r*scale*0.2, y + p.oy*scale - p.r*scale*0.3, 0,
+                x + p.ox, y + p.oy*scale, p.r*scale
+            );
+            g.addColorStop(0,   'rgba(255,255,255,0.98)');
+            g.addColorStop(0.6, 'rgba(245,248,255,0.85)');
+            g.addColorStop(1,   'rgba(220,235,248,0.40)');
+            ctx.beginPath();
+            ctx.arc(x + p.ox, y + p.oy*scale, p.r*scale, 0, Math.PI*2);
+            ctx.fillStyle = g;
+            ctx.fill();
+        });
+
+        ctx.restore();
+    }
+
+    function drawBird(x, y, wingPhase, size, glide) {
+        ctx.save();
+        ctx.strokeStyle = 'rgba(18,18,30,0.82)';
+        ctx.lineWidth = size * 0.55;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const flap = glide ? Math.sin(wingPhase) * 0.3 : Math.sin(wingPhase);
+        const dip  = size * 2.2 * flap;
+        const tip  = size * (glide ? 0.5 : 0.8) * flap;
+
+        // Left wing — two-segment for realism
         ctx.beginPath();
         ctx.moveTo(x, y);
-        ctx.quadraticCurveTo(
-            x - size * 3, y - Math.sin(wingAngle) * size * 2.5,
-            x - size * 6, y + Math.sin(wingAngle) * size * 0.5
-        );
+        ctx.quadraticCurveTo(x - size*2.8, y - dip, x - size*5.5, y + tip);
         ctx.stroke();
 
         // Right wing
         ctx.beginPath();
         ctx.moveTo(x, y);
-        ctx.quadraticCurveTo(
-            x + size * 3, y - Math.sin(wingAngle) * size * 2.5,
-            x + size * 6, y + Math.sin(wingAngle) * size * 0.5
-        );
+        ctx.quadraticCurveTo(x + size*2.8, y - dip, x + size*5.5, y + tip);
         ctx.stroke();
 
-        // Small body
-        ctx.fillStyle = '#1a1a2e';
+        // Tiny body/head
+        ctx.fillStyle = 'rgba(18,18,30,0.82)';
         ctx.beginPath();
-        ctx.ellipse(x, y, size * 1.2, size * 0.5, 0, 0, Math.PI * 2);
+        ctx.ellipse(x, y, size*1.0, size*0.38, 0, 0, Math.PI*2);
         ctx.fill();
+        // Head
+        ctx.beginPath();
+        ctx.arc(x + size*1.1, y - size*0.1, size*0.38, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    function drawGrass() {
+        const gy = H * 0.70;
+        // Base grass
+        const grad = ctx.createLinearGradient(0, gy, 0, H);
+        grad.addColorStop(0,   '#6aaa38');
+        grad.addColorStop(0.3, '#5a9430');
+        grad.addColorStop(1,   '#3d6e20');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, gy, W, H - gy);
+
+        // Lighter highlight band at top of grass
+        ctx.fillStyle = 'rgba(130,200,60,0.18)';
+        ctx.fillRect(0, gy, W, 4);
+
+        // Cobblestone surround path
+        const px = W*0.34, pw = W*0.32, py = H*0.76, ph = H*0.055;
+        const pathGrad = ctx.createLinearGradient(px, py, px, py+ph);
+        pathGrad.addColorStop(0, '#c8bca8');
+        pathGrad.addColorStop(1, '#b0a490');
+        ctx.fillStyle = pathGrad;
+        ctx.beginPath();
+        ctx.roundRect(px, py, pw, ph, 2);
+        ctx.fill();
+
+        // Cobble lines
+        ctx.strokeStyle = 'rgba(140,126,105,0.45)';
+        ctx.lineWidth = 0.5;
+        for (let i = 1; i < 9; i++) {
+            ctx.beginPath();
+            ctx.moveTo(px + i*(pw/9), py);
+            ctx.lineTo(px + i*(pw/9), py + ph);
+            ctx.stroke();
+        }
+        for (let j = 1; j < 3; j++) {
+            ctx.beginPath();
+            ctx.moveTo(px, py + j*(ph/3));
+            ctx.lineTo(px+pw, py + j*(ph/3));
+            ctx.stroke();
+        }
     }
 
     function drawRadcliffe() {
-        const cx = W / 2;
-        const baseY = H * 0.72;
-        const drumBase = baseY - 10;
+        const cx  = W / 2;
+        const gy  = H * 0.70;
 
-        // ── Shadow on ground ──
-        ctx.fillStyle = 'rgba(0,0,0,0.08)';
+        // ── Ground shadow ──
+        const shadowGrad = ctx.createRadialGradient(cx, gy, 5, cx, gy, 75);
+        shadowGrad.addColorStop(0,   'rgba(0,0,0,0.22)');
+        shadowGrad.addColorStop(0.5, 'rgba(0,0,0,0.08)');
+        shadowGrad.addColorStop(1,   'rgba(0,0,0,0)');
+        ctx.fillStyle = shadowGrad;
         ctx.beginPath();
-        ctx.ellipse(cx, baseY + 2, 62, 5, 0, 0, Math.PI * 2);
+        ctx.ellipse(cx, gy - 1, 72, 7, 0, 0, Math.PI*2);
         ctx.fill();
 
-        // ── Steps / plinth ──
-        [[68, 6], [62, 5], [56, 4]].forEach(([hw, h], i) => {
-            const stepY = drumBase - i * 4;
-            ctx.fillStyle = i === 0 ? '#d4c9b0' : i === 1 ? '#ccc0a6' : '#c4b898';
-            ctx.fillRect(cx - hw, stepY, hw * 2, h);
-            // Step edge
+        // ── Three-step plinth ──
+        const steps = [
+            { hw: 70, h: 7, y: gy - 7,  light: '#ddd0b4', mid: '#ccc0a0', dark: '#b8aa88' },
+            { hw: 62, h: 6, y: gy - 13, light: '#e0d4b8', mid: '#d0c4a4', dark: '#bcae8c' },
+            { hw: 55, h: 5, y: gy - 18, light: '#e4d8bc', mid: '#d4c8a8', dark: '#c0b290' },
+        ];
+        steps.forEach(s => {
+            // Top face
+            ctx.fillStyle = s.light;
+            ctx.fillRect(cx - s.hw, s.y, s.hw*2, s.h);
+            // Front edge shadow
+            ctx.fillStyle = s.dark;
+            ctx.fillRect(cx - s.hw, s.y + s.h - 2, s.hw*2, 2);
+            // Left shadow
             ctx.fillStyle = 'rgba(0,0,0,0.08)';
-            ctx.fillRect(cx - hw, stepY + h - 1, hw * 2, 1);
+            ctx.fillRect(cx - s.hw, s.y, 3, s.h);
         });
 
-        const plinthTop = drumBase - 12;
+        const plinthTop = gy - 18;
 
-        // ── Main drum (circular base) ──
-        const drumH = 38;
-        const drumTop = plinthTop - drumH;
-        const drumW = 52;
+        // ── Main circular drum ──
+        const drumH  = 42;
+        const drumW  = 52;
+        const drumY  = plinthTop - drumH;
 
-        // Drum body gradient
-        const drumGrad = ctx.createLinearGradient(cx - drumW, 0, cx + drumW, 0);
-        drumGrad.addColorStop(0,   '#b8a98a');
-        drumGrad.addColorStop(0.3, '#d4c9b0');
-        drumGrad.addColorStop(0.5, '#e8dfc8');
-        drumGrad.addColorStop(0.7, '#d4c9b0');
-        drumGrad.addColorStop(1,   '#a89878');
-        ctx.fillStyle = drumGrad;
-        ctx.fillRect(cx - drumW, drumTop, drumW * 2, drumH);
+        // Drum body — gradient left-to-right for cylindrical feel
+        const dGrad = ctx.createLinearGradient(cx - drumW, 0, cx + drumW, 0);
+        dGrad.addColorStop(0,    STONE_SHADOW);
+        dGrad.addColorStop(0.12, STONE_DARK);
+        dGrad.addColorStop(0.35, STONE_MID);
+        dGrad.addColorStop(0.55, STONE_LIGHT);
+        dGrad.addColorStop(0.72, STONE_MID);
+        dGrad.addColorStop(0.88, STONE_DARK);
+        dGrad.addColorStop(1,    STONE_SHADOW);
+        ctx.fillStyle = dGrad;
+        ctx.fillRect(cx - drumW, drumY, drumW*2, drumH);
 
-        // Pilaster columns on drum — evenly spaced
-        const numCols = 10;
-        for (let i = 0; i <= numCols; i++) {
-            const px = cx - drumW + i * (drumW * 2 / numCols);
-            // Column shaft
-            ctx.fillStyle = 'rgba(255,255,255,0.18)';
-            ctx.fillRect(px - 1.5, drumTop + 2, 3, drumH - 4);
-            // Column shadow
-            ctx.fillStyle = 'rgba(0,0,0,0.12)';
-            ctx.fillRect(px + 1, drumTop + 2, 1, drumH - 4);
+        // Paired columns on drum — 8 pairs
+        const numPairs = 8;
+        for (let i = 0; i <= numPairs; i++) {
+            const px = cx - drumW + i * (drumW*2 / numPairs);
+            // Column shaft highlight
+            ctx.fillStyle = 'rgba(255,255,255,0.22)';
+            ctx.fillRect(px - 2, drumY + 3, 2, drumH - 5);
+            // Column shaft shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.14)';
+            ctx.fillRect(px + 0.5, drumY + 3, 1.5, drumH - 5);
+            // Capital top
+            ctx.fillStyle = STONE_LIGHT;
+            ctx.fillRect(px - 3, drumY + 2, 6, 3);
+            // Base
+            ctx.fillStyle = STONE_LIGHT;
+            ctx.fillRect(px - 2.5, drumY + drumH - 4, 5, 4);
         }
 
-        // Drum top cornice
-        ctx.fillStyle = '#c8b896';
-        ctx.fillRect(cx - drumW - 2, drumTop, drumW * 2 + 4, 5);
-        ctx.fillStyle = '#ddd0b4';
-        ctx.fillRect(cx - drumW - 2, drumTop, drumW * 2 + 4, 2);
+        // Drum top entablature
+        const entH = 6;
+        const entGrad = ctx.createLinearGradient(0, drumY, 0, drumY + entH);
+        entGrad.addColorStop(0, STONE_LIGHT);
+        entGrad.addColorStop(1, STONE_DARK);
+        ctx.fillStyle = entGrad;
+        ctx.fillRect(cx - drumW - 3, drumY, drumW*2 + 6, entH);
+        ctx.fillStyle = 'rgba(0,0,0,0.10)';
+        ctx.fillRect(cx - drumW - 3, drumY + entH - 1, drumW*2 + 6, 1);
 
         // Drum bottom cornice
-        ctx.fillStyle = '#c8b896';
-        ctx.fillRect(cx - drumW - 2, plinthTop - 6, drumW * 2 + 4, 6);
+        ctx.fillStyle = STONE_MID;
+        ctx.fillRect(cx - drumW - 2, plinthTop - 7, drumW*2 + 4, 7);
+        ctx.fillStyle = 'rgba(0,0,0,0.10)';
+        ctx.fillRect(cx - drumW - 2, plinthTop - 1, drumW*2 + 4, 1);
 
-        // ── Arched windows on drum ──
-        const winCount = 6;
+        // ── Arched windows ──
+        const winCount = 7;
+        const winAreaW = drumW*2 - 12;
         for (let i = 0; i < winCount; i++) {
-            const wx = cx - drumW + 5 + i * ((drumW * 2 - 10) / winCount);
-            const wy = drumTop + 8;
-            const ww = 10;
-            const wh = 16;
+            const wx  = cx - drumW + 6 + i * (winAreaW / winCount);
+            const wy  = drumY + entH + 5;
+            const ww  = winAreaW / winCount - 4;
+            const wh  = 18;
 
-            // Window recess
-            ctx.fillStyle = '#8a9db5';
+            // Window recess depth
+            ctx.fillStyle = '#6a8aaa';
             ctx.beginPath();
             ctx.moveTo(wx, wy + wh);
-            ctx.lineTo(wx, wy + wh * 0.4);
+            ctx.lineTo(wx, wy + wh*0.38);
             ctx.quadraticCurveTo(wx, wy, wx + ww/2, wy);
-            ctx.quadraticCurveTo(wx + ww, wy, wx + ww, wy + wh * 0.4);
+            ctx.quadraticCurveTo(wx + ww, wy, wx + ww, wy + wh*0.38);
             ctx.lineTo(wx + ww, wy + wh);
             ctx.closePath();
             ctx.fill();
 
-            // Window glass reflection
-            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            // Window glass — sky reflection tint
+            ctx.fillStyle = 'rgba(100,160,210,0.45)';
             ctx.beginPath();
-            ctx.moveTo(wx + 1, wy + wh * 0.5);
-            ctx.lineTo(wx + 1, wy + wh * 0.35);
-            ctx.quadraticCurveTo(wx + 1, wy + 2, wx + ww/2, wy + 2);
-            ctx.lineTo(wx + ww * 0.4, wy + wh * 0.5);
+            ctx.moveTo(wx+1, wy + wh);
+            ctx.lineTo(wx+1, wy + wh*0.40);
+            ctx.quadraticCurveTo(wx+1, wy+2, wx + ww/2, wy+2);
+            ctx.quadraticCurveTo(wx + ww-1, wy+2, wx + ww-1, wy + wh*0.40);
+            ctx.lineTo(wx + ww-1, wy + wh);
             ctx.closePath();
             ctx.fill();
+
+            // Highlight reflection
+            ctx.fillStyle = 'rgba(255,255,255,0.18)';
+            ctx.beginPath();
+            ctx.moveTo(wx+2, wy + wh*0.6);
+            ctx.lineTo(wx+2, wy + wh*0.38);
+            ctx.quadraticCurveTo(wx+2, wy+4, wx + ww*0.4, wy+4);
+            ctx.lineTo(wx + ww*0.35, wy + wh*0.55);
+            ctx.closePath();
+            ctx.fill();
+
+            // Keystone
+            ctx.fillStyle = STONE_MID;
+            ctx.fillRect(wx + ww/2 - 1.5, wy, 3, 5);
         }
 
-        // ── Lantern / dome base ──
-        const lantBaseY = drumTop;
-        const lantH = 22;
-        const lantW = 28;
+        // ── Lantern drum (smaller upper drum) ──
+        const lantW  = 30;
+        const lantH  = 24;
+        const lantY  = drumY - lantH;
 
-        const lantGrad = ctx.createLinearGradient(cx - lantW, 0, cx + lantW, 0);
-        lantGrad.addColorStop(0,   '#a89878');
-        lantGrad.addColorStop(0.4, '#d4c9b0');
-        lantGrad.addColorStop(0.6, '#e8dfc8');
-        lantGrad.addColorStop(1,   '#a89878');
-        ctx.fillStyle = lantGrad;
-        ctx.fillRect(cx - lantW, lantBaseY - lantH, lantW * 2, lantH);
+        const lGrad = ctx.createLinearGradient(cx - lantW, 0, cx + lantW, 0);
+        lGrad.addColorStop(0,    STONE_SHADOW);
+        lGrad.addColorStop(0.15, STONE_DARK);
+        lGrad.addColorStop(0.45, STONE_MID);
+        lGrad.addColorStop(0.6,  STONE_LIGHT);
+        lGrad.addColorStop(0.80, STONE_DARK);
+        lGrad.addColorStop(1,    STONE_SHADOW);
+        ctx.fillStyle = lGrad;
+        ctx.fillRect(cx - lantW, lantY, lantW*2, lantH);
 
-        // Lantern columns
-        for (let i = 0; i <= 7; i++) {
-            const px = cx - lantW + i * (lantW * 2 / 7);
-            ctx.fillStyle = 'rgba(255,255,255,0.2)';
-            ctx.fillRect(px - 1, lantBaseY - lantH + 2, 2, lantH - 4);
+        // Lantern columns — 6
+        for (let i = 0; i <= 6; i++) {
+            const lx = cx - lantW + i * (lantW*2/6);
+            ctx.fillStyle = 'rgba(255,255,255,0.20)';
+            ctx.fillRect(lx - 1.5, lantY + 2, 1.5, lantH - 4);
+            ctx.fillStyle = 'rgba(0,0,0,0.12)';
+            ctx.fillRect(lx + 0.3, lantY + 2, 1, lantH - 4);
         }
 
         // Lantern cornice
-        ctx.fillStyle = '#c8b896';
-        ctx.fillRect(cx - lantW - 2, lantBaseY - lantH, lantW * 2 + 4, 4);
+        const lcGrad = ctx.createLinearGradient(0, lantY, 0, lantY+5);
+        lcGrad.addColorStop(0, STONE_LIGHT);
+        lcGrad.addColorStop(1, STONE_DARK);
+        ctx.fillStyle = lcGrad;
+        ctx.fillRect(cx - lantW - 3, lantY, lantW*2+6, 5);
+
+        // Lantern base cornice
+        ctx.fillStyle = STONE_MID;
+        ctx.fillRect(cx - lantW - 2, drumY - 5, lantW*2+4, 5);
 
         // ── Dome ──
-        const domeBaseY = lantBaseY - lantH;
-        const domeH = 30;
-        const domeW = 30;
+        const domeBase = lantY;
+        const domeH    = 34;
+        const domeW    = 32;
+        const domeCx   = cx;
+        const domeTip  = domeBase - domeH;
 
-        // Dome gradient — curved highlight
-        const domeGrad = ctx.createRadialGradient(cx - 6, domeBaseY - domeH * 0.6, 2, cx, domeBaseY, domeW);
-        domeGrad.addColorStop(0,   '#f0e8d0');
-        domeGrad.addColorStop(0.4, '#d8ccb0');
-        domeGrad.addColorStop(0.7, '#c0b090');
-        domeGrad.addColorStop(1,   '#a89070');
-        ctx.fillStyle = domeGrad;
+        // Dome body — radial gradient for spherical shading
+        const domeFill = ctx.createRadialGradient(
+            domeCx - 8, domeBase - domeH*0.55, 2,
+            domeCx, domeBase, domeW
+        );
+        domeFill.addColorStop(0,    DOME_HIGH);
+        domeFill.addColorStop(0.3,  DOME_MID);
+        domeFill.addColorStop(0.65, DOME_DARK);
+        domeFill.addColorStop(1,    '#8a7050');
 
         ctx.beginPath();
-        ctx.moveTo(cx - domeW, domeBaseY);
-        ctx.quadraticCurveTo(cx - domeW, domeBaseY - domeH * 0.6, cx, domeBaseY - domeH);
-        ctx.quadraticCurveTo(cx + domeW, domeBaseY - domeH * 0.6, cx + domeW, domeBaseY);
+        ctx.moveTo(domeCx - domeW, domeBase);
+        ctx.bezierCurveTo(
+            domeCx - domeW, domeBase - domeH*0.5,
+            domeCx - domeW*0.5, domeTip,
+            domeCx, domeTip
+        );
+        ctx.bezierCurveTo(
+            domeCx + domeW*0.5, domeTip,
+            domeCx + domeW, domeBase - domeH*0.5,
+            domeCx + domeW, domeBase
+        );
         ctx.closePath();
+        ctx.fillStyle = domeFill;
         ctx.fill();
 
-        // Dome highlight
-        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        // Dome ribs — 7 vertical lines slightly curved
+        ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+        ctx.lineWidth = 0.7;
+        const ribCount = 7;
+        for (let i = 1; i < ribCount; i++) {
+            const t  = i / ribCount;
+            const rx = domeCx - domeW + t * domeW*2;
+            const ht = Math.sqrt(Math.max(0, 1 - Math.pow((rx - domeCx)/domeW, 2))) * domeH;
+            ctx.beginPath();
+            ctx.moveTo(rx, domeBase);
+            ctx.quadraticCurveTo(rx, domeBase - ht*0.5, rx < domeCx ? rx+2 : rx-2, domeBase - ht);
+            ctx.stroke();
+        }
+
+        // Dome highlight — reflected sunlight on upper-left
+        ctx.fillStyle = 'rgba(255,255,255,0.10)';
         ctx.beginPath();
-        ctx.moveTo(cx - 10, domeBaseY);
-        ctx.quadraticCurveTo(cx - 12, domeBaseY - domeH * 0.5, cx - 2, domeBaseY - domeH * 0.9);
-        ctx.quadraticCurveTo(cx + 2, domeBaseY - domeH * 0.6, cx + 4, domeBaseY);
-        ctx.closePath();
+        ctx.moveTo(domeCx - 14, domeBase);
+        ctx.bezierCurveTo(
+            domeCx - 14, domeBase - domeH*0.45,
+            domeCx - 8, domeTip + 4,
+            domeCx - 2, domeTip + 2
+        );
+        ctx.bezierCurveTo(
+            domeCx - 4, domeBase - domeH*0.3,
+            domeCx - 6, domeBase - domeH*0.1,
+            domeCx - 14, domeBase
+        );
         ctx.fill();
 
-        // ── Lantern top (small cupola) ──
-        const cupolaY = domeBaseY - domeH;
-        ctx.fillStyle = '#c8b896';
-        ctx.fillRect(cx - 7, cupolaY - 8, 14, 8);
-        ctx.fillStyle = '#d4c9b0';
-        ctx.fillRect(cx - 5, cupolaY - 14, 10, 6);
+        // Dome base ring
+        ctx.fillStyle = STONE_DARK;
+        ctx.fillRect(cx - domeW - 1, domeBase - 3, domeW*2+2, 3);
 
-        // ── Finial / ball and spike ──
+        // ── Cupola ──
+        const cupY = domeTip;
+        ctx.fillStyle = STONE_MID;
+        ctx.fillRect(cx - 8, cupY - 10, 16, 10);
+        // Cupola columns
+        for (let i = 0; i <= 3; i++) {
+            ctx.fillStyle = 'rgba(255,255,255,0.18)';
+            ctx.fillRect(cx - 8 + i*5 - 0.8, cupY - 9, 1.5, 8);
+        }
+        // Cupola top
+        ctx.fillStyle = STONE_LIGHT;
+        ctx.fillRect(cx - 6, cupY - 12, 12, 3);
+
+        // ── Finial — ball and spike ──
+        // Ball
+        const ballGrad = ctx.createRadialGradient(cx-1, cupY-15, 0, cx, cupY-14, 4);
+        ballGrad.addColorStop(0,   '#f8e878');
+        ballGrad.addColorStop(0.5, '#d4a820');
+        ballGrad.addColorStop(1,   '#a07810');
         ctx.beginPath();
-        ctx.arc(cx, cupolaY - 16, 3, 0, Math.PI * 2);
-        ctx.fillStyle = '#c8a850';
+        ctx.arc(cx, cupY - 14, 4, 0, Math.PI*2);
+        ctx.fillStyle = ballGrad;
         ctx.fill();
-        ctx.strokeStyle = '#a88830';
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
-
-        ctx.strokeStyle = '#a88830';
+        // Spike
+        ctx.strokeStyle = '#b08820';
         ctx.lineWidth = 1.5;
+        ctx.lineCap = 'round';
         ctx.beginPath();
-        ctx.moveTo(cx, cupolaY - 19);
-        ctx.lineTo(cx, cupolaY - 27);
+        ctx.moveTo(cx, cupY - 18);
+        ctx.lineTo(cx, cupY - 28);
+        ctx.stroke();
+        // Flag/weathervane hint
+        ctx.strokeStyle = '#8a6818';
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.moveTo(cx, cupY - 28);
+        ctx.lineTo(cx + 5, cupY - 26);
+        ctx.lineTo(cx, cupY - 24);
         ctx.stroke();
     }
 
     function draw(timestamp) {
-        const t = timestamp / 1000;
-
         ctx.clearRect(0, 0, W, H);
 
         drawSky();
-        drawGround();
+        drawSun();
+        drawGrass();
 
-        // Animate clouds — move right, wrap around
+        // Animate clouds
         clouds.forEach(c => {
             c.x += c.speed;
-            if (c.x > W + 80) c.x = -80;
-            drawCloud(c.x, c.y, c.scale);
+            if (c.x > W + 100) c.x = -100;
+            drawCloud(c.x, c.y, c.scale, c.opacity);
         });
 
-        // Animate birds — move right, wrap, flap wings
+        // Animate birds
         birds.forEach(b => {
             b.x += b.speed;
             b.wingPhase += b.wingSpeed * 0.016;
             if (b.x > W + 30) {
                 b.x = -30;
-                b.y = 10 + Math.random() * 30;
+                b.y = 10 + Math.random() * 35;
             }
-            drawBird(b.x, b.y, b.wingPhase, b.size);
+            drawBird(b.x, b.y, b.wingPhase, b.size, b.glide);
         });
 
         drawRadcliffe();
