@@ -725,11 +725,11 @@
     function drawCloud(x, y, scale) {
         ctx.fillStyle = 'rgba(255,255,255,0.88)';
         ctx.beginPath();
-        ctx.arc(x,             y,             10*scale, 0, Math.PI*2);
-        ctx.arc(x + 14*scale,  y - 4*scale,   13*scale, 0, Math.PI*2);
-        ctx.arc(x + 28*scale,  y,              9*scale,  0, Math.PI*2);
-        ctx.arc(x + 20*scale,  y + 4*scale,    8*scale,  0, Math.PI*2);
-        ctx.arc(x + 7*scale,   y + 3*scale,    7*scale,  0, Math.PI*2);
+        ctx.arc(x,            y,            10*scale, 0, Math.PI*2);
+        ctx.arc(x + 14*scale, y - 4*scale,  13*scale, 0, Math.PI*2);
+        ctx.arc(x + 28*scale, y,              9*scale, 0, Math.PI*2);
+        ctx.arc(x + 20*scale, y + 4*scale,    8*scale, 0, Math.PI*2);
+        ctx.arc(x + 7*scale,  y + 3*scale,    7*scale, 0, Math.PI*2);
         ctx.fill();
     }
 
@@ -756,7 +756,6 @@
     function drawBuddha(x, y, w, h) {
         const cx = x + w / 2;
 
-        // Robe
         const robeGrad = ctx.createLinearGradient(cx - w*0.3, 0, cx + w*0.3, 0);
         robeGrad.addColorStop(0,   'rgba(110,75,30,0.95)');
         robeGrad.addColorStop(0.5, 'rgba(155,115,55,0.95)');
@@ -770,7 +769,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Robe folds
         ctx.strokeStyle = 'rgba(80,50,10,0.35)';
         ctx.lineWidth = 0.5;
         [[-0.07,0.38,-0.13,1.0],[0.07,0.38,0.13,1.0],[0,0.38,0,1.0]].forEach(([fx1,fy1,fx2,fy2]) => {
@@ -780,23 +778,19 @@
             ctx.stroke();
         });
 
-        // Neck
         ctx.fillStyle = 'rgba(145,100,48,0.95)';
         ctx.fillRect(cx - w*0.06, y + h*0.25, w*0.12, h*0.12);
 
-        // Head
         ctx.beginPath();
         ctx.ellipse(cx, y + h*0.18, w*0.12, h*0.14, 0, 0, Math.PI*2);
         ctx.fillStyle = 'rgba(145,100,48,0.95)';
         ctx.fill();
 
-        // Ushnisha
         ctx.beginPath();
         ctx.ellipse(cx, y + h*0.07, w*0.07, h*0.07, 0, 0, Math.PI*2);
         ctx.fillStyle = 'rgba(125,85,38,0.95)';
         ctx.fill();
 
-        // Eyes
         ctx.fillStyle = 'rgba(50,25,5,0.75)';
         ctx.beginPath();
         ctx.ellipse(cx - w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2);
@@ -805,14 +799,12 @@
         ctx.ellipse(cx + w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2);
         ctx.fill();
 
-        // Smile
         ctx.strokeStyle = 'rgba(80,45,10,0.55)';
         ctx.lineWidth = 0.5;
         ctx.beginPath();
         ctx.arc(cx, y + h*0.20, w*0.04, 0.15, Math.PI - 0.15);
         ctx.stroke();
 
-        // Arms
         ctx.fillStyle = 'rgba(135,95,42,0.85)';
         ctx.beginPath();
         ctx.ellipse(cx - w*0.22, y + h*0.55, w*0.07, h*0.055, -0.3, 0, Math.PI*2);
@@ -822,7 +814,10 @@
         ctx.fill();
     }
 
-    function drawNiche(x, y, w, h) {
+    // Niche now takes a cliffBase so niches are anchored to bottom of cliff
+    function drawNiche(x, cliffBase, w, h) {
+        const y = cliffBase - h; // anchor bottom of niche to cliff base
+
         const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
         nicheGrad.addColorStop(0,   'rgba(35,18,4,0.88)');
         nicheGrad.addColorStop(0.5, 'rgba(50,26,7,0.68)');
@@ -845,6 +840,80 @@
         ctx.moveTo(x, y + h*0.35);
         ctx.quadraticCurveTo(x, y, x + w/2, y);
         ctx.quadraticCurveTo(x + w, y, x + w, y + h*0.35);
+        ctx.stroke();
+    }
+
+    // Animated Afghan flag
+    function drawAfghanFlag(timestamp) {
+        const fx = W - 90;    // flag pole base x
+        const fy = H * 0.08;  // flag pole base y (top of cliff area)
+        const poleH  = 28;
+        const flagW  = 36;
+        const flagH  = 22;
+        const t = timestamp / 800; // wave speed
+
+        // Pole
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.moveTo(fx, fy + poleH);
+        ctx.lineTo(fx, fy);
+        ctx.stroke();
+
+        // Wave function — sine wave along flag width
+        function waveY(px, stripY) {
+            return stripY + Math.sin(px / 8 + t) * 2.5;
+        }
+
+        const strips = [
+            { color: '#000000' }, // black
+            { color: '#D32011' }, // red
+            { color: '#009A44' }, // green
+        ];
+        const stripH = flagH / 3;
+
+        strips.forEach((s, si) => {
+            ctx.beginPath();
+            ctx.fillStyle = s.color;
+
+            const baseY = fy + si * stripH;
+
+            // Top edge of strip
+            ctx.moveTo(fx, baseY);
+            for (let px = 0; px <= flagW; px += 2) {
+                ctx.lineTo(fx + px, waveY(px, baseY));
+            }
+            // Bottom edge of strip (reverse)
+            for (let px = flagW; px >= 0; px -= 2) {
+                ctx.lineTo(fx + px, waveY(px, baseY + stripH));
+            }
+            ctx.closePath();
+            ctx.fill();
+
+            // Strip border line
+            ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+            ctx.lineWidth = 0.4;
+            ctx.beginPath();
+            ctx.moveTo(fx, baseY + stripH);
+            for (let px = 0; px <= flagW; px += 2) {
+                ctx.lineTo(fx + px, waveY(px, baseY + stripH));
+            }
+            ctx.stroke();
+        });
+
+        // Flag outline
+        ctx.strokeStyle = 'rgba(0,0,0,0.25)';
+        ctx.lineWidth = 0.6;
+        ctx.beginPath();
+        ctx.moveTo(fx, fy);
+        for (let px = 0; px <= flagW; px += 2) {
+            ctx.lineTo(fx + px, waveY(px, fy));
+        }
+        for (let px = flagW; px >= 0; px -= 2) {
+            ctx.lineTo(fx + px, waveY(px, fy + flagH));
+        }
+        ctx.lineTo(fx, fy + flagH);
+        ctx.closePath();
         ctx.stroke();
     }
 
@@ -895,13 +964,11 @@
             ctx.stroke();
         });
 
-        // Left large niche — bigger Buddha
-        drawNiche(120, cliffTop + 5, 38, 50);
+        // Niches anchored to cliff base
+        drawNiche(110, cliffBase, 42, 52);
+        drawNiche(300, cliffBase, 32, 42);
 
-        // Right smaller niche
-        drawNiche(310, cliffTop + 8, 28, 40);
-
-        // Small cave holes
+        // Small cave holes — upper portion of cliff only
         [[220, cliffTop+18, 9, 11],
          [240, cliffTop+28, 7,  9],
          [180, cliffTop+32, 6,  8],
@@ -927,7 +994,6 @@
         ctx.fillStyle = grad;
         ctx.fillRect(0, valleyTop, W, H - 14 - valleyTop);
 
-        // Scattered bushes
         [[40,H-22],[110,H-24],[200,H-20],[310,H-23],
          [430,H-21],[520,H-24],[620,H-22],[700,H-20]
         ].forEach(([bx, by]) => {
@@ -956,19 +1022,15 @@
             const bx = b.x;
             const by = groundY - 8 - currentH;
 
-            // Body
             ctx.fillStyle = '#c8bfb0';
             ctx.fillRect(bx, by, b.w, currentH);
 
-            // Side shadow
             ctx.fillStyle = '#a89f92';
             ctx.fillRect(bx + b.w - 4, by, 4, currentH);
 
-            // Roof
             ctx.fillStyle = '#b0a898';
             ctx.fillRect(bx - 1, by - 3, b.w + 2, 3);
 
-            // Windows
             if (bP > 0.6) {
                 ctx.globalAlpha = (bP - 0.6) / 0.4;
                 const floorH = 8;
@@ -987,7 +1049,6 @@
                 ctx.globalAlpha = 1;
             }
 
-            // Antenna
             if (b.maxH > 40 && bP > 0.85) {
                 ctx.globalAlpha = (bP - 0.85) / 0.15;
                 ctx.strokeStyle = '#888';
@@ -1061,6 +1122,7 @@
                     drawBird(b.x, b.y, b.wingPhase, b.size);
                 });
                 drawCliff();
+                drawAfghanFlag(timestamp);
                 drawValley();
                 drawRoad(1);
                 drawModernBuildings(1);
@@ -1070,8 +1132,8 @@
         }
 
         if (!startTime) startTime = timestamp;
-        const elapsed  = timestamp - startTime;
-        const rawP     = Math.min(elapsed / ROAD_DURATION, 1);
+        const elapsed = timestamp - startTime;
+        const rawP    = Math.min(elapsed / ROAD_DURATION, 1);
 
         ctx.clearRect(0, 0, W, H);
         drawSky();
@@ -1091,6 +1153,7 @@
         });
 
         drawCliff();
+        drawAfghanFlag(timestamp);
         drawValley();
         drawRoad(rawP);
         drawModernBuildings(rawP);
