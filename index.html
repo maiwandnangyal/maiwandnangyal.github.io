@@ -659,9 +659,312 @@
     <!-- ==================== END PASHTO PAGE ==================== -->
 
     <footer>
-<p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-    </footer>
+    <canvas id="radcliffeCanvas" width="760" height="120" style="width:100%; height:auto; display:block; margin-bottom: 12px;"></canvas>
+    <p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</footer>
+
+<script>
+(function () {
+    const canvas = document.getElementById('radcliffeCanvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width;
+    const H = canvas.height;
+
+    // Cloud state
+    const clouds = [
+        { x: 80,  y: 14, scale: 1.1, speed: 0.18 },
+        { x: 280, y: 8,  scale: 0.8, speed: 0.12 },
+        { x: 480, y: 18, scale: 1.0, speed: 0.15 },
+        { x: 650, y: 10, scale: 0.7, speed: 0.20 },
+    ];
+
+    // Bird state — each bird has position, wing phase, speed
+    const birds = Array.from({ length: 7 }, (_, i) => ({
+        x: 100 + i * 90,
+        y: 18 + Math.sin(i * 1.3) * 12,
+        speed: 0.25 + Math.random() * 0.2,
+        wingPhase: Math.random() * Math.PI * 2,
+        wingSpeed: 2.5 + Math.random() * 1.5,
+        size: 2.5 + Math.random() * 1.5,
+    }));
+
+    function drawSky() {
+        const grad = ctx.createLinearGradient(0, 0, 0, H * 0.72);
+        grad.addColorStop(0, '#5ba3d9');
+        grad.addColorStop(0.5, '#87ceeb');
+        grad.addColorStop(1, '#c9e8f5');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, W, H * 0.72);
+    }
+
+    function drawGround() {
+        // Ground — Oxford grass green
+        const grad = ctx.createLinearGradient(0, H * 0.72, 0, H);
+        grad.addColorStop(0, '#5a8f35');
+        grad.addColorStop(1, '#3d6b22');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, H * 0.72, W, H * 0.28);
+
+        // Path/cobblestone foreground strip
+        ctx.fillStyle = '#b8a98a';
+        ctx.fillRect(W * 0.3, H * 0.78, W * 0.4, H * 0.07);
+        // Path lines
+        ctx.strokeStyle = '#a09070';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < 8; i++) {
+            ctx.beginPath();
+            ctx.moveTo(W * 0.3 + i * (W * 0.4 / 8), H * 0.78);
+            ctx.lineTo(W * 0.3 + i * (W * 0.4 / 8), H * 0.85);
+            ctx.stroke();
+        }
+    }
+
+    function drawCloud(x, y, scale) {
+        ctx.fillStyle = 'rgba(255,255,255,0.92)';
+        ctx.shadowColor = 'rgba(180,200,220,0.4)';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(x,           y,           12 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 16*scale, y - 5*scale, 15 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 32*scale, y,           11 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 22*scale, y + 4*scale, 10 * scale, 0, Math.PI * 2);
+        ctx.arc(x + 8*scale,  y + 3*scale, 9  * scale, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+    }
+
+    function drawBird(x, y, wingAngle, size) {
+        ctx.strokeStyle = '#1a1a2e';
+        ctx.lineWidth = size * 0.6;
+        ctx.lineCap = 'round';
+
+        // Left wing
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(
+            x - size * 3, y - Math.sin(wingAngle) * size * 2.5,
+            x - size * 6, y + Math.sin(wingAngle) * size * 0.5
+        );
+        ctx.stroke();
+
+        // Right wing
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.quadraticCurveTo(
+            x + size * 3, y - Math.sin(wingAngle) * size * 2.5,
+            x + size * 6, y + Math.sin(wingAngle) * size * 0.5
+        );
+        ctx.stroke();
+
+        // Small body
+        ctx.fillStyle = '#1a1a2e';
+        ctx.beginPath();
+        ctx.ellipse(x, y, size * 1.2, size * 0.5, 0, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    function drawRadcliffe() {
+        const cx = W / 2;
+        const baseY = H * 0.72;
+        const drumBase = baseY - 10;
+
+        // ── Shadow on ground ──
+        ctx.fillStyle = 'rgba(0,0,0,0.08)';
+        ctx.beginPath();
+        ctx.ellipse(cx, baseY + 2, 62, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // ── Steps / plinth ──
+        [[68, 6], [62, 5], [56, 4]].forEach(([hw, h], i) => {
+            const stepY = drumBase - i * 4;
+            ctx.fillStyle = i === 0 ? '#d4c9b0' : i === 1 ? '#ccc0a6' : '#c4b898';
+            ctx.fillRect(cx - hw, stepY, hw * 2, h);
+            // Step edge
+            ctx.fillStyle = 'rgba(0,0,0,0.08)';
+            ctx.fillRect(cx - hw, stepY + h - 1, hw * 2, 1);
+        });
+
+        const plinthTop = drumBase - 12;
+
+        // ── Main drum (circular base) ──
+        const drumH = 38;
+        const drumTop = plinthTop - drumH;
+        const drumW = 52;
+
+        // Drum body gradient
+        const drumGrad = ctx.createLinearGradient(cx - drumW, 0, cx + drumW, 0);
+        drumGrad.addColorStop(0,   '#b8a98a');
+        drumGrad.addColorStop(0.3, '#d4c9b0');
+        drumGrad.addColorStop(0.5, '#e8dfc8');
+        drumGrad.addColorStop(0.7, '#d4c9b0');
+        drumGrad.addColorStop(1,   '#a89878');
+        ctx.fillStyle = drumGrad;
+        ctx.fillRect(cx - drumW, drumTop, drumW * 2, drumH);
+
+        // Pilaster columns on drum — evenly spaced
+        const numCols = 10;
+        for (let i = 0; i <= numCols; i++) {
+            const px = cx - drumW + i * (drumW * 2 / numCols);
+            // Column shaft
+            ctx.fillStyle = 'rgba(255,255,255,0.18)';
+            ctx.fillRect(px - 1.5, drumTop + 2, 3, drumH - 4);
+            // Column shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.12)';
+            ctx.fillRect(px + 1, drumTop + 2, 1, drumH - 4);
+        }
+
+        // Drum top cornice
+        ctx.fillStyle = '#c8b896';
+        ctx.fillRect(cx - drumW - 2, drumTop, drumW * 2 + 4, 5);
+        ctx.fillStyle = '#ddd0b4';
+        ctx.fillRect(cx - drumW - 2, drumTop, drumW * 2 + 4, 2);
+
+        // Drum bottom cornice
+        ctx.fillStyle = '#c8b896';
+        ctx.fillRect(cx - drumW - 2, plinthTop - 6, drumW * 2 + 4, 6);
+
+        // ── Arched windows on drum ──
+        const winCount = 6;
+        for (let i = 0; i < winCount; i++) {
+            const wx = cx - drumW + 5 + i * ((drumW * 2 - 10) / winCount);
+            const wy = drumTop + 8;
+            const ww = 10;
+            const wh = 16;
+
+            // Window recess
+            ctx.fillStyle = '#8a9db5';
+            ctx.beginPath();
+            ctx.moveTo(wx, wy + wh);
+            ctx.lineTo(wx, wy + wh * 0.4);
+            ctx.quadraticCurveTo(wx, wy, wx + ww/2, wy);
+            ctx.quadraticCurveTo(wx + ww, wy, wx + ww, wy + wh * 0.4);
+            ctx.lineTo(wx + ww, wy + wh);
+            ctx.closePath();
+            ctx.fill();
+
+            // Window glass reflection
+            ctx.fillStyle = 'rgba(255,255,255,0.15)';
+            ctx.beginPath();
+            ctx.moveTo(wx + 1, wy + wh * 0.5);
+            ctx.lineTo(wx + 1, wy + wh * 0.35);
+            ctx.quadraticCurveTo(wx + 1, wy + 2, wx + ww/2, wy + 2);
+            ctx.lineTo(wx + ww * 0.4, wy + wh * 0.5);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // ── Lantern / dome base ──
+        const lantBaseY = drumTop;
+        const lantH = 22;
+        const lantW = 28;
+
+        const lantGrad = ctx.createLinearGradient(cx - lantW, 0, cx + lantW, 0);
+        lantGrad.addColorStop(0,   '#a89878');
+        lantGrad.addColorStop(0.4, '#d4c9b0');
+        lantGrad.addColorStop(0.6, '#e8dfc8');
+        lantGrad.addColorStop(1,   '#a89878');
+        ctx.fillStyle = lantGrad;
+        ctx.fillRect(cx - lantW, lantBaseY - lantH, lantW * 2, lantH);
+
+        // Lantern columns
+        for (let i = 0; i <= 7; i++) {
+            const px = cx - lantW + i * (lantW * 2 / 7);
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.fillRect(px - 1, lantBaseY - lantH + 2, 2, lantH - 4);
+        }
+
+        // Lantern cornice
+        ctx.fillStyle = '#c8b896';
+        ctx.fillRect(cx - lantW - 2, lantBaseY - lantH, lantW * 2 + 4, 4);
+
+        // ── Dome ──
+        const domeBaseY = lantBaseY - lantH;
+        const domeH = 30;
+        const domeW = 30;
+
+        // Dome gradient — curved highlight
+        const domeGrad = ctx.createRadialGradient(cx - 6, domeBaseY - domeH * 0.6, 2, cx, domeBaseY, domeW);
+        domeGrad.addColorStop(0,   '#f0e8d0');
+        domeGrad.addColorStop(0.4, '#d8ccb0');
+        domeGrad.addColorStop(0.7, '#c0b090');
+        domeGrad.addColorStop(1,   '#a89070');
+        ctx.fillStyle = domeGrad;
+
+        ctx.beginPath();
+        ctx.moveTo(cx - domeW, domeBaseY);
+        ctx.quadraticCurveTo(cx - domeW, domeBaseY - domeH * 0.6, cx, domeBaseY - domeH);
+        ctx.quadraticCurveTo(cx + domeW, domeBaseY - domeH * 0.6, cx + domeW, domeBaseY);
+        ctx.closePath();
+        ctx.fill();
+
+        // Dome highlight
+        ctx.fillStyle = 'rgba(255,255,255,0.12)';
+        ctx.beginPath();
+        ctx.moveTo(cx - 10, domeBaseY);
+        ctx.quadraticCurveTo(cx - 12, domeBaseY - domeH * 0.5, cx - 2, domeBaseY - domeH * 0.9);
+        ctx.quadraticCurveTo(cx + 2, domeBaseY - domeH * 0.6, cx + 4, domeBaseY);
+        ctx.closePath();
+        ctx.fill();
+
+        // ── Lantern top (small cupola) ──
+        const cupolaY = domeBaseY - domeH;
+        ctx.fillStyle = '#c8b896';
+        ctx.fillRect(cx - 7, cupolaY - 8, 14, 8);
+        ctx.fillStyle = '#d4c9b0';
+        ctx.fillRect(cx - 5, cupolaY - 14, 10, 6);
+
+        // ── Finial / ball and spike ──
+        ctx.beginPath();
+        ctx.arc(cx, cupolaY - 16, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#c8a850';
+        ctx.fill();
+        ctx.strokeStyle = '#a88830';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        ctx.strokeStyle = '#a88830';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(cx, cupolaY - 19);
+        ctx.lineTo(cx, cupolaY - 27);
+        ctx.stroke();
+    }
+
+    function draw(timestamp) {
+        const t = timestamp / 1000;
+
+        ctx.clearRect(0, 0, W, H);
+
+        drawSky();
+        drawGround();
+
+        // Animate clouds — move right, wrap around
+        clouds.forEach(c => {
+            c.x += c.speed;
+            if (c.x > W + 80) c.x = -80;
+            drawCloud(c.x, c.y, c.scale);
+        });
+
+        // Animate birds — move right, wrap, flap wings
+        birds.forEach(b => {
+            b.x += b.speed;
+            b.wingPhase += b.wingSpeed * 0.016;
+            if (b.x > W + 30) {
+                b.x = -30;
+                b.y = 10 + Math.random() * 30;
+            }
+            drawBird(b.x, b.y, b.wingPhase, b.size);
+        });
+
+        drawRadcliffe();
+
+        requestAnimationFrame(draw);
+    }
+
+    requestAnimationFrame(draw);
+})();
+</script>
 
 <script>
 (function () {
