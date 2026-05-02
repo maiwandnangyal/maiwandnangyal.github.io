@@ -4,849 +4,697 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maiwand Nangyal</title>
-
+    
     <link rel="icon" type="image/x-icon" href="https://www.ox.ac.uk/sites/files/oxford/favicon.ico">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        :root {
-            --oxford-navy: #002147;
-            --oxford-navy-light: #003d7a;
-            --oxford-navy-dark: #001631;
-            --accent-gold: #b89c4a;
-            --accent-gold-soft: #d4b864;
-            --bg-warm: #fdfcf9;
-            --bg-soft: #f7f5ef;
-            --border-soft: #e8e4d9;
-            --border-medium: #d6d2c6;
-            --text-primary: #1a1a1a;
-            --text-secondary: #4a4a4a;
-            --text-tertiary: #6b6b6b;
-            --link: #0b4f8c;
-            --link-hover: #002147;
-        }
-
-        * { box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            font-size: 16.5px;
-            color: var(--text-primary);
-            background: var(--bg-warm);
-            line-height: 1.7;
-            max-width: 920px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 2em 1.8em 3em;
-            font-feature-settings: "kern", "liga", "calt";
-            -webkit-font-smoothing: antialiased;
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background-color: #fafbfc;
         }
-
-        /* ===== NAVIGATION ===== */
+        
         nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1em;
-            padding: 0.9em 0 1em;
-            margin-bottom: 1.5em;
-            border-bottom: 1px solid var(--border-soft);
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,33,71,0.05);
         }
-
-        .nav-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.2em;
-            align-items: center;
-        }
-
-        nav a.nav-item {
-            color: var(--text-secondary);
+        
+        nav a {
+            margin-right: 30px;
+            color: #003366;
             text-decoration: none;
             font-weight: 500;
-            font-size: 0.96em;
-            padding: 0.45em 0.9em;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            letter-spacing: 0.01em;
+            transition: color 0.3s ease;
         }
-
-        nav a.nav-item:hover {
-            color: var(--oxford-navy);
-            background: var(--bg-soft);
+        
+        nav a:hover {
+            color: #0066cc;
+            text-decoration: underline;
         }
-
-        nav a.nav-item.active {
-            color: var(--oxford-navy);
+        
+        nav a.active {
+            color: #002147;
             font-weight: 600;
-            background: var(--bg-soft);
         }
-
-        #bamyanNavCanvas {
-            display: block;
-            border-radius: 4px;
-            flex-shrink: 0;
-        }
-
-        /* ===== TYPOGRAPHY ===== */
-        h1, h2, h3 {
-            font-family: 'Source Serif 4', Georgia, "Times New Roman", serif;
-            color: var(--oxford-navy);
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
-
+        
         h1 {
-            font-size: 2.4em;
-            line-height: 1.15;
-            margin: 0 0 0.3em;
+            font-size: 2em;
+            margin-bottom: 20px;
             font-weight: 600;
+            color: #002147;
         }
-
+        
+        .content {
+            margin-top: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 12px rgba(0,33,71,0.08);
+            border-left: 4px solid #0066cc;
+        }
+        
+        .intro {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            color: #003366;
+            font-weight: 500;
+        }
+        
+        .section {
+            margin: 40px 0;
+        }
+        
         h2 {
-            font-size: 1.5em;
-            line-height: 1.25;
-            margin: 1.8em 0 0.6em;
-            padding-bottom: 0.35em;
-            border-bottom: 1px solid var(--border-soft);
+            font-size: 1.4em;
+            margin-bottom: 15px;
             font-weight: 600;
+            color: #002147;
+            border-bottom: 2px solid #e6f2ff;
+            padding-bottom: 8px;
         }
-
-        h3 {
-            font-size: 1.15em;
-            line-height: 1.3;
-            margin: 1.3em 0 0.4em;
-            font-weight: 600;
-            color: var(--oxford-navy-light);
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
         }
-
-        p { margin: 0.7em 0; }
-
+        
+        li {
+            margin: 8px 0;
+            color: #003366;
+        }
+        
         a {
-            color: var(--link);
+            color: #0066cc;
             text-decoration: none;
-            transition: color 0.15s ease;
-            border-bottom: 1px solid transparent;
+            transition: color 0.3s ease;
         }
-
+        
         a:hover {
-            color: var(--link-hover);
-            border-bottom-color: var(--link-hover);
+            color: #002147;
+            text-decoration: underline;
         }
-
-        strong { color: var(--text-primary); font-weight: 600; }
-        em { color: var(--text-secondary); }
-
-        /* ===== HOME HERO ===== */
-        .hero {
-            display: grid;
-            grid-template-columns: 1fr auto;
-            gap: 2.2em;
-            align-items: center;
-            margin-bottom: 2em;
-            padding-bottom: 2em;
-            border-bottom: 1px solid var(--border-soft);
+        
+        .hide {
+            display: none;
         }
-
-        .hero-text h1 {
-            font-size: 2.7em;
-            margin-bottom: 0.4em;
+        
+        .research-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #d6e8f5;
         }
-
-        .hero-roles {
-            font-size: 1.08em;
-            color: var(--text-secondary);
-            line-height: 1.55;
+        
+        .research-item:last-child {
+            border-bottom: none;
         }
-
-        .hero-roles div { margin: 0.15em 0; }
-
+        
+        .research-item strong {
+            color: #002147;
+        }
+        
+        .research-item em {
+            color: #003366;
+        }
+        
         .profile-photo {
-            width: 250px;
-            height: 250px;
+            float: right;
+            margin: 0 0 20px 30px;
+            max-width: 325px;
+            width: 374px;
+            height: 374px;
             border-radius: 50%;
+            box-shadow: none;
+            border: none;
             object-fit: cover;
             object-position: center;
-            border: 3px solid var(--bg-soft);
-            box-shadow: 0 4px 24px rgba(0, 33, 71, 0.10);
-        }
-
-        .home-bio p { margin: 0.9em 0; }
-
-        .home-bio p:first-child::first-letter {
-            font-family: 'Source Serif 4', serif;
-            font-size: 1em;
-        }
-
-        /* ===== RESEARCH ITEMS ===== */
-        .research-item {
-            margin: 1.1em 0;
-            padding: 1.1em 1.3em;
-            background: var(--bg-soft);
-            border-left: 3px solid var(--oxford-navy);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .research-item .item-title {
-            display: block;
-            font-weight: 600;
-            color: var(--oxford-navy);
-            margin-bottom: 0.4em;
-            font-size: 1.02em;
-            line-height: 1.45;
-        }
-
-        .research-item .item-meta {
-            display: block;
-            color: var(--text-secondary);
-            font-size: 0.96em;
-            margin: 0.3em 0;
-        }
-
-        .research-item .status {
-            display: inline-block;
-            margin-top: 0.4em;
-            font-size: 0.88em;
-            color: var(--text-tertiary);
-            font-style: italic;
-        }
-
-        /* ===== ACADEMIC TABLES (booktabs style) ===== */
-        .table-wrap {
-            margin: 1em 0 1.5em;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 0.95em;
-            background: white;
-            font-feature-settings: "tnum";
-        }
-
-        thead tr {
-            border-top: 2px solid var(--oxford-navy);
-            border-bottom: 1px solid var(--oxford-navy);
-        }
-
-        thead th {
-            padding: 0.85em 1em;
-            text-align: left;
-            font-weight: 600;
-            color: var(--oxford-navy);
             background: transparent;
-            font-family: 'Source Serif 4', serif;
-            font-size: 1em;
-            letter-spacing: 0.01em;
+        }
+        
+        .home-bio {
+            text-align: justify;
+            margin-bottom: 30px;
+        }
+        
+        .address-container {
+            display: flex;
+            gap: 4rem;
+        }
+        
+        .address-box {
+            min-width: 200px;
+        }
+        
+        .course-title-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
         }
 
-        tbody tr {
-            border-bottom: 1px solid var(--border-soft);
-            transition: background 0.15s ease;
-        }
-
-        tbody tr:hover {
-            background: var(--bg-soft);
-        }
-
-        tbody tr:last-child {
-            border-bottom: 2px solid var(--oxford-navy);
-        }
-
-        tbody td {
-            padding: 0.85em 1em;
-            vertical-align: top;
-            color: var(--text-primary);
-            line-height: 1.55;
-        }
-
-        tbody td:first-child {
-            font-weight: 600;
-            color: var(--oxford-navy);
-            white-space: nowrap;
-            width: 1%;
-        }
-
-        .reading-cite {
-            font-size: 0.94em;
-            line-height: 1.55;
-        }
-
-        .reading-cite .doi {
-            display: block;
-            margin-top: 0.25em;
-            color: var(--text-tertiary);
-            font-size: 0.92em;
-        }
-
-        td.access-cell {
-            white-space: nowrap;
-        }
-
-        .solo-link {
-            display: inline-block;
-            padding: 0.25em 0.7em;
-            background: var(--oxford-navy);
-            color: white !important;
-            border-radius: 3px;
-            font-size: 0.85em;
-            font-weight: 500;
-            border: none !important;
-            transition: background 0.15s ease;
-        }
-
-        .solo-link:hover {
-            background: var(--oxford-navy-light);
-            color: white !important;
-        }
-
-        .footnote {
-            font-size: 0.86em;
-            color: var(--text-tertiary);
-            line-height: 1.55;
-            margin-top: 0.6em;
-        }
-
-        /* ===== TEACHING DETAILS ===== */
-        details {
-            margin: 1em 0;
-            border: 1px solid var(--border-soft);
-            border-radius: 6px;
-            background: white;
-            overflow: hidden;
-        }
-
-        details[open] { box-shadow: 0 1px 4px rgba(0,33,71,0.04); }
-
-        summary {
-            cursor: pointer;
-            font-family: 'Source Serif 4', serif;
-            font-weight: 600;
-            font-size: 1.08em;
-            color: var(--oxford-navy);
-            padding: 1em 1.2em;
-            background: var(--bg-soft);
-            list-style: none;
+        .accordion-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 14px 16px;
+            cursor: pointer;
+            background-color: #f0f6ff;
+            border-left: 4px solid #002147;
+            user-select: none;
         }
 
-        summary::-webkit-details-marker { display: none; }
-
-        summary::after {
-            content: "+";
-            font-size: 1.3em;
-            color: var(--oxford-navy);
-            font-weight: 400;
-            transition: transform 0.2s ease;
+        .accordion-header:hover {
+            background-color: #e6f0fa;
         }
 
-        details[open] summary::after {
-            content: "−";
+        .accordion-chevron {
+            color: #002147;
+            font-size: 1.1em;
+            transition: transform 0.3s;
+        }
+        
+        footer {
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid #e6f2ff;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9em;
         }
 
-        .details-content {
-            padding: 1.2em 1.4em 1.4em;
-        }
-
-        .course-meta {
-            color: var(--text-secondary);
-            font-size: 0.96em;
-            padding-bottom: 1em;
-            border-bottom: 1px dashed var(--border-soft);
-            margin-bottom: 0.5em;
-        }
-
-        /* ===== CONTACT ===== */
-        .contact-list {
-            display: grid;
-            grid-template-columns: max-content 1fr;
-            gap: 0.5em 1.5em;
-            margin: 0.5em 0 1em;
-        }
-
-        .contact-list strong { color: var(--oxford-navy); }
-
-        .address-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5em 2.5em;
-            margin: 1em 0;
-        }
-
-        .address-box p {
-            margin: 0.2em 0;
-            line-height: 1.5;
-        }
-
-        .address-box strong {
-            display: block;
-            color: var(--oxford-navy);
-            margin-bottom: 0.3em;
-            font-size: 0.95em;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        ul.clean-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        ul.clean-list li {
-            padding: 0.4em 0;
-            border-bottom: 1px solid var(--border-soft);
-        }
-
-        ul.clean-list li:last-child { border-bottom: none; }
-
-        /* ===== UTILITY ===== */
-        .hide { display: none; }
-
-        /* ===== PASHTO ===== */
         .pashto-content {
             font-family: 'Noto Naskh Arabic', serif;
             direction: rtl;
             text-align: right;
-            font-size: 1.1em;
-            line-height: 2.05;
+            font-size: 1.15em;
+            line-height: 2.2;
+            color: #1a1a1a;
         }
 
         .pashto-content h1 {
             font-family: 'Noto Naskh Arabic', serif;
             text-align: right;
-            font-size: 2.3em;
         }
 
-        .pashto-content .hero-roles {
+        .pashto-content .intro {
             font-family: 'Noto Naskh Arabic', serif;
             text-align: right;
         }
 
         .pashto-content p {
+            margin-bottom: 1.2em;
             text-align: justify;
-            margin-bottom: 1em;
         }
-
-        .pashto-content .hero {
-            grid-template-columns: auto 1fr;
-        }
-
-        /* ===== FOOTER ===== */
-        footer {
-            margin-top: 3em;
-            padding-top: 1.5em;
-            border-top: 1px solid var(--border-soft);
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 0.9em;
-        }
-
-        #bamyanCanvas {
-            width: 100%;
-            max-width: 760px;
-            height: auto;
-            display: block;
-            margin: 0 auto 1em;
-            border-radius: 6px;
-        }
-
-        footer p { margin: 0.4em 0; }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 700px) {
-            body { padding: 1.2em 1em 2em; font-size: 16px; }
-
-            .hero {
-                grid-template-columns: 1fr;
-                gap: 1.4em;
-                text-align: center;
-            }
-
-            .hero-text h1 { font-size: 2.1em; }
+        
+        @media (max-width: 600px) {
             .profile-photo {
-                width: 200px;
-                height: 200px;
-                margin: 0 auto;
+                float: none;
+                display: block;
+                margin: 0 auto 20px auto;
+                max-width: 244px;
+                width: 293px;
+                height: 293px;
             }
-
-            h1 { font-size: 1.9em; }
-            h2 { font-size: 1.3em; }
-
-            .address-container,
-            .contact-list {
-                grid-template-columns: 1fr;
-                gap: 0.4em;
+            
+            nav a {
+                margin-right: 15px;
+                font-size: 0.9em;
             }
-
-            nav { gap: 0.5em; }
-            nav a.nav-item {
-                padding: 0.35em 0.65em;
-                font-size: 0.92em;
+            
+            .address-container {
+                flex-direction: column;
+                gap: 1rem;
             }
-
-            #bamyanNavCanvas {
-                width: 180px;
-                height: 56px;
+            
+            .address-box {
+                min-width: auto;
             }
-
-            .pashto-content .hero {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #bamyanNavCanvas { display: none; }
-            .nav-links { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
-
-<nav>
-    <div class="nav-links">
-        <a href="#" onclick="showSection('home'); return false;" class="nav-item active" id="home-link">Home</a>
-        <a href="#" onclick="showSection('research'); return false;" class="nav-item" id="research-link">Research</a>
-        <a href="#" onclick="showSection('cv'); return false;" class="nav-item" id="cv-link">CV</a>
-        <a href="#" onclick="showSection('teaching'); return false;" class="nav-item" id="teaching-link">Teaching</a>
-        <a href="#" onclick="showSection('contact'); return false;" class="nav-item" id="contact-link">Contact</a>
-        <a href="#" onclick="showSection('pashto'); return false;" class="nav-item" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif; font-size: 1.05em;">پښتو</a>
-    </div>
-    <canvas id="bamyanNavCanvas" width="220" height="70"></canvas>
-</nav>
-
-<!-- ============ HOME ============ -->
-<section id="home-section">
-    <div class="hero">
-        <div class="hero-text">
-            <h1>Maiwand Nangyal</h1>
-            <div class="hero-roles">
-                <div>DPhil Candidate in Economics, <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">University of Oxford</a></div>
-                <div>Director of Research, <a href="https://dataforafghanistan.org/about/" target="_blank">Data for Afghanistan</a></div>
-            </div>
+    <nav style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <div>
+            <a href="#" onclick="showSection('home')" class="active" id="home-link">Home</a>
+            <a href="#" onclick="showSection('research')" id="research-link">Research</a>
+            <a href="#" onclick="showSection('cv')" id="cv-link">CV</a>
+            <a href="#" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
+            <a href="#" onclick="showSection('contact')" id="contact-link">Contact</a>
+            <a href="#" onclick="showSection('pashto')" id="pashto-link" style="font-family: 'Noto Naskh Arabic', serif;">پښتو</a>
         </div>
+        <canvas id="bamyanNavCanvas" width="220" height="70" style="display: block; flex-shrink: 0; border-radius: 4px;"></canvas>
+    </nav>
+
+    <div id="home-section" class="content">
+        <h1>Maiwand Nangyal</h1>
+        <p class="intro">DPhil Candidate in Economics at the <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">University of Oxford</a></p>
+        <p class="intro">Director of Research at <a href="https://dataforafghanistan.org/about/" target="_blank">Data for Afghanistan</a></p>
+
         <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo">
+        
+        <div class="home-bio">
+            <p><strong>Welcome!</strong> I'm Maiwand Nangyal, a DPhil Candidate in Economics at the University of Oxford, generously funded by the ESRC, grateful to be studying at the joint-best university in the world (tied with Cambridge in my opinion 😊).</p>
+            
+            <p>My PhD research investigates how colonial institutions shaped long-run development in South Asia, combining Development Economics, Economic History and Political Economy with modern Econometrics and Machine Learning. My current work traces the lasting economic legacy of British administrative policy in western British India - exploiting heterogeneous inter-regional variation in colonial governance to identify divergent long-run development outcomes - with direct implications for how we think about state capacity, institutional design, and development policy today.</p>
+            
+            <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a proud member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside my doctoral research, I serve as Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform producing high-quality data and visualisations for empirical research on Afghanistan (one of the world's most data-scarce, conflict-affected countries).</p>
+            
+            <p><em>Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</em></p>
+        </div>
     </div>
 
-    <div class="home-bio">
-        <p><strong>Welcome!</strong> I'm Maiwand Nangyal, a DPhil Candidate in Economics at the University of Oxford, generously funded by the ESRC, grateful to be studying at the joint-best university in the world (tied with Cambridge in my opinion 😊).</p>
+    <div id="research-section" class="content hide">
+        <h1>Research</h1>
 
-        <p>My PhD research investigates how colonial institutions shaped long-run development in South Asia, combining Development Economics, Economic History and Political Economy with modern Econometrics and Machine Learning. My current work traces the lasting economic legacy of British administrative policy in western British India — exploiting heterogeneous inter-regional variation in colonial governance to identify divergent long-run development outcomes — with direct implications for how we think about state capacity, institutional design, and development policy today.</p>
+        <div class="section">
+            <h2>Working Papers</h2>
+            <div class="research-item">
+                <strong>The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</strong><br>
+                <em>Co-authored with <a href="https://www.ahmadziawahdat.com/" target="_blank">Dr Ahmad Zia Wahdat</a></em><br>
+                Status: Under Development
+            </div>
+        </div>
 
-        <p>I'm supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a>, and am a proud member of <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College</a>. Alongside my doctoral research, I serve as Director of Research at <a href="https://dataforafghanistan.org/" target="_blank">Data for Afghanistan</a>, a platform producing high-quality data and visualisations for empirical research on Afghanistan (one of the world's most data-scarce, conflict-affected countries).</p>
-
-        <p><em>Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</em></p>
+        <div class="section">
+            <h2>DPhil Research Chapters</h2>
+            <div class="research-item">
+                <strong>Chapter 1: The Fate of Koh-i-Noor: Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1901–2023</strong><br>
+                Status: In Progress
+            </div>
+            <div class="research-item">
+                <strong>Chapter 2:</strong> To be confirmed
+            </div>
+            <div class="research-item">
+                <strong>Chapter 3:</strong> To be confirmed
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Current Data Projects</h2>
+            <div class="research-item">
+                <strong>Data for Afghanistan</strong><br>
+                <em>Director of Research (Feb 2025 – Present): Collaborating with <a href="https://www.ahmadziawahdat.com/" target="_blank">Dr Ahmad Zia Wahdat</a> to compile datasets and visualisations on Afghanistan for empirical research.</em><br>
+                Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Presentations</h2>
+            <div class="research-item">
+                <strong>Oxford Graduate Seminar in Economic and Social History, Nuffield College</strong> (November 2025)<br>
+                <em>Presented DPhil Chapter 1 research to the Economic &amp; Social History graduate seminar at Nuffield College, receiving feedback from faculty members and graduate students across Economic and Social History and Economics.</em>
+            </div>
+            <div class="research-item">
+                <strong>32nd Annual Graduate Workshop, Nuffield College</strong> (April 2024)<br>
+                <em>Presented MSc dissertation research to the Economic &amp; Social History research group at Nuffield College, with an audience including Professors Sheilagh Ogilvie and Joel Mokyr (joint 2025 Nobel laureate in Economic Sciences), and incorporated their feedback into the final dissertation.</em>
+            </div>
+        </div>
     </div>
-</section>
 
-<!-- ============ RESEARCH ============ -->
-<section id="research-section" class="hide">
-    <h1>Research</h1>
-
-    <h2>Working Papers</h2>
-    <div class="research-item">
-        <span class="item-title">The Game of Thorns: Empirically Analysing the Impact of Opium Cultivation on Terrorism within Afghanistan 1994–2017</span>
-        <span class="item-meta"><em>Co-authored with <a href="https://www.ahmadziawahdat.com/" target="_blank">Dr Ahmad Zia Wahdat</a></em></span>
-        <span class="status">Status: Under Development</span>
-    </div>
-
-    <h2>DPhil Research Chapters</h2>
-    <div class="research-item">
-        <span class="item-title">Chapter 1: The Fate of Koh-i-Noor — Analysing the Economic Impact of British Colonial Policies in Khyber Pakhtunkhwa and Balochistan, 1901–2023</span>
-        <span class="status">Status: In Progress</span>
-    </div>
-    <div class="research-item">
-        <span class="item-title">Chapter 2:</span> To be confirmed
-    </div>
-    <div class="research-item">
-        <span class="item-title">Chapter 3:</span> To be confirmed
-    </div>
-
-    <h2>Current Data Projects</h2>
-    <div class="research-item">
-        <span class="item-title">Data for Afghanistan</span>
-        <span class="item-meta"><em>Director of Research (Feb 2025 – Present): Collaborating with <a href="https://www.ahmadziawahdat.com/" target="_blank">Dr Ahmad Zia Wahdat</a> to compile datasets and visualisations on Afghanistan for empirical research.</em></span>
-        Website: <a href="https://dataforafghanistan.org/posts" target="_blank">dataforafghanistan.org</a>
-    </div>
-
-    <h2>Presentations</h2>
-    <div class="research-item">
-        <span class="item-title">Oxford Graduate Seminar in Economic and Social History, Nuffield College</span> (November 2025)
-        <span class="item-meta"><em>Presented DPhil Chapter 1 research to the Economic &amp; Social History graduate seminar at Nuffield College, receiving feedback from faculty members and graduate students across Economic and Social History and Economics.</em></span>
-    </div>
-    <div class="research-item">
-        <span class="item-title">32nd Annual Graduate Workshop, Nuffield College</span> (April 2024)
-        <span class="item-meta"><em>Presented MSc dissertation research to the Economic &amp; Social History research group at Nuffield College, with an audience including Professors Sheilagh Ogilvie and Joel Mokyr (joint 2025 Nobel laureate in Economic Sciences), and incorporated their feedback into the final dissertation.</em></span>
-    </div>
-</section>
-
-<!-- ============ CV ============ -->
-<section id="cv-section" class="hide">
-    <h1>Curriculum Vitae</h1>
-    <p>Please <a href="Maiwand_Nangyal_CV_Website_v25.pdf" target="_blank" rel="noopener">click here</a> for my latest CV. My full academic CV will be made publicly available when I am a Job Market Candidate. For the full version prior to that, please contact me at <a href="mailto:mn529@cantab.ac.uk">mn529@cantab.ac.uk</a>.</p>
-</section>
-
-<!-- ============ TEACHING ============ -->
-<section id="teaching-section" class="hide">
-    <h1>Teaching</h1>
-
-    <h2>Current Courses</h2>
-
-    <details open>
-        <summary>(1) Economics for Economic Historians (EfEH) — Hilary Term 2026</summary>
-        <div class="details-content">
-
-            <p class="course-meta">
-                <strong style="color: var(--oxford-navy);">Format:</strong> Eight 2-hour classes &nbsp;·&nbsp;
-                <strong style="color: var(--oxford-navy);">Office Hours:</strong> Mondays, 5–6pm, Seminar Room F, Manor Road Building
+    <div id="cv-section" class="content hide">
+        <h1>Curriculum Vitae</h1>
+        <div class="section">
+            <p>
+                Please <a href="Maiwand_Nangyal_CV_Website_v25.pdf" target="_blank" rel="noopener">click here</a> for my latest CV.
+                My full academic CV will be made publicly available when I am a Job Market Candidate.
+                For the full version prior to that, please contact me at
+                <a href="mailto:mn529@cantab.ac.uk">mn529@cantab.ac.uk</a>.
             </p>
-
-            <h3>Course Structure</h3>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th style="width: 80px;">Week</th><th>Content</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>1</td><td>Introduction to Economics</td></tr>
-                        <tr><td>2–3</td><td>Microeconomics</td></tr>
-                        <tr><td>4</td><td>Trade and Development</td></tr>
-                        <tr><td>5–6</td><td>Macroeconomics</td></tr>
-                        <tr><td>7</td><td>Applied Econometrics</td></tr>
-                        <tr><td>8</td><td>Final Presentations (10 minutes each)</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <h3>Week 8 Final Presentation</h3>
-            <p>Choose a topic you are interested in and apply the methods and concepts discussed in this course. You may base it on any (empirical) paper you have read or on your own work. Please send me your presentation in PDF or PowerPoint format to <a href="mailto:maiwand.nangyal@economics.ox.ac.uk">maiwand.nangyal@economics.ox.ac.uk</a> by the start of the Week 8 class.</p>
-
-            <h3>Course Materials</h3>
-            <p><a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank">Access lecture slides and resources</a> &nbsp;·&nbsp; <em>Password provided via email and in class to enrolled students.</em></p>
-
-            <h3>Recommended Textbooks (Optional)<sup>1</sup></h3>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th style="width: 200px;">Topic</th><th>Textbook</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Microeconomics</td><td><em>Microeconomics</em> (5th Edition) — David A. Besanko &amp; Ronald R. Braeutigam</td></tr>
-                        <tr><td>Trade</td><td><em>International Economics: Theory and Policy</em> (11th Edition) — Paul R. Krugman, Maurice Obstfeld &amp; Marc J. Melitz</td></tr>
-                        <tr><td>Macroeconomics</td><td><em>Macroeconomics</em> (5th Edition) — Stephen D. Williamson</td></tr>
-                        <tr><td>Macroeconomics</td><td><em>Advanced Macroeconomics</em> (5th Edition)<sup>2</sup> — David Romer</td></tr>
-                        <tr><td>Applied Econometrics</td><td><em>Mostly Harmless Econometrics: An Empiricist's Companion</em> — Joshua D. Angrist &amp; Jörn-Steffen Pischke</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="footnote"><sup>1</sup> Any edition is acceptable for all textbooks listed above. &nbsp;·&nbsp; <sup>2</sup> A more advanced book, suitable for those with intermediate macroeconomics training or those interested in advanced macro theory and models.</p>
-
-            <h3>Suggested Readings</h3>
-            <div class="table-wrap">
-                <table>
-                    <thead>
-                        <tr><th style="width: 65px;">Week</th><th>Reading</th><th style="width: 90px;">Access</th></tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td class="reading-cite">
-                                Margo, R. A. (2018). "The Integration of Economic History into Economics." <em>Cliometrica</em>, 12(3), 377–406.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1007/s11698-018-0170-8" target="_blank">10.1007/s11698-018-0170-8</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2108224768&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20integration%20of%20economic%20history%20into%20economics&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td class="reading-cite">
-                                Gale, D., &amp; Shapley, L. S. (1962). "College Admissions and the Stability of Marriage." <em>The American Mathematical Monthly</em>, 69(1), 9–15. (2013 reprint: 120(5), 386–391.)
-                                <span class="doi">DOI: <a href="https://doi.org/10.1080/00029890.1962.11989827" target="_blank">10.1080/00029890.1962.11989827</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_crossref_primary_10_4169_amer_math_monthly_120_05_386&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Gale%20Shapley%20College%20Admissions%20Stability%20Marriage&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td class="reading-cite">
-                                Roth, A. E., Sönmez, T., &amp; Ünver, M. U. (2004). "Kidney Exchange." <em>Quarterly Journal of Economics</em>, 119(2), 457–488.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1162/0033553041382157" target="_blank">10.1162/0033553041382157</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_56233616&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Kidney%20Exchange%20Citation%20Roth,%20Alvin%20E.,%20Tayfun%20S%C3%B6nmez%20and%20M.%20Utku%20%C3%9Cnver.%202004.%20Kidney%20exchange.&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td class="reading-cite">
-                                Autor, D., Dorn, D., &amp; Hanson, G. H. (2013). "The China Syndrome: Local Labor Market Effects of Import Competition in the United States." <em>American Economic Review</em>, 103(6), 2121–2168.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1257/aer.103.6.2121" target="_blank">10.1257/aer.103.6.2121</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466580376&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20China%20Syndrome:%20Local%20Labor%20Market%20Effects%20of%20Import%20Competition%20in%20the%20United%20States&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td class="reading-cite">
-                                Chetty, R., Grusky, D., Hell, M., Hendren, N., Manduca, R., &amp; Narang, J. (2017). "The Fading American Dream: Trends in Absolute Income Mobility Since 1940." <em>Science</em>, 356(6336), 398–406.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1126/science.aal4617" target="_blank">10.1126/science.aal4617</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1904248818&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Chetty,%20R.,%20Grusky,%20D.,%20Hell,%20M.,%20Hendren,%20N.,%20Manduca,%20R.,%20%26%20Narang,%20J.%20(2017).%20%22The%20Fading%20American%20Dream:%20Trends%20in%20Absolute%20Income%20Mobility%20Since%201940&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td class="reading-cite">
-                                Broadberry, S., &amp; Wallis, J. (2025). "Growing, Shrinking, and Long-Run Economic Performance: Historical Perspectives on Economic Development." <em>Journal of Economic History</em>, 85(2), 505–540.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1017/S0022050725000105" target="_blank">10.1017/S0022050725000105</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://doi.org/10.1017/S0022050725000105" target="_blank">Open</a></td>
-                        </tr>
-                        <tr>
-                            <td rowspan="3">7</td>
-                            <td class="reading-cite">
-                                Dell, M. (2010). "The Persistent Effects of Peru's Mining Mita." <em>Econometrica</em>, 78(6), 1863–1903.
-                                <span class="doi">DOI: <a href="https://doi.org/10.3982/ECTA8121" target="_blank">10.3982/ECTA8121</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_855183388&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20Persistent%20Effects%20of%20Peru%E2%80%99s%20Mining%20Mita,%20Dell%20(2010)" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td class="reading-cite">
-                                Chaney, E. (2013). "Revolt on the Nile: Economic Shocks, Religion, and Political Power." <em>Econometrica</em>, 81(5), 2033–2053.
-                                <span class="doi">DOI: <a href="https://doi.org/10.3982/ECTA10233" target="_blank">10.3982/ECTA10233</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466581317&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Revolt%20on%20the%20Nile:%20Economic%20Shocks,%20Religion%20and%20Political%20Power,%20Chaney%20(2013)" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td class="reading-cite">
-                                Bau, N. (2021). "Can Policy Change Culture? Government Pension Plans and Traditional Kinship Practices." <em>American Economic Review</em>, 111(6), 1880–1917.
-                                <span class="doi">DOI: <a href="https://doi.org/10.1257/aer.20190098" target="_blank">10.1257/aer.20190098</a></span>
-                            </td>
-                            <td class="access-cell"><a class="solo-link" href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2529786706&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Bau%20Can%20Policy%20Change%20Culture%202021&offset=0" target="_blank">SOLO</a></td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>N/A — Class Presentations</td>
-                            <td>—</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </details>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section id="contact-section" class="hide">
-    <h1>Contact</h1>
-
-    <div class="contact-list">
-        <strong>Personal Email:</strong>
-        <a href="mailto:mn529@cantab.ac.uk">mn529@cantab.ac.uk</a>
-
-        <strong>Academic Email:</strong>
-        <a href="mailto:maiwand.nangyal@economics.ox.ac.uk">maiwand.nangyal@economics.ox.ac.uk</a>
-
-        <strong>College:</strong>
-        <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College, University of Oxford</a>
-
-        <strong>Department:</strong>
-        <a href="https://www.economics.ox.ac.uk/home" target="_blank">Department of Economics, University of Oxford</a>
-    </div>
-
-    <div class="address-container">
-        <div class="address-box">
-            <strong>Department Address</strong>
-            <p>Department of Economics<br>
-            University of Oxford<br>
-            Manor Road Building<br>
-            Manor Road<br>
-            Oxford, OX1 3UQ<br>
-            United Kingdom</p>
-        </div>
-        <div class="address-box">
-            <strong>Postal Correspondence</strong>
-            <p>Wolfson College<br>
-            Linton Road<br>
-            Oxford, OX2 6UD<br>
-            United Kingdom</p>
         </div>
     </div>
 
-    <h2>Supervisors</h2>
-    <ul class="clean-list">
-        <li><strong><a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a></strong> &nbsp;·&nbsp; Primary Supervisor</li>
-        <li><strong><a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a></strong> &nbsp;·&nbsp; Secondary Supervisor</li>
-    </ul>
+    <div id="teaching-section" class="content hide">
+        <h1>Teaching</h1>
 
-    <h2>Academic Profiles</h2>
-    <ul class="clean-list">
-        <li><a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">Department of Economics, University of Oxford</a></li>
-        <li><a href="https://dataforafghanistan.org/about/" target="_blank">Data for Afghanistan</a></li>
-        <li><a href="https://uk.linkedin.com/in/maiwand-n-b59689106" target="_blank">LinkedIn</a></li>
-        <li><a href="https://www.granduniondtp.ac.uk/people/maiwand-nangyal" target="_blank">ESRC GU DTP</a></li>
-        <li><a href="https://gtr.ukri.org/person/17F45263-B9D4-4F89-B650-7190F57CFD45" target="_blank">UKRI</a></li>
-    </ul>
-</section>
+        <div class="section">
+            <h2>Current Courses</h2>
 
-<!-- ============ PASHTO ============ -->
-<section id="pashto-section" class="hide pashto-content" lang="ps">
-    <div class="hero">
+            <div style="border: 1px solid #d6e8f5; border-radius: 8px; overflow: hidden;">
+
+                <div class="accordion-header" onclick="toggleCourse('efeh-content')" id="efeh-header">
+                    <div style="display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;">
+                        <strong style="font-size: 1.1em; color: #002147;">(1) Economics for Economic Historians (EfEH)</strong>
+                        <span style="color: #003366; font-size: 0.95em;">Hilary Term 2026</span>
+                    </div>
+                    <span id="efeh-chevron" class="accordion-chevron">▼</span>
+                </div>
+
+                <div id="efeh-content" class="hide" style="padding: 24px 20px; border-top: 1px solid #d6e8f5;">
+
+                    <em>Format:</em> Eight 2-hour classes<br>
+                    <em>Office Hours:</em> Mondays, 5–6pm, Seminar Room F, Manor Road Building<br>
+
+                    <div style="display: flex; align-items: center; margin: 25px 0; gap: 12px;">
+                        <div style="width: 8px; height: 8px; background-color: #002147; border-radius: 50%;"></div>
+                        <div style="flex: 1; height: 2px; background: linear-gradient(to right, #002147, #d6e8f5);"></div>
+                    </div>
+
+                    <strong>Course Structure:</strong><br>
+                    <table style="width: 100%; max-width: 600px; margin: 10px 0; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #002147;">
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Week</th>
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Content</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-top: 1px solid #d6e8f5;">
+                            <tr><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">1</td><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Introduction to Economics</td></tr>
+                            <tr><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">2-3</td><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Microeconomics</td></tr>
+                            <tr><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">4</td><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Trade and Development</td></tr>
+                            <tr><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">5-6</td><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Macroeconomics</td></tr>
+                            <tr><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">7</td><td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Applied Econometrics</td></tr>
+                            <tr><td style="padding: 8px; border-bottom: 2px solid #002147;">8</td><td style="padding: 8px; border-bottom: 2px solid #002147;">Final Presentations (10 minutes each)</td></tr>
+                        </tbody>
+                    </table>
+
+                    <div style="display: flex; align-items: center; margin: 25px 0; gap: 12px;">
+                        <div style="width: 8px; height: 8px; background-color: #002147; border-radius: 50%;"></div>
+                        <div style="flex: 1; height: 2px; background: linear-gradient(to right, #002147, #d6e8f5);"></div>
+                    </div>
+
+                    <strong>Week 8 Final Presentation:</strong><br>
+                    Choose a topic you are interested in and apply the methods and concepts discussed in this course. You may base it on any (empirical) paper you have read or on your own work.<br><br>
+                    Please send me your presentation in PDF or PowerPoint format to <a href="mailto:maiwand.nangyal@economics.ox.ac.uk">maiwand.nangyal@economics.ox.ac.uk</a> by the start of the Week 8 class.
+
+                    <div style="display: flex; align-items: center; margin: 25px 0; gap: 12px;">
+                        <div style="width: 8px; height: 8px; background-color: #002147; border-radius: 50%;"></div>
+                        <div style="flex: 1; height: 2px; background: linear-gradient(to right, #002147, #d6e8f5);"></div>
+                    </div>
+
+                    <strong>Course Materials:</strong> <a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank">Access lecture slides and resources</a><br>
+                    <em>Password will be provided via email and in class to enrolled students.</em>
+
+                    <div style="display: flex; align-items: center; margin: 25px 0; gap: 12px;">
+                        <div style="width: 8px; height: 8px; background-color: #002147; border-radius: 50%;"></div>
+                        <div style="flex: 1; height: 2px; background: linear-gradient(to right, #002147, #d6e8f5);"></div>
+                    </div>
+
+                    <strong>Recommended Textbooks (Optional):</strong>&#185;<br>
+                    <table style="width: 100%; max-width: 600px; margin: 10px 0; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #002147;">
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Topic</th>
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Textbook</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-top: 1px solid #d6e8f5;">
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Microeconomics</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;"><em>Microeconomics</em> (5th Edition)<br><span style="color: #555;">by David A. Besanko and Ronald R. Braeutigam</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Trade</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;"><em>International Economics: Theory and Policy</em> (11th Edition)<br><span style="color: #555;">by Paul R. Krugman, Maurice Obstfeld and Marc J. Melitz</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Macroeconomics</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;"><em>Macroeconomics</em> (5th Edition)<br><span style="color: #555;">by Stephen D. Williamson</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">Macroeconomics</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;"><em>Advanced Macroeconomics</em> (5th Edition)&#178;<br><span style="color: #555;">by David Romer</span></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 2px solid #002147;">Applied Econometrics</td>
+                                <td style="padding: 8px; border-bottom: 2px solid #002147;"><em>Mostly Harmless Econometrics: An Empiricist's Companion</em><br><span style="color: #555;">by Joshua D. Angrist &amp; Jörn-Steffen Pischke</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="font-size: 0.85em; color: #555; margin-top: 8px;">&#185; Any edition is acceptable for all textbooks listed above.</p>
+                    <p style="font-size: 0.85em; color: #555; margin-top: 4px;">&#178; This is a much more advanced book, suitable for those with some intermediate macroeconomics training or those interested in advanced macro theory and models.</p>
+
+                    <div style="display: flex; align-items: center; margin: 25px 0; gap: 12px;">
+                        <div style="width: 8px; height: 8px; background-color: #002147; border-radius: 50%;"></div>
+                        <div style="flex: 1; height: 2px; background: linear-gradient(to right, #002147, #d6e8f5);"></div>
+                    </div>
+
+                    <strong>Suggested Readings:</strong><br>
+                    <table style="width: 100%; max-width: 800px; margin: 10px 0; border-collapse: collapse;">
+                        <thead>
+                            <tr style="border-bottom: 2px solid #002147;">
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Week</th>
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Reading</th>
+                                <th style="padding: 8px; text-align: left; font-weight: 600; color: #002147;">Access</th>
+                            </tr>
+                        </thead>
+                        <tbody style="border-top: 1px solid #d6e8f5;">
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">1</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Margo, R. A. (2018). "The Integration of Economic History into Economics"<br>
+                                    <em>Cliometrica</em>, 12(3), 377–406.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1007/s11698-018-0170-8" target="_blank" style="color: #555;">10.1007/s11698-018-0170-8</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2108224768&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20integration%20of%20economic%20history%20into%20economics&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">2</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Gale, D., &amp; Shapley, L. S. (1962). "College Admissions and the Stability of Marriage"<br>
+                                    <em>The American Mathematical Monthly</em>, 69(1), 9–15.<br>
+                                    <span style="color: #555; font-size: 0.9em;">Original article. DOI: <a href="https://doi.org/10.1080/00029890.1962.11989827" target="_blank" style="color: #555;">10.1080/00029890.1962.11989827</a></span><br>
+                                    <span style="color: #555; font-size: 0.9em;">2013 reprint: <em>The American Mathematical Monthly</em>, 120(5), 386–391.</span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_crossref_primary_10_4169_amer_math_monthly_120_05_386&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Gale%20Shapley%20College%20Admissions%20Stability%20Marriage&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">3</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Roth, A. E., Sönmez, T., &amp; Ünver, M. U. (2004). "Kidney Exchange"<br>
+                                    <em>Quarterly Journal of Economics</em>, 119(2), 457–488.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1162/0033553041382157" target="_blank" style="color: #555;">10.1162/0033553041382157</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_56233616&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Kidney%20Exchange%20Citation%20Roth,%20Alvin%20E.,%20Tayfun%20S%C3%B6nmez%20and%20M.%20Utku%20%C3%9Cnver.%202004.%20Kidney%20exchange.&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">4</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Autor, D., Dorn, D., &amp; Hanson, G. H. (2013). "The China Syndrome: Local Labor Market Effects of Import Competition in the United States"<br>
+                                    <em>American Economic Review</em>, 103(6), 2121–2168.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1257/aer.103.6.2121" target="_blank" style="color: #555;">10.1257/aer.103.6.2121</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466580376&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20China%20Syndrome:%20Local%20Labor%20Market%20Effects%20of%20Import%20Competition%20in%20the%20United%20States&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">5</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Chetty, R., Grusky, D., Hell, M., Hendren, N., Manduca, R., &amp; Narang, J. (2017). "The Fading American Dream: Trends in Absolute Income Mobility Since 1940"<br>
+                                    <em>Science</em>, 356(6336), 398–406.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1126/science.aal4617" target="_blank" style="color: #555;">10.1126/science.aal4617</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1904248818&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Chetty,%20R.,%20Grusky,%20D.,%20Hell,%20M.,%20Hendren,%20N.,%20Manduca,%20R.,%20%26%20Narang,%20J.%20(2017).%20%22The%20Fading%20American%20Dream:%20Trends%20in%20Absolute%20Income%20Mobility%20Since%201940&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">6</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Broadberry, S., &amp; Wallis, J. (2025). "Growing, Shrinking, and Long-Run Economic Performance: Historical Perspectives on Economic Development"<br>
+                                    <em>Journal of Economic History</em>, 85(2), 505–540.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1017/S0022050725000105" target="_blank" style="color: #555;">10.1017/S0022050725000105</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://doi.org/10.1017/S0022050725000105" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">Open Access</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5; vertical-align: top;" rowspan="3">7</td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Dell, M. (2010). "The Persistent Effects of Peru's Mining Mita"<br>
+                                    <em>Econometrica</em>, 78(6), 1863–1903.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.3982/ECTA8121" target="_blank" style="color: #555;">10.3982/ECTA8121</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_855183388&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20Persistent%20Effects%20of%20Peru%E2%80%99s%20Mining%20Mita,%20Dell%20(2010)" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Chaney, E. (2013). "Revolt on the Nile: Economic Shocks, Religion, and Political Power"<br>
+                                    <em>Econometrica</em>, 81(5), 2033–2053.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.3982/ECTA10233" target="_blank" style="color: #555;">10.3982/ECTA10233</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466581317&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Revolt%20on%20the%20Nile:%20Economic%20Shocks,%20Religion%20and%20Political%20Power,%20Chaney%20(2013)" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    Bau, N. (2021). "Can Policy Change Culture? Government Pension Plans and Traditional Kinship Practices"<br>
+                                    <em>American Economic Review</em>, 111(6), 1880–1917.<br>
+                                    <span style="color: #555; font-size: 0.9em;">DOI: <a href="https://doi.org/10.1257/aer.20190098" target="_blank" style="color: #555;">10.1257/aer.20190098</a></span>
+                                </td>
+                                <td style="padding: 8px; border-bottom: 1px solid #d6e8f5;">
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2529786706&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Bau%20Can%20Policy%20Change%20Culture%202021&offset=0" target="_blank" style="color: #002147; font-weight: bold; text-decoration: underline;">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 8px; border-bottom: 2px solid #002147;">8</td>
+                                <td style="padding: 8px; border-bottom: 2px solid #002147;">N/A — Class Presentations</td>
+                                <td style="padding: 8px; border-bottom: 2px solid #002147;">—</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><!-- end efeh-content -->
+            </div><!-- end accordion card -->
+        </div>
+    </div>
+
+    <div id="contact-section" class="content hide">
+        <h1>Contact</h1>
+        
+        <div class="section">
+            <div style="display: grid; grid-template-columns: 150px 1fr; gap: 0.5rem 1rem;">
+                <strong>Personal Email:</strong>
+                <a href="mailto:mn529@cantab.ac.uk">mn529@cantab.ac.uk</a>
+                
+                <strong>Academic Email:</strong>
+                <a href="mailto:maiwand.nangyal@economics.ox.ac.uk">maiwand.nangyal@economics.ox.ac.uk</a>
+                
+                <strong>College:</strong>
+                <a href="https://www.wolfson.ox.ac.uk/" target="_blank">Wolfson College, University of Oxford</a>
+                
+                <strong>Department:</strong>
+                <a href="https://www.economics.ox.ac.uk/home" target="_blank">Department of Economics, University of Oxford</a>
+            </div>
+            
+            <div class="address-container">
+                <div class="address-box">
+                    <p><strong>Department Address:</strong><br>
+                       Department of Economics<br>
+                       University of Oxford<br>
+                       Manor Road Building<br>
+                       Manor Road<br>
+                       Oxford<br>
+                       OX1 3UQ<br>
+                       United Kingdom</p>
+                </div>
+                <div class="address-box">
+                    <p><strong>Postal Correspondence Address:</strong><br>
+                       Wolfson College<br>
+                       Linton Road<br>
+                       Oxford<br>
+                       OX2 6UD<br>
+                       United Kingdom</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Supervisors</h2>
+                <ul>
+                    <li><strong><a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">Professor Stephen Broadberry</a></strong> (Primary Supervisor)</li>
+                    <li><strong><a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">Dr Eric Chaney</a></strong> (Secondary Supervisor)</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>Academic Profiles</h2>
+                <ul>
+                    <li><a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank" rel="noopener">Department of Economics, University of Oxford</a></li>
+                    <li><a href="https://dataforafghanistan.org/about/" target="_blank">Data for Afghanistan</a></li>
+                    <li><a href="https://uk.linkedin.com/in/maiwand-n-b59689106" target="_blank">LinkedIn</a></li>
+                    <li><a href="https://www.granduniondtp.ac.uk/people/maiwand-nangyal" target="_blank">ESRC GU DTP</a></li>
+                    <li><a href="https://gtr.ukri.org/person/17F45263-B9D4-4F89-B650-7190F57CFD45" target="_blank">UKRI</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== PASHTO PAGE ==================== -->
+    <div id="pashto-section" class="content hide pashto-content" lang="ps">
+
+        <h1>ميوند ننګيال</h1>
+        <p class="intro">د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند</p>
+        <p class="intro">د <a href="https://dataforafghanistan.org/about/" target="_blank">افغانستان د ډاټا</a> د څيړنې مدير</p>
+
         <img src="MN_Headshot.jpeg" alt="ميوند ننګيال" class="profile-photo">
-        <div class="hero-text">
-            <h1>ميوند ننګيال</h1>
-            <div class="hero-roles">
-                <div>د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند</div>
-                <div>د <a href="https://dataforafghanistan.org/about/" target="_blank">افغانستان د ډاټا</a> د څيړنې مدير</div>
-            </div>
-        </div>
+
+        <p>
+            <strong>ښه راغلاست!</strong> زه ميوند ننګيال يم، د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند، چې د ESRC له خوا تمويل شوی يم. له دې خوشاله او ويياړمن يم چې د نړۍ د ګډ غوره پوهنتون (زما په نظر کې د کیمبریج سره يوځای 😊) زده کوونکی يم.
+        </p>
+
+        <p>
+            زما د دوکتورا څيړنه دا ګوري چې استعماري بنسټونو د سویلي آسیا د اوږدمهاله پرمختګ پر بهیر سره سم کومه ونډه درلوده — د پرمختیایي اقتصاد، اقتصادي تاریخ او سیاسي اقتصاد سره د عصري اقتصادي Applied Econometrics او ماشین زده کړې يوځای کول. زما اوسنی کار په لویدیځ برتانوي هند کې د برتانوي اداري پالیسیانو اوږدمهاله اقتصادي میراث تعقیبوي — د استعماري حکومتولۍ کې د سیمه ییزه توپیر څخه ګټه اخلي ترڅو د اوږدمهاله پرمختیایي پایلو توپیرونه وپیژني — چې نن سبا د دولتي وړتیا، ادارزیزي جوړښت او پرمختیایي پالیسۍ د پوهیدو لپاره مستقیم اغیزې لري.
+        </p>
+
+        <p>
+            زه د <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">پروفیسر سټیفن براډبیري</a> او <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">ډاکټر ایریک چیني</a> له خوا لارښود کیږم، او د <a href="https://www.wolfson.ox.ac.uk/" target="_blank">ولفسن کالج</a> غړي يم. د خپلې دوکتورا سره سم، زه د <a href="https://dataforafghanistan.org/" target="_blank">افغانستان ډاټا</a> د څيړنې مدیر دنده پر مخ وړم — یوه داسې پلیټفارم چې د افغانستان (د نړۍ د ترټولو ډاټا کمو هیوادونو څخه یو) د اقتصادي څېړنو لپاره لوړ کیفیتي ډاټا او لیدونه تیاروي.
+        </p>
+
+        <p><em>دلته ښکاره شوي نظرونه یوازې زما خپل دي او د هیڅ هغه بنسټ استازیتوب نه کوي چې زه اوس ورسره اړیکه لرم یا پخوا مې سره اړیکه درلوده.</em></p>
+
     </div>
+    <!-- ==================== END PASHTO PAGE ==================== -->
 
-    <p><strong>ښه راغلاست!</strong> زه ميوند ننګيال يم، د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند، چې د ESRC له خوا تمويل شوی يم. له دې خوشاله او ويياړمن يم چې د نړۍ د ګډ غوره پوهنتون (زما په نظر کې د کیمبریج سره يوځای 😊) زده کوونکی يم.</p>
-
-    <p>زما د دوکتورا څيړنه دا ګوري چې استعماري بنسټونو د سویلي آسیا د اوږدمهاله پرمختګ پر بهیر سره سم کومه ونډه درلوده — د پرمختیایي اقتصاد، اقتصادي تاریخ او سیاسي اقتصاد سره د عصري اقتصادي Applied Econometrics او ماشین زده کړې يوځای کول. زما اوسنی کار په لویدیځ برتانوي هند کې د برتانوي اداري پالیسیانو اوږدمهاله اقتصادي میراث تعقیبوي — د استعماري حکومتولۍ کې د سیمه ییزه توپیر څخه ګټه اخلي ترڅو د اوږدمهاله پرمختیایي پایلو توپیرونه وپیژني — چې نن سبا د دولتي وړتیا، ادارزیزي جوړښت او پرمختیایي پالیسۍ د پوهیدو لپاره مستقیم اغیزې لري.</p>
-
-    <p>زه د <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank">پروفیسر سټیفن براډبیري</a> او <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank">ډاکټر ایریک چیني</a> له خوا لارښود کیږم، او د <a href="https://www.wolfson.ox.ac.uk/" target="_blank">ولفسن کالج</a> غړي يم. د خپلې دوکتورا سره سم، زه د <a href="https://dataforafghanistan.org/" target="_blank">افغانستان ډاټا</a> د څيړنې مدیر دنده پر مخ وړم — یوه داسې پلیټفارم چې د افغانستان (د نړۍ د ترټولو ډاټا کمو هیوادونو څخه یو) د اقتصادي څېړنو لپاره لوړ کیفیتي ډاټا او لیدونه تیاروي.</p>
-
-    <p><em>دلته ښکاره شوي نظرونه یوازې زما خپل دي او د هیڅ هغه بنسټ استازیتوب نه کوي چې زه اوس ورسره اړیکه لرم یا پخوا مې سره اړیکه درلوده.</em></p>
-</section>
-
-<footer>
-    <canvas id="bamyanCanvas" width="760" height="120"></canvas>
-    <p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
-</footer>
+    <footer>
+        <canvas id="bamyanCanvas" width="760" height="120" style="width:100%; height:auto; display:block; margin-bottom: 12px;"></canvas>
+        <p>&copy; <span id="year"></span> Maiwand Nangyal. All rights reserved.</p>
+        <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+    </footer>
 
 <script>
     function showSection(section) {
-        ['home','research','cv','teaching','contact','pashto'].forEach(function(s) {
-            document.getElementById(s + '-section').classList.add('hide');
-            document.getElementById(s + '-link').classList.remove('active');
-        });
+        document.getElementById('home-section').classList.add('hide');
+        document.getElementById('research-section').classList.add('hide');
+        document.getElementById('cv-section').classList.add('hide');
+        document.getElementById('teaching-section').classList.add('hide');
+        document.getElementById('contact-section').classList.add('hide');
+        document.getElementById('pashto-section').classList.add('hide');
+
+        document.getElementById('home-link').classList.remove('active');
+        document.getElementById('research-link').classList.remove('active');
+        document.getElementById('cv-link').classList.remove('active');
+        document.getElementById('teaching-link').classList.remove('active');
+        document.getElementById('contact-link').classList.remove('active');
+        document.getElementById('pashto-link').classList.remove('active');
+
         document.getElementById(section + '-section').classList.remove('hide');
         document.getElementById(section + '-link').classList.add('active');
+
         window.location.hash = section;
-        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function loadSectionFromHash() {
-        var hash = window.location.hash.substring(1);
+        const hash = window.location.hash.substring(1);
         if (hash && document.getElementById(hash + '-section')) {
             showSection(hash);
         }
     }
 
     document.addEventListener('DOMContentLoaded', loadSectionFromHash);
+    window.addEventListener('load', loadSectionFromHash);
     window.addEventListener('hashchange', loadSectionFromHash);
-    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function toggleCourse(contentId) {
+        const content = document.getElementById(contentId);
+        const chevron = document.getElementById('efeh-chevron');
+        const isHidden = content.classList.contains('hide');
+        content.classList.toggle('hide');
+        chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
 </script>
 
-<!-- ============ BAMIYAN CANVAS ANIMATION ============ -->
 <script>
 (function () {
     const canvas = document.getElementById('bamyanCanvas');
-    if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
@@ -893,19 +741,23 @@
         glow.addColorStop(0, 'rgba(255,230,100,0.45)');
         glow.addColorStop(1, 'rgba(255,230,100,0)');
         ctx.fillStyle = glow;
-        ctx.beginPath(); ctx.arc(sx, sy, 18, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(sx, sy, 7, 0, Math.PI * 2);
-        ctx.fillStyle = '#f5c842'; ctx.fill();
+        ctx.beginPath();
+        ctx.arc(sx, sy, 18, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(sx, sy, 7, 0, Math.PI * 2);
+        ctx.fillStyle = '#f5c842';
+        ctx.fill();
     }
 
     function drawCloud(x, y, scale) {
         ctx.fillStyle = 'rgba(255,255,255,0.88)';
         ctx.beginPath();
-        ctx.arc(x, y, 10*scale, 0, Math.PI*2);
-        ctx.arc(x + 14*scale, y - 4*scale, 13*scale, 0, Math.PI*2);
-        ctx.arc(x + 28*scale, y, 9*scale, 0, Math.PI*2);
-        ctx.arc(x + 20*scale, y + 4*scale, 8*scale, 0, Math.PI*2);
-        ctx.arc(x + 7*scale, y + 3*scale, 7*scale, 0, Math.PI*2);
+        ctx.arc(x,            y,            10*scale, 0, Math.PI*2);
+        ctx.arc(x + 14*scale, y - 4*scale,  13*scale, 0, Math.PI*2);
+        ctx.arc(x + 28*scale, y,              9*scale, 0, Math.PI*2);
+        ctx.arc(x + 20*scale, y + 4*scale,    8*scale, 0, Math.PI*2);
+        ctx.arc(x + 7*scale,  y + 3*scale,    7*scale, 0, Math.PI*2);
         ctx.fill();
     }
 
@@ -924,7 +776,9 @@
         ctx.quadraticCurveTo(x + size*2.8, y - dip, x + size*5.5, y + tip);
         ctx.stroke();
         ctx.fillStyle = 'rgba(20,20,40,0.80)';
-        ctx.beginPath(); ctx.ellipse(x, y, size*0.9, size*0.35, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(x, y, size*0.9, size*0.35, 0, 0, Math.PI*2);
+        ctx.fill();
     }
 
     function drawBuddha(x, y, w, h) {
@@ -939,29 +793,60 @@
         ctx.lineTo(cx + w*0.30, y + h);
         ctx.lineTo(cx + w*0.17, y + h*0.36);
         ctx.lineTo(cx - w*0.17, y + h*0.36);
-        ctx.closePath(); ctx.fill();
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(80,50,10,0.35)';
+        ctx.lineWidth = 0.5;
+        [[-0.07,0.38,-0.13,1.0],[0.07,0.38,0.13,1.0],[0,0.38,0,1.0]].forEach(([fx1,fy1,fx2,fy2]) => {
+            ctx.beginPath();
+            ctx.moveTo(cx + fx1*w, y + fy1*h);
+            ctx.lineTo(cx + fx2*w, y + fy2*h);
+            ctx.stroke();
+        });
 
         ctx.fillStyle = 'rgba(145,100,48,0.95)';
         ctx.fillRect(cx - w*0.06, y + h*0.25, w*0.12, h*0.12);
-        ctx.beginPath(); ctx.ellipse(cx, y + h*0.18, w*0.12, h*0.14, 0, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(cx, y + h*0.07, w*0.07, h*0.07, 0, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(125,85,38,0.95)'; ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(cx, y + h*0.18, w*0.12, h*0.14, 0, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(145,100,48,0.95)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(cx, y + h*0.07, w*0.07, h*0.07, 0, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(125,85,38,0.95)';
+        ctx.fill();
 
         ctx.fillStyle = 'rgba(50,25,5,0.75)';
-        ctx.beginPath(); ctx.ellipse(cx - w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(cx + w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx - w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + w*0.04, y + h*0.17, w*0.022, h*0.018, 0, 0, Math.PI*2);
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(80,45,10,0.55)';
+        ctx.lineWidth = 0.5;
+        ctx.beginPath();
+        ctx.arc(cx, y + h*0.20, w*0.04, 0.15, Math.PI - 0.15);
+        ctx.stroke();
 
         ctx.fillStyle = 'rgba(135,95,42,0.85)';
-        ctx.beginPath(); ctx.ellipse(cx - w*0.22, y + h*0.55, w*0.07, h*0.055, -0.3, 0, Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(cx + w*0.22, y + h*0.55, w*0.07, h*0.055, 0.3, 0, Math.PI*2); ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx - w*0.22, y + h*0.55, w*0.07, h*0.055, -0.3, 0, Math.PI*2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(cx + w*0.22, y + h*0.55, w*0.07, h*0.055, 0.3, 0, Math.PI*2);
+        ctx.fill();
     }
 
     function drawNiche(x, cliffBase, w, h) {
         const y = cliffBase - h;
         const nicheGrad = ctx.createLinearGradient(x, y, x + w, y);
-        nicheGrad.addColorStop(0, 'rgba(35,18,4,0.88)');
+        nicheGrad.addColorStop(0,   'rgba(35,18,4,0.88)');
         nicheGrad.addColorStop(0.5, 'rgba(50,26,7,0.68)');
-        nicheGrad.addColorStop(1, 'rgba(35,18,4,0.88)');
+        nicheGrad.addColorStop(1,   'rgba(35,18,4,0.88)');
         ctx.fillStyle = nicheGrad;
         ctx.beginPath();
         ctx.moveTo(x, y + h);
@@ -969,43 +854,91 @@
         ctx.quadraticCurveTo(x, y, x + w/2, y);
         ctx.quadraticCurveTo(x + w, y, x + w, y + h*0.35);
         ctx.lineTo(x + w, y + h);
-        ctx.closePath(); ctx.fill();
+        ctx.closePath();
+        ctx.fill();
 
         drawBuddha(x, y, w, h);
+
+        ctx.strokeStyle = 'rgba(195,155,85,0.65)';
+        ctx.lineWidth = 1.0;
+        ctx.beginPath();
+        ctx.moveTo(x, y + h*0.35);
+        ctx.quadraticCurveTo(x, y, x + w/2, y);
+        ctx.quadraticCurveTo(x + w, y, x + w, y + h*0.35);
+        ctx.stroke();
     }
 
     function drawCliff() {
         const cliffTop  = H * 0.08;
         const cliffBase = H * 0.68;
+
         const cliffGrad = ctx.createLinearGradient(0, cliffTop, 0, cliffBase);
-        cliffGrad.addColorStop(0, '#d4b478');
+        cliffGrad.addColorStop(0,   '#d4b478');
         cliffGrad.addColorStop(0.3, '#c4a060');
         cliffGrad.addColorStop(0.7, '#b08840');
-        cliffGrad.addColorStop(1, '#9a7430');
+        cliffGrad.addColorStop(1,   '#9a7430');
         ctx.fillStyle = cliffGrad;
 
         ctx.beginPath();
         ctx.moveTo(0, cliffTop + 6);
-        ctx.lineTo(30, cliffTop); ctx.lineTo(70, cliffTop + 4);
-        ctx.lineTo(120, cliffTop + 1); ctx.lineTo(170, cliffTop + 5);
-        ctx.lineTo(230, cliffTop); ctx.lineTo(290, cliffTop + 3);
-        ctx.lineTo(350, cliffTop + 1); ctx.lineTo(410, cliffTop + 4);
-        ctx.lineTo(470, cliffTop); ctx.lineTo(530, cliffTop + 3);
-        ctx.lineTo(590, cliffTop + 1); ctx.lineTo(650, cliffTop + 4);
-        ctx.lineTo(710, cliffTop + 2); ctx.lineTo(W, cliffTop + 5);
-        ctx.lineTo(W, cliffBase); ctx.lineTo(0, cliffBase);
-        ctx.closePath(); ctx.fill();
+        ctx.lineTo(30,  cliffTop);
+        ctx.lineTo(70,  cliffTop + 4);
+        ctx.lineTo(120, cliffTop + 1);
+        ctx.lineTo(170, cliffTop + 5);
+        ctx.lineTo(230, cliffTop);
+        ctx.lineTo(290, cliffTop + 3);
+        ctx.lineTo(350, cliffTop + 1);
+        ctx.lineTo(410, cliffTop + 4);
+        ctx.lineTo(470, cliffTop);
+        ctx.lineTo(530, cliffTop + 3);
+        ctx.lineTo(590, cliffTop + 1);
+        ctx.lineTo(650, cliffTop + 4);
+        ctx.lineTo(710, cliffTop + 2);
+        ctx.lineTo(W,   cliffTop + 5);
+        ctx.lineTo(W,   cliffBase);
+        ctx.lineTo(0,   cliffBase);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = 'rgba(80,55,15,0.12)';
+        ctx.lineWidth = 1;
+        [[80,cliffTop+6,78,cliffBase-8],
+         [190,cliffTop+4,188,cliffBase-6],
+         [320,cliffTop+5,318,cliffBase-7],
+         [460,cliffTop+3,458,cliffBase-6],
+         [600,cliffTop+4,598,cliffBase-8]
+        ].forEach(([x1,y1,x2,y2]) => {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        });
 
         drawNiche(110, cliffBase, 42, 52);
         drawNiche(300, cliffBase, 32, 42);
+
+        [[220, cliffTop+18, 9, 11],
+         [240, cliffTop+28, 7,  9],
+         [180, cliffTop+32, 6,  8],
+         [380, cliffTop+20, 7, 10],
+         [400, cliffTop+32, 5,  7],
+         [420, cliffTop+22, 6,  8],
+         [500, cliffTop+18, 8, 10],
+         [520, cliffTop+30, 6,  8],
+        ].forEach(([cx, cy, cw, ch]) => {
+            ctx.fillStyle = 'rgba(50,28,8,0.50)';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, cw/2, ch/2, 0, 0, Math.PI*2);
+            ctx.fill();
+        });
     }
 
     function drawValley() {
         const valleyTop = H * 0.68;
         const grad = ctx.createLinearGradient(0, valleyTop, 0, H - 14);
-        grad.addColorStop(0, '#82c248');
+        grad.addColorStop(0,   '#82c248');
         grad.addColorStop(0.4, '#62a030');
-        grad.addColorStop(1, '#4a7c20');
+        grad.addColorStop(1,   '#4a7c20');
         ctx.fillStyle = grad;
         ctx.fillRect(0, valleyTop, W, H - 14 - valleyTop);
 
@@ -1014,7 +947,7 @@
         ].forEach(([bx, by]) => {
             ctx.fillStyle = '#4a7820';
             ctx.beginPath();
-            ctx.arc(bx, by, 5, 0, Math.PI*2);
+            ctx.arc(bx,   by,   5, 0, Math.PI*2);
             ctx.arc(bx+7, by+1, 4, 0, Math.PI*2);
             ctx.fill();
         });
@@ -1028,7 +961,7 @@
             { x: W - 86, w: 20, maxH: 30, delay: 0.75 },
         ];
 
-        buildings.forEach((b) => {
+        buildings.forEach((b, i) => {
             const bP = Math.max(0, Math.min((progress - b.delay) / 0.20, 1));
             if (bP <= 0) return;
             const currentH = b.maxH * easeInOut(bP);
@@ -1045,8 +978,8 @@
             if (bP > 0.6) {
                 ctx.globalAlpha = (bP - 0.6) / 0.4;
                 const floorH = 8;
-                const cols = Math.floor((b.w - 5) / 7);
-                const rows = Math.floor(currentH / floorH);
+                const cols   = Math.floor((b.w - 5) / 7);
+                const rows   = Math.floor(currentH / floorH);
                 for (let wr = 0; wr < rows; wr++) {
                     ctx.fillStyle = '#a89f92';
                     ctx.fillRect(bx, by + wr*floorH, b.w, 1);
@@ -1057,6 +990,21 @@
                         ctx.fillRect(bx + 3 + wc*7, by + 2 + wr*floorH, 1, 2);
                     }
                 }
+                ctx.globalAlpha = 1;
+            }
+
+            if (b.maxH > 40 && bP > 0.85) {
+                ctx.globalAlpha = (bP - 0.85) / 0.15;
+                ctx.strokeStyle = '#888';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(bx + b.w/2, by);
+                ctx.lineTo(bx + b.w/2, by - 7);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(bx + b.w/2, by - 7, 1.5, 0, Math.PI*2);
+                ctx.fillStyle = '#cc0000';
+                ctx.fill();
                 ctx.globalAlpha = 1;
             }
         });
@@ -1088,6 +1036,13 @@
         ctx.lineTo(roadWidth, roadY - roadH/2);
         ctx.stroke();
         ctx.setLineDash([]);
+
+        if (progress > 0 && progress < 1) {
+            ctx.beginPath();
+            ctx.arc(roadWidth, roadY - roadH/2, 3, 0, Math.PI*2);
+            ctx.fillStyle = '#f5c842';
+            ctx.fill();
+        }
     }
 
     function draw(timestamp) {
@@ -1097,7 +1052,8 @@
                 startTime = timestamp;
             } else {
                 ctx.clearRect(0, 0, W, H);
-                drawSky(); drawSun();
+                drawSky();
+                drawSun();
                 clouds.forEach(c => {
                     c.x += c.speed;
                     if (c.x > W + 80) c.x = -80;
@@ -1109,7 +1065,10 @@
                     if (b.x > W + 25) { b.x = -25; b.y = 8 + Math.random() * 28; }
                     drawBird(b.x, b.y, b.wingPhase, b.size);
                 });
-                drawCliff(); drawValley(); drawRoad(1); drawModernBuildings(1);
+                drawCliff();
+                drawValley();
+                drawRoad(1);
+                drawModernBuildings(1);
                 requestAnimationFrame(draw);
                 return;
             }
@@ -1117,16 +1076,18 @@
 
         if (!startTime) startTime = timestamp;
         const elapsed = timestamp - startTime;
-        const rawP = Math.min(elapsed / ROAD_DURATION, 1);
+        const rawP    = Math.min(elapsed / ROAD_DURATION, 1);
 
         ctx.clearRect(0, 0, W, H);
-        drawSky(); drawSun();
+        drawSky();
+        drawSun();
 
         clouds.forEach(c => {
             c.x += c.speed;
             if (c.x > W + 80) c.x = -80;
             drawCloud(c.x, c.y, c.scale);
         });
+
         birds.forEach(b => {
             b.x += b.speed;
             b.wingPhase += b.wingSpeed * 0.016;
@@ -1134,83 +1095,20 @@
             drawBird(b.x, b.y, b.wingPhase, b.size);
         });
 
-        drawCliff(); drawValley(); drawRoad(rawP); drawModernBuildings(rawP);
+        drawCliff();
+        drawValley();
+        drawRoad(rawP);
+        drawModernBuildings(rawP);
 
         if (rawP >= 1) {
-            pausing = true;
+            pausing    = true;
             pauseStart = timestamp;
         }
+
         requestAnimationFrame(draw);
     }
 
     requestAnimationFrame(draw);
-})();
-</script>
-
-<!-- Mini nav canvas (uses same drawing primitives, simplified) -->
-<script>
-(function () {
-    const canvas = document.getElementById('bamyanNavCanvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const W = canvas.width, H = canvas.height;
-
-    function drawScene() {
-        const grad = ctx.createLinearGradient(0, 0, 0, H * 0.6);
-        grad.addColorStop(0, '#5aaad4');
-        grad.addColorStop(1, '#c0e8f8');
-        ctx.fillStyle = grad;
-        ctx.fillRect(0, 0, W, H * 0.6);
-
-        const cliffGrad = ctx.createLinearGradient(0, H*0.1, 0, H*0.75);
-        cliffGrad.addColorStop(0, '#d4b478');
-        cliffGrad.addColorStop(1, '#9a7430');
-        ctx.fillStyle = cliffGrad;
-        ctx.beginPath();
-        ctx.moveTo(0, H*0.1);
-        ctx.lineTo(W, H*0.1);
-        ctx.lineTo(W, H*0.75);
-        ctx.lineTo(0, H*0.75);
-        ctx.closePath();
-        ctx.fill();
-
-        // Niche
-        const nx = W*0.3, nw = 14, nh = 22, ny = H*0.75 - nh;
-        ctx.fillStyle = 'rgba(35,18,4,0.88)';
-        ctx.beginPath();
-        ctx.moveTo(nx, ny + nh);
-        ctx.lineTo(nx, ny + nh*0.35);
-        ctx.quadraticCurveTo(nx, ny, nx + nw/2, ny);
-        ctx.quadraticCurveTo(nx + nw, ny, nx + nw, ny + nh*0.35);
-        ctx.lineTo(nx + nw, ny + nh);
-        ctx.closePath();
-        ctx.fill();
-
-        // Buddha silhouette
-        ctx.fillStyle = 'rgba(155,115,55,0.95)';
-        ctx.beginPath();
-        ctx.moveTo(nx + nw*0.2, ny + nh);
-        ctx.lineTo(nx + nw*0.8, ny + nh);
-        ctx.lineTo(nx + nw*0.65, ny + nh*0.4);
-        ctx.lineTo(nx + nw*0.35, ny + nh*0.4);
-        ctx.closePath();
-        ctx.fill();
-        ctx.beginPath();
-        ctx.arc(nx + nw/2, ny + nh*0.3, nw*0.18, 0, Math.PI*2);
-        ctx.fill();
-
-        // Valley
-        ctx.fillStyle = '#62a030';
-        ctx.fillRect(0, H*0.75, W, H*0.25);
-
-        // Sun
-        ctx.beginPath();
-        ctx.arc(W - 22, 14, 6, 0, Math.PI*2);
-        ctx.fillStyle = '#f5c842';
-        ctx.fill();
-    }
-
-    drawScene();
 })();
 </script>
 
