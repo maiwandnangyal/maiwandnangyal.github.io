@@ -6,10 +6,23 @@
     <title>Maiwand Nangyal | DPhil Candidate in Economics, University of Oxford</title>
     <meta name="description" content="Maiwand Nangyal is a DPhil Candidate in Economics at the University of Oxford. Research in development economics, economic history and political economy.">
 
-    <link rel="icon" type="image/x-icon" href="https://www.ox.ac.uk/sites/files/oxford/favicon.ico">
+    <link rel="icon" href="favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+
+    <!-- Open Graph / social link previews -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Maiwand Nangyal">
+    <meta property="og:title" content="Maiwand Nangyal | DPhil Candidate in Economics, University of Oxford">
+    <meta property="og:description" content="Research in development economics, economic history and political economy.">
+    <meta property="og:url" content="https://maiwandnangyal.github.io/">
+    <meta property="og:image" content="https://maiwandnangyal.github.io/MN_Headshot.jpeg">
+    <meta property="og:image:alt" content="Maiwand Nangyal">
+    <meta property="og:locale" content="en_GB">
+    <meta name="twitter:card" content="summary">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 
     <style>
         :root {
@@ -302,6 +315,9 @@
 
         .accordion-header:hover { background: #edf2f8; }
 
+        .accordion-header.locked { cursor: not-allowed; opacity: 0.6; }
+        .accordion-header.locked:hover { background: #f4f7fb; }
+
         .course-title {
             font-family: var(--serif);
             font-weight: 600;
@@ -367,6 +383,10 @@
         .doi a { color: var(--muted); }
 
         .solo-link { color: var(--oxford); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+
+        /* ---------- CV captcha ---------- */
+        #cv-captcha { margin: 16px 0 0; }
+        #cv-download { margin: 16px 0 0; }
 
         /* ---------- Contact ---------- */
         .contact-grid {
@@ -581,11 +601,13 @@
         <h1>Curriculum Vitae</h1>
         <div class="section">
             <p>
-                Please <a href="Maiwand_Nangyal_CV_Website_v31.pdf" target="_blank" rel="noopener">click here</a> for my latest CV.
+                <a href="#cv" id="cv-reveal" onclick="revealCvCaptcha(event)">Download my latest CV</a>.
                 My full academic CV will be made publicly available when I am a Job Market Candidate.
                 For the full version prior to that, please contact me at
                 <a href="mailto:mn529@cantab.ac.uk">mn529@cantab.ac.uk</a>.
             </p>
+            <div id="cv-captcha"></div>
+            <p id="cv-download" class="hide"></p>
         </div>
     </div>
 
@@ -595,16 +617,16 @@
         <h1>Teaching</h1>
 
         <div class="section">
-            <h2>Current Courses</h2>
+            <h2>Courses Taught</h2>
 
             <div class="course-card">
 
-                <button class="accordion-header" onclick="toggleCourse('efeh-content', 'efeh-chevron')" id="efeh-header" aria-expanded="false" aria-controls="efeh-content">
+                <button class="accordion-header locked" id="efeh-header" disabled aria-disabled="true" aria-expanded="false" aria-controls="efeh-content">
                     <span>
                         <span class="course-title">(1) Economics for Economic Historians (EfEH)</span>&ensp;
                         <span class="course-term">Hilary Term 2026</span>
                     </span>
-                    <span id="efeh-chevron" class="accordion-chevron" aria-hidden="true">▼</span>
+                    <span id="efeh-chevron" class="accordion-chevron" aria-label="Locked">&#128274;</span>
                 </button>
 
                 <div id="efeh-content" class="accordion-body hide">
@@ -782,8 +804,8 @@
                             </tr>
                             <tr>
                                 <td>8</td>
-                                <td>N/A — Class Presentations</td>
-                                <td>—</td>
+                                <td>N/A - Class Presentations</td>
+                                <td>-</td>
                             </tr>
                         </tbody>
                     </table>
@@ -809,6 +831,200 @@
                     <p>Teaching weekly college tutorials to undergraduate finalists; setting and marking essays on poverty, growth, trade, institutions, human capital, and migration.</p>
 
                 </div><!-- end edc-content -->
+            </div><!-- end course card -->
+
+            <div class="course-card">
+
+                <button class="accordion-header" onclick="toggleCourse('efehmt-content', 'efehmt-chevron')" id="efehmt-header" aria-expanded="false" aria-controls="efehmt-content">
+                    <span>
+                        <span class="course-title">(3) Economics for Economic Historians (EfEH)</span>&ensp;
+                        <span class="course-term">Michaelmas Term 2026</span>
+                    </span>
+                    <span id="efehmt-chevron" class="accordion-chevron" aria-hidden="true">▼</span>
+                </button>
+
+                <div id="efehmt-content" class="accordion-body hide">
+
+                    <p class="course-info"><strong>Format:</strong> Eight 2-hour classes</p>
+                    <p class="course-info"><strong>Office Hours:</strong> Mondays, 5–6pm, Seminar Room F (Weeks 1–3 and 5–8) and Seminar Room E (Week 4), Manor Road Building</p>
+
+                    <p class="subhead">Course Structure</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 90px;">Week</th>
+                                <th>Content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Introduction to Economics</td></tr>
+                            <tr><td>2–3</td><td>Microeconomics</td></tr>
+                            <tr><td>4</td><td>Trade and Development</td></tr>
+                            <tr><td>5–6</td><td>Macroeconomics</td></tr>
+                            <tr><td>7</td><td>Applied Econometrics</td></tr>
+                            <tr><td>8</td><td>Final Presentations (10 minutes each)</td></tr>
+                        </tbody>
+                    </table>
+
+                    <p class="subhead">Week 8 Final Presentation</p>
+                    <p>Choose a topic you are interested in and apply the methods and concepts discussed in this course. You may base it on any (empirical) paper you have read or on your own work.</p>
+                    <p>Please send me your presentation in PDF or PowerPoint format to <a href="mailto:maiwand.nangyal@economics.ox.ac.uk">maiwand.nangyal@economics.ox.ac.uk</a> by the start of the Week 8 class.</p>
+
+                    <p class="subhead">Course Materials</p>
+                    <p><a href="https://www.dropbox.com/scl/fo/u35m7evfx2amued1amby3/AB9zveDm71E9yFGBfeZ_kSA?rlkey=dk766lepzj2eqbjt8jkgu31j5&st=txa9gto2&dl=0" target="_blank" rel="noopener">Access lecture slides and resources</a><br>
+                    <em>Password will be provided via email and in class to enrolled students.</em></p>
+
+                    <p class="subhead">Recommended Textbooks (Optional)&#185;</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 170px;">Topic</th>
+                                <th>Textbook</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Microeconomics</td>
+                                <td><em>Microeconomics</em> (5th Edition)<br><span class="doi">by David A. Besanko and Ronald R. Braeutigam</span></td>
+                            </tr>
+                            <tr>
+                                <td>Trade</td>
+                                <td><em>International Economics: Theory and Policy</em> (11th Edition)<br><span class="doi">by Paul R. Krugman, Maurice Obstfeld and Marc J. Melitz</span></td>
+                            </tr>
+                            <tr>
+                                <td>Macroeconomics</td>
+                                <td><em>Macroeconomics</em> (5th Edition)<br><span class="doi">by Stephen D. Williamson</span></td>
+                            </tr>
+                            <tr>
+                                <td>Macroeconomics</td>
+                                <td><em>Advanced Macroeconomics</em> (5th Edition)&#178;<br><span class="doi">by David Romer</span></td>
+                            </tr>
+                            <tr>
+                                <td>Applied Econometrics</td>
+                                <td><em>Mostly Harmless Econometrics: An Empiricist's Companion</em><br><span class="doi">by Joshua D. Angrist &amp; Jörn-Steffen Pischke</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="small-note">&#185; Any edition is acceptable for all textbooks listed above.</p>
+                    <p class="small-note">&#178; This is a much more advanced book, suitable for those with some intermediate macroeconomics training or those interested in advanced macro theory and models.</p>
+
+                    <p class="subhead">Suggested Readings</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width: 60px;">Week</th>
+                                <th>Reading</th>
+                                <th style="width: 110px;">Access</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    Margo, R. A. (2018). "The Integration of Economic History into Economics"<br>
+                                    <em>Cliometrica</em>, 12(3), 377–406.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1007/s11698-018-0170-8" target="_blank" rel="noopener">10.1007/s11698-018-0170-8</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2108224768&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20integration%20of%20economic%20history%20into%20economics&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    Gale, D., &amp; Shapley, L. S. (1962). "College Admissions and the Stability of Marriage"<br>
+                                    <em>The American Mathematical Monthly</em>, 69(1), 9–15.<br>
+                                    <span class="doi">Original article. DOI: <a href="https://doi.org/10.1080/00029890.1962.11989827" target="_blank" rel="noopener">10.1080/00029890.1962.11989827</a></span><br>
+                                    <span class="doi">2013 reprint: <em>The American Mathematical Monthly</em>, 120(5), 386–391.</span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_crossref_primary_10_4169_amer_math_monthly_120_05_386&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Gale%20Shapley%20College%20Admissions%20Stability%20Marriage&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    Roth, A. E., Sönmez, T., &amp; Ünver, M. U. (2004). "Kidney Exchange"<br>
+                                    <em>Quarterly Journal of Economics</em>, 119(2), 457–488.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1162/0033553041382157" target="_blank" rel="noopener">10.1162/0033553041382157</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_56233616&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Kidney%20Exchange%20Citation%20Roth,%20Alvin%20E.,%20Tayfun%20S%C3%B6nmez%20and%20M.%20Utku%20%C3%9Cnver.%202004.%20Kidney%20exchange.&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    Autor, D., Dorn, D., &amp; Hanson, G. H. (2013). "The China Syndrome: Local Labor Market Effects of Import Competition in the United States"<br>
+                                    <em>American Economic Review</em>, 103(6), 2121–2168.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1257/aer.103.6.2121" target="_blank" rel="noopener">10.1257/aer.103.6.2121</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466580376&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20China%20Syndrome:%20Local%20Labor%20Market%20Effects%20of%20Import%20Competition%20in%20the%20United%20States&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>
+                                    Chetty, R., Grusky, D., Hell, M., Hendren, N., Manduca, R., &amp; Narang, J. (2017). "The Fading American Dream: Trends in Absolute Income Mobility Since 1940"<br>
+                                    <em>Science</em>, 356(6336), 398–406.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1126/science.aal4617" target="_blank" rel="noopener">10.1126/science.aal4617</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1904248818&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Chetty,%20R.,%20Grusky,%20D.,%20Hell,%20M.,%20Hendren,%20N.,%20Manduca,%20R.,%20%26%20Narang,%20J.%20(2017).%20%22The%20Fading%20American%20Dream:%20Trends%20in%20Absolute%20Income%20Mobility%20Since%201940&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>
+                                    Broadberry, S., &amp; Wallis, J. (2025). "Growing, Shrinking, and Long-Run Economic Performance: Historical Perspectives on Economic Development"<br>
+                                    <em>Journal of Economic History</em>, 85(2), 505–540.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1017/S0022050725000105" target="_blank" rel="noopener">10.1017/S0022050725000105</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://doi.org/10.1017/S0022050725000105" target="_blank" rel="noopener" class="solo-link">Open Access</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" style="vertical-align: top;">7</td>
+                                <td>
+                                    Dell, M. (2010). "The Persistent Effects of Peru's Mining Mita"<br>
+                                    <em>Econometrica</em>, 78(6), 1863–1903.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.3982/ECTA8121" target="_blank" rel="noopener">10.3982/ECTA8121</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_855183388&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,The%20Persistent%20Effects%20of%20Peru%E2%80%99s%20Mining%20Mita,%20Dell%20(2010)" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Chaney, E. (2013). "Revolt on the Nile: Economic Shocks, Religion, and Political Power"<br>
+                                    <em>Econometrica</em>, 81(5), 2033–2053.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.3982/ECTA10233" target="_blank" rel="noopener">10.3982/ECTA10233</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_1466581317&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Revolt%20on%20the%20Nile:%20Economic%20Shocks,%20Religion%20and%20Political%20Power,%20Chaney%20(2013)" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Bau, N. (2021). "Can Policy Change Culture? Government Pension Plans and Traditional Kinship Practices"<br>
+                                    <em>American Economic Review</em>, 111(6), 1880–1917.<br>
+                                    <span class="doi">DOI: <a href="https://doi.org/10.1257/aer.20190098" target="_blank" rel="noopener">10.1257/aer.20190098</a></span>
+                                </td>
+                                <td>
+                                    <a href="https://solo.bodleian.ox.ac.uk/discovery/fulldisplay?docid=cdi_proquest_miscellaneous_2529786706&context=PC&vid=44OXF_INST:SOLO&lang=en&search_scope=MyInst_and_CI&adaptor=Primo%20Central&tab=Everything&query=any,contains,Bau%20Can%20Policy%20Change%20Culture%202021&offset=0" target="_blank" rel="noopener" class="solo-link">SOLO</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>N/A - Class Presentations</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div><!-- end efehmt-content -->
             </div><!-- end course card -->
 
         </div>
@@ -892,10 +1108,10 @@
                 <strong>ښه راغلاست!</strong> زه ميوند ننګيال يم، د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank" rel="noopener">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند، چې د ESRC له خوا تمويل شوی يم. خوشاله او وياړمن يم چې د نړۍ د ګډ غوره پوهنتون (کیمبریج سره يوځای 😊) زده کوونکی يم.
             </p>
             <p>
-                زما د دوکتورا تیزس دا څېري چې استعماري بنسټونو د سویلي آسیا د اوږدمهاله پرمختګ په بهیر کې کومه ونډه درلوده - د پرمختیایي اقتصاد، اقتصادي تاریخ او سیاسي اقتصاد سره د عصري اقتصادي Applied Econometrics او ماشیني زده کړې په پیوستون او همغږي. په لویدیځ برتانوي هند کې د برتانوي اداري پالیسیو اوږدمهاله اقتصادي میراث له تعقیبولو — په استعماري حکومتولۍ کې د سیمه ییز توپیر څخه په ګټه اخیستو ترڅو د اوږدمهاله پرمختیایي پایلو توپیرونه وپیژني — کوم چې نن سبا د دولتي وړتیا، اداري جوړښت او پرمختیایي پالیسۍ د پوهیدو لپاره مستقیم اغیزې لري.
+                زما د دوکتورا تیزس دا څېري چې استعماري بنسټونو د سویلي آسیا د اوږدمهاله پرمختګ په بهیر کې کومه ونډه درلوده - د پرمختیایي اقتصاد، اقتصادي تاریخ او سیاسي اقتصاد سره د عصري اقتصادي Applied Econometrics او ماشیني زده کړې په پیوستون او همغږي. په لویدیځ برتانوي هند کې د برتانوي اداري پالیسیو اوږدمهاله اقتصادي میراث له تعقیبولو - په استعماري حکومتولۍ کې د سیمه ییز توپیر څخه په ګټه اخیستو ترڅو د اوږدمهاله پرمختیایي پایلو توپیرونه وپیژني - کوم چې نن سبا د دولتي وړتیا، اداري جوړښت او پرمختیایي پالیسۍ د پوهیدو لپاره مستقیم اغیزې لري.
             </p>
             <p>
-                زه د <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank" rel="noopener">پروفیسر سټیفن براډبیري</a> او <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank" rel="noopener">ډاکټر ایریک چیني</a> په لارښونه خپل دوکتورا مخکې بیایم او د <a href="https://www.wolfson.ox.ac.uk/" target="_blank" rel="noopener">ولفسن کالج</a> غړی يم. د خپلې دوکتورا تر څنګ د <a href="https://dataforafghanistan.org/" target="_blank" rel="noopener">افغانستان ډاټا</a> سره سلاکاري هم پر مخ وړم — یوه داسې پلیټفارم چې د افغانستان (د نړۍ د ترټولو ډاټا کمو هیوادونو څخه یو) د اقتصادي څېړنو لپاره لوړ کیفیتي ډاټا او لیدونه چمتو کوي.
+                زه د <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank" rel="noopener">پروفیسر سټیفن براډبیري</a> او <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank" rel="noopener">ډاکټر ایریک چیني</a> په لارښونه خپل دوکتورا مخکې بیایم او د <a href="https://www.wolfson.ox.ac.uk/" target="_blank" rel="noopener">ولفسن کالج</a> غړی يم. د خپلې دوکتورا تر څنګ د <a href="https://dataforafghanistan.org/" target="_blank" rel="noopener">افغانستان ډاټا</a> سره سلاکاري هم پر مخ وړم - یوه داسې پلیټفارم چې د افغانستان (د نړۍ د ترټولو ډاټا کمو هیوادونو څخه یو) د اقتصادي څېړنو لپاره لوړ کیفیتي ډاټا او لیدونه چمتو کوي.
             </p>
             <p class="disclaimer">ښکاره شوي نظرونه زما خپل دي او د هیڅ هغه بنسټ استازیتوب نه کوي چې ما اوس یا پخوا ورسره اړیکه درلوده.</p>
         </div>
@@ -914,6 +1130,32 @@
 <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
+    /* ---------- GoatCounter event helpers ---------- */
+    const gcQueue = [];
+    let lastSectionCounted = null;
+
+    function gcEvent(name, title) {
+        if (window.goatcounter && window.goatcounter.count) {
+            window.goatcounter.count({ path: name, title: title, event: true });
+        } else {
+            gcQueue.push([name, title]);
+        }
+    }
+
+    function gcFlush() {
+        if (!(window.goatcounter && window.goatcounter.count)) return;
+        while (gcQueue.length) {
+            const ev = gcQueue.shift();
+            window.goatcounter.count({ path: ev[0], title: ev[1], event: true });
+        }
+    }
+
+    function trackSection(section) {
+        if (section === lastSectionCounted) return;
+        lastSectionCounted = section;
+        gcEvent('section-' + section, 'Section viewed: ' + section);
+    }
+
     const SECTIONS = ['home', 'research', 'cv', 'teaching', 'contact', 'pashto'];
 
     function showSection(section) {
@@ -926,6 +1168,7 @@
         document.getElementById(section + '-link').classList.add('active');
 
         window.location.hash = section;
+        trackSection(section);
         window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
@@ -933,6 +1176,8 @@
         const hash = window.location.hash.substring(1);
         if (hash && document.getElementById(hash + '-section')) {
             showSection(hash);
+        } else if (lastSectionCounted === null) {
+            trackSection('home');
         }
     }
 
@@ -943,11 +1188,80 @@
     function toggleCourse(contentId, chevronId) {
         const content = document.getElementById(contentId);
         const chevron = document.getElementById(chevronId);
-        const header = document.getElementById('efeh-header');
+        const header = document.getElementById(contentId.replace('-content', '-header'));
         const isHidden = content.classList.contains('hide');
         content.classList.toggle('hide');
         chevron.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
         if (header) header.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+    }
+
+    /* ---------- Click tracking ---------- */
+    document.addEventListener('click', function (e) {
+        const a = e.target.closest ? e.target.closest('a[href]') : null;
+        if (!a) return;
+        const href = a.getAttribute('href');
+        if (!href || href.charAt(0) === '#') return;
+
+        if (href.indexOf('mailto:') === 0) {
+            gcEvent('email-' + href.slice(7).split('?')[0], 'Email link clicked');
+            return;
+        }
+
+        let url;
+        try { url = new URL(a.href, window.location.href); } catch (err) { return; }
+        const host = url.hostname.replace(/^www\./, '');
+
+        if (host === 'dropbox.com') {
+            gcEvent('teaching-efeh-materials', 'EfEH course materials opened (Dropbox)');
+            return;
+        }
+
+        if ((host === 'solo.bodleian.ox.ac.uk' || host === 'doi.org') && a.closest('.accordion-body tbody tr')) {
+            const cells = a.closest('tr').querySelectorAll('td');
+            const readingCell = cells[cells.length - 2];
+            const author = readingCell ? readingCell.textContent.trim().split(',')[0].trim().toLowerCase() : 'unknown';
+            gcEvent('reading-' + author, 'Reading opened: ' + author);
+            return;
+        }
+
+        if (url.origin !== window.location.origin) {
+            gcEvent('out-' + host + url.pathname.replace(/\/$/, ''), 'Outbound link: ' + a.textContent.trim().slice(0, 150));
+            return;
+        }
+
+        if (/\.pdf$/i.test(url.pathname)) {
+            gcEvent('cv-opened', 'CV PDF opened');
+        }
+    });
+
+    /* ---------- CV captcha (Cloudflare Turnstile) ---------- */
+    const TURNSTILE_SITEKEY = '0x4AAAAAAFLnlGw8uo9sCyRf';
+    const CV_FILE = 'Maiwand_Nangyal_CV_Website_v31.pdf';
+    let cvWidgetRendered = false;
+
+    function revealCvCaptcha(e) {
+        e.preventDefault();
+        if (cvWidgetRendered) return;
+
+        const box = document.getElementById('cv-captcha');
+
+        if (!window.turnstile) {
+            box.textContent = 'The verification check could not load. Please refresh the page, or email me for a copy of my CV.';
+            return;
+        }
+
+        cvWidgetRendered = true;
+        gcEvent('cv-captcha-shown', 'CV captcha shown');
+        turnstile.render('#cv-captcha', {
+            sitekey: TURNSTILE_SITEKEY,
+            callback: function () {
+                const p = document.getElementById('cv-download');
+                p.innerHTML = '<a href="' + CV_FILE + '" target="_blank" rel="noopener">Open my CV (PDF)</a>';
+                p.classList.remove('hide');
+                box.classList.add('hide');
+                gcEvent('cv-unlocked', 'CV unlocked (captcha solved)');
+            }
+        });
     }
 </script>
 
@@ -957,8 +1271,6 @@
     const ctx = canvas.getContext('2d');
     const W = canvas.width;
     const H = canvas.height;
-
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     const ROAD_DURATION = 4500;
     const PAUSE = 2000;
@@ -1306,23 +1618,6 @@
         }
     }
 
-    function drawStaticScene() {
-        ctx.clearRect(0, 0, W, H);
-        drawSky();
-        drawSun();
-        clouds.forEach(c => drawCloud(c.x, c.y, c.scale));
-        birds.forEach(b => drawBird(b.x, b.y, b.wingPhase, b.size));
-        drawCliff();
-        drawValley();
-        drawRoad(1);
-        drawModernBuildings(1);
-    }
-
-    if (reduceMotion) {
-        drawStaticScene();
-        return;
-    }
-
     function draw(timestamp) {
         if (pausing) {
             if (timestamp - pauseStart >= PAUSE) {
@@ -1389,6 +1684,8 @@
     requestAnimationFrame(draw);
 })();
 </script>
+
+<script data-goatcounter="https://nangyal.goatcounter.com/count" async src="//gc.zgo.at/count.js" onload="gcFlush()"></script>
 
 </body>
 </html>
