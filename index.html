@@ -560,6 +560,7 @@
             <div class="nav-links">
                 <a href="#home" onclick="showSection('home')" class="active" id="home-link">Home</a>
                 <a href="#research" onclick="showSection('research')" id="research-link">Research</a>
+                <a href="#data" onclick="showSection('data')" id="data-link">Data</a>
                 <a href="#cv" onclick="showSection('cv')" id="cv-link">CV</a>
                 <a href="#teaching" onclick="showSection('teaching')" id="teaching-link">Teaching</a>
                 <a href="#contact" onclick="showSection('contact')" id="contact-link">Contact</a>
@@ -653,6 +654,20 @@
             <div class="research-item">
                 <p class="research-title">32nd Annual Graduate Workshop, Nuffield College <span class="course-term">(04/2024)</span></p>
                 <p class="research-meta"><em>Presented MSc dissertation research to an audience including Professor Sheilagh Ogilvie and Professor Joel Mokyr (joint 2025 Nobel laureate in Economic Sciences), incorporating their feedback into the final dissertation.</em></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== DATA ==================== -->
+    <div id="data-section" class="hide">
+        <p class="eyebrow">Data</p>
+        <h1>Data</h1>
+
+        <div class="section">
+            <div class="research-item">
+                <p class="research-title">Datasets and Visualisations</p>
+                <p class="research-meta"><em>Datasets and visualisations on Afghanistan and Pakistan.</em><br>
+                <span class="status-badge neutral">Coming soon</span></p>
             </div>
         </div>
     </div>
@@ -1218,7 +1233,7 @@
         gcEvent('section-' + section, 'Section viewed: ' + section);
     }
 
-    const SECTIONS = ['home', 'research', 'cv', 'teaching', 'contact', 'pashto'];
+    const SECTIONS = ['home', 'research', 'data', 'cv', 'teaching', 'contact', 'pashto'];
 
     function showSection(section) {
         SECTIONS.forEach(function (s) {
