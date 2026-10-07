@@ -373,7 +373,19 @@
 
         .afg-caption p { margin: 0; font-size: 0.9em; color: var(--muted); line-height: 1.5; max-width: 270px; }
         .afg-caption .cred-label { font-size: 0.7em; color: var(--gold); margin-bottom: 4px; }
-        .afg-caption .afg-legend { margin-bottom: 4px; }
+        .afg-caption .afg-legend {
+            display: inline-flex;
+            gap: 14px;
+            margin: 2px 0 10px;
+            padding: 4px 10px;
+            font-size: 0.82em;
+            color: var(--ink);
+            background: var(--card);
+            border: 1px solid var(--rule);
+            border-radius: 6px;
+            max-width: none;
+        }
+        .afg-legend span { white-space: nowrap; }
         .afg-caption a { font-style: italic; }
 
         .afg-tag {
@@ -692,7 +704,7 @@
                     </svg>
                     <div class="afg-caption">
                         <p class="cred-label">Opium &amp; conflict, <span id="afgYear">1994</span></p>
-                        <p class="afg-legend"><span style="color: var(--gold);">&#9679;</span> Poppy cultivation &nbsp; <span style="color: var(--oxford);">&#9679;</span> Conflict events</p>
+                        <p class="afg-legend"><span><span style="color: var(--gold);">&#9679;</span> Poppy cultivation</span><span><span style="color: var(--oxford);">&#9679;</span> Conflict events</span></p>
                         <p>From <a href="#research" onclick="showSection('research')">The Game of Thorns</a>, a working paper I am currently developing.</p>
                         <span class="afg-tag">Illustrative, not data</span>
                     </div>
