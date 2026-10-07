@@ -293,6 +293,33 @@
             white-space: nowrap;
         }
 
+        .credentials {
+            margin: 22px 0 0;
+            padding-top: 16px;
+            border-top: 1px solid var(--rule);
+            font-size: 0.9em;
+            color: var(--ink);
+        }
+
+        .cred-label {
+            display: block;
+            font-size: 0.78em;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin: 0 0 4px;
+        }
+
+        .cred-list {
+            margin: 0 0 12px;
+            padding-left: 18px;
+            line-height: 1.55;
+        }
+
+        .cred-list li { margin: 0 0 2px; }
+        .cred-list li::marker { color: var(--gold); }
+
         .home-bio { margin-top: 28px; }
 
         .home-bio p { margin: 0 0 18px; }
@@ -517,9 +544,16 @@
         @media (max-width: 720px) {
             body { font-size: 16px; }
 
-            .nav-inner { padding: 0 16px; }
+            .nav-inner { padding: 6px 12px; }
             .nav-name { display: none; }
-            .nav-links { width: 100%; justify-content: flex-start; }
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+                overflow-x: visible;
+                gap: 2px;
+            }
+            .nav-links a { padding: 6px 9px; }
 
             main { padding: 36px 18px 0; }
 
@@ -588,6 +622,22 @@
                     <span>Political Economy</span>
                     <span>Econometrics</span>
                     <span>Machine Learning</span>
+                </div>
+
+                <div class="credentials" aria-label="Education and experience">
+                    <p class="cred-label">Education</p>
+                    <ul class="cred-list">
+                        <li>DPhil Economics, University of Oxford (in progress)</li>
+                        <li>MSc Economic and Social History, University of Oxford</li>
+                        <li>MPhil Economics, University of Cambridge</li>
+                        <li>BSc, University of Exeter</li>
+                    </ul>
+                    <p class="cred-label">Experience</p>
+                    <ul class="cred-list">
+                        <li>Advisor, Data for Afghanistan</li>
+                        <li>World Bank Group, Outcome Measurement Unit</li>
+                        <li>Economist, UK Department for Work and Pensions</li>
+                    </ul>
                 </div>
             </div>
 
