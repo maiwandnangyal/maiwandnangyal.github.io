@@ -448,6 +448,23 @@
             color: var(--muted);
         }
 
+        /* ---------- Data maps ---------- */
+        .viz-intro { margin: 0 0 20px; }
+
+        .viz-frame {
+            margin: 0 0 24px;
+            padding: 20px;
+            background: var(--card);
+            border: 1px solid var(--rule);
+            border-radius: 10px;
+        }
+
+        .viz-frame iframe { display: block; width: 100%; height: 720px; border: 0; }
+
+        @media (max-width: 720px) {
+            .viz-frame { padding: 12px; margin-left: -6px; margin-right: -6px; }
+        }
+
         /* ---------- Teaching ---------- */
         .course-card {
             background: var(--card);
@@ -809,11 +826,16 @@
         <h1>Data</h1>
 
         <div class="section">
-            <div class="research-item">
-                <p class="research-title">Datasets and Visualisations</p>
-                <p class="research-meta"><em>Datasets and visualisations on Afghanistan, Khyber Pakhtunkhwa and Balochistan.</em><br>
-                <span class="status-badge neutral">Coming soon</span></p>
-            </div>
+            <h2>Afghanistan: Opium and Conflict by District, 1994&ndash;2021</h2>
+            <p class="research-meta viz-intro">Interactive maps from <a href="#research" onclick="showSection('research')"><em>The Game of Thorns</em></a>. Hover over a district to see its values year by year.</p>
+
+            <figure class="viz-frame">
+                <iframe src="maps/opium.html?embed" title="Map of mean annual opium poppy cultivation by Afghan district, 1994 to 2021" loading="lazy"></iframe>
+            </figure>
+
+            <figure class="viz-frame">
+                <iframe src="maps/conflict.html?embed" title="Map of terrorist incidents and casualties by Afghan district, 1994 to 2021" loading="lazy"></iframe>
+            </figure>
         </div>
     </div>
 
@@ -1973,6 +1995,16 @@
     }
     requestAnimationFrame(frame);
 })();
+</script>
+
+<script>
+/* Resize the map iframes on the Data page to fit their content */
+window.addEventListener('message', function (e) {
+    if (e.origin !== window.location.origin || !e.data || e.data.type !== 'viz-height') return;
+    document.querySelectorAll('.viz-frame iframe').forEach(function (f) {
+        if (f.contentWindow === e.source) f.style.height = e.data.h + 'px';
+    });
+});
 </script>
 
 <script data-goatcounter="https://nangyal.goatcounter.com/count" async src="//gc.zgo.at/count.js" onload="gcFlush()"></script>
