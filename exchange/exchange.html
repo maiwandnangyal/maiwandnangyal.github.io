@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Afghani exchange rate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="exchange.css?v=20261009022714">
+</head>
+<body>
+<figure class="viz-root" data-v="20261009022714">
+  <figcaption>
+    <h2>The afghani exchange rate</h2>
+    <p class="subtitle"></p>
+  </figcaption>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Time range">
+      <button role="tab" data-v="full" aria-selected="true">Full history</button>
+      <button role="tab" data-v="recent" aria-selected="false">Last 30 days</button>
+    </div>
+    <div class="ccy" role="group" aria-label="Currency">
+      <button data-c="USD" aria-pressed="true">US dollar</button>
+      <button data-c="GBP" aria-pressed="false">Pound sterling</button>
+    </div>
+  </div>
+  <div class="stats"></div>
+  <div class="legend"></div>
+  <div class="chart" role="img" aria-label="Line chart of afghani per US dollar or pound sterling"></div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="exchange.js?v=20261009022714"></script>
+</body>
+</html>
