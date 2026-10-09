@@ -1,0 +1,38 @@
+
+.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;--line:#e1e0d9;
+  max-width:1100px;margin:0 auto;padding:16px;background:var(--surface);color:var(--ink);position:relative;
+  font:14px/1.45 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
+body{margin:0;padding:16px;background:#f9f9f7}
+body.embed{padding:0;background:transparent}
+body.embed .viz-root{padding:0;background:transparent;max-width:none}
+h2{margin:0;font-size:20px;font-weight:650}
+.subtitle{margin:2px 0 12px;color:var(--ink-2)}
+.layout{display:grid;grid-template-columns:1fr 260px;gap:18px;align-items:start}
+@media (max-width:760px){.layout{grid-template-columns:1fr}}
+.map svg{display:block;width:100%;height:auto}
+.context{fill:#ebeae6;stroke:#fff;stroke-width:.8}
+.unit{stroke:#fff;stroke-width:.35;stroke-opacity:.85;cursor:pointer;transition:opacity .15s}
+.map.focus .unit{opacity:.35}
+.map.focus .unit.on{opacity:1}
+.outline{fill:none;stroke:#fff;stroke-width:2;pointer-events:none}
+.unit-hl{fill:none;stroke:var(--ink);stroke-width:1.6;pointer-events:none}
+.lbl{font-size:13px;font-weight:600;fill:var(--ink);paint-order:stroke;stroke:#fff;stroke-width:3.5px;
+  stroke-linejoin:round;pointer-events:none;text-anchor:middle}
+.leader{stroke:var(--ink);stroke-width:1;pointer-events:none}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:flex;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer}
+.list li:hover,.list li.on{background:#f1f0ec}
+.list .sw{width:14px;height:14px;border-radius:3px;flex:none;margin-top:3px}
+.list .nm{font-weight:600}
+.list .ct{font-size:12.5px;color:var(--ink-2)}
+.list .st{font-size:12.5px;color:var(--ink-2)}
+.tooltip{position:absolute;pointer-events:none;background:#fff;border:1px solid var(--line);border-radius:8px;
+  box-shadow:0 4px 14px rgba(0,0,0,.14);padding:10px 12px;font-size:13px;max-width:300px}
+.tooltip .un{font-weight:700;font-size:15px}
+.tooltip .uk{color:var(--muted);font-size:12.5px;margin-bottom:6px}
+.tooltip .nm{font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px}
+.tooltip .sw{width:12px;height:12px;border-radius:3px}
+.tooltip p{margin:6px 0 0;color:var(--ink-2)}
+.tooltip .fc{color:var(--ink)}
+.tooltip .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block}
+.source{margin-top:10px;font-size:12px;color:var(--muted)}
