@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Night-time light</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="nightlights.css?v=20261010034646">
+</head>
+<body>
+<figure class="viz-root" data-v="20261010034646">
+  <figcaption>
+    <h2>Night-time light across the frontier</h2>
+    <p class="subtitle">Total light seen from space by district: Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan.</p>
+  </figcaption>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Map view">
+      <button role="tab" data-m="level" aria-selected="true">Total light</button>
+      <button role="tab" data-m="change" aria-selected="false">Change since 2020</button>
+    </div>
+    <div class="year">
+      <button class="play" aria-label="Play through the years">&#9654;</button>
+      <input type="range" aria-label="Year">
+      <output class="yr"></output>
+    </div>
+  </div>
+  <div class="stats"></div>
+  <div class="grid2">
+    <div>
+      <div class="legend map-legend"></div>
+      <div class="map" role="img" aria-label="Map of night-time light by district"></div>
+    </div>
+    <div>
+      <div class="legend line-legend"></div>
+      <div class="lines" role="img" aria-label="Line chart of total night-time light by region, 2020 = 100"></div>
+      <p class="note">Total light in each region, 2020 = 100. Click the chart to choose a year.</p>
+    </div>
+  </div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="nightlights.js?v=20261010034646"></script>
+</body>
+</html>
