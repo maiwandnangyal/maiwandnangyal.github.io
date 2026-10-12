@@ -58,9 +58,15 @@
   units.on('pointermove', (e, u) => {
     const p = byId[u.properties.region].properties, q = u.properties;
     focus(q.region, u);
-    tip.innerHTML = `<div class="un">${q.name}</div>
-      <div class="uk">${q.kind}${q.parent ? ', ' + q.parent : ''}</div>
-      <div class="nm"><span class="sw" style="background:${p.colour}"></span>${p.name}</div>`;
+    // Three aligned rows. Former FATA was not in a province; it joined Khyber Pakhtunkhwa in 2018.
+    // The boundary files misspell Ghazni and leave Sarkani (Kunar) without a province.
+    let prov = (q.parent || '').replace(/ province$/, '').replace('Ghanzi', 'Ghazni');
+    if (prov === 'nan') prov = q.name === 'Sarkani' ? 'Kunar' : '';
+    if (q.region === 'fata') prov = 'Khyber Pakhtunkhwa (since 2018)';
+    tip.innerHTML = `<dl class="kv">
+      <dt>${q.kind}:</dt><dd class="un">${q.name}</dd>
+      ${prov ? `<dt>Province:</dt><dd>${prov}</dd>` : ''}
+      <dt>Region:</dt><dd><span class="sw" style="background:${p.colour}"></span>${p.name}</dd></dl>`;
     place(e);
   }).on('pointerleave', hide);
   items.on('mouseenter', (e, f) => focus(f.properties.id, null)).on('mouseleave', () => focus(null, null));

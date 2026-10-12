@@ -32,6 +32,11 @@ h2{margin:0;font-size:20px;font-weight:650}
 .tooltip .uk{color:var(--muted);font-size:12.5px;margin-bottom:6px}
 .tooltip .nm{font-weight:600;font-size:13px;display:flex;align-items:center;gap:8px}
 .tooltip .sw{width:12px;height:12px;border-radius:3px}
+.tooltip .kv{display:grid;grid-template-columns:max-content 1fr;column-gap:12px;row-gap:4px;margin:0;align-items:baseline}
+.tooltip .kv dt{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.tooltip .kv dd{margin:0;font-size:13px;font-weight:600}
+.tooltip .kv dd.un{font-size:14px;font-weight:700}
+.tooltip .kv .sw{display:inline-block;margin-right:6px;vertical-align:-1px}
 .tooltip p{margin:6px 0 0;color:var(--ink-2)}
 .tooltip .fc{color:var(--ink)}
 .tooltip .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);display:block}
