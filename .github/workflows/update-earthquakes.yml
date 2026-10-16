@@ -1,0 +1,40 @@
+name: Update earthquakes chart
+
+on:
+  schedule:
+    - cron: "17 5 * * *"     # every day at 05:17 UTC
+  workflow_dispatch:          # adds a "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download the latest earthquakes and update earthquakes.json
+        run: python .github/scripts/update_earthquakes.py
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- earthquakes; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add earthquakes
+          git commit -m "Update earthquakes data ($(date -u +%F))"
+          # if another update workflow pushed in the meantime, take its commit and try again
+          git push || (git pull --rebase && git push)
+          # Pushes made by this workflow do not always start a Pages rebuild, so request one
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+        env:
+          GH_TOKEN: ${{ github.token }}
