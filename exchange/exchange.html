@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Afghani exchange rate</title>
+<title>Afghani and Pakistani rupee exchange rates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="exchange.css?v=20261015124420">
+<link rel="stylesheet" href="exchange.css?v=20261017011341">
 </head>
 <body>
-<figure class="viz-root" data-v="20261015124420">
+<figure class="viz-root" data-v="20261017011341">
   <figcaption>
-    <h2>The afghani exchange rate</h2>
+    <h2>The afghani and the Pakistani rupee</h2>
     <p class="subtitle"></p>
   </figcaption>
   <div class="bar">
@@ -19,18 +19,27 @@
       <button role="tab" data-v="full" aria-selected="true">Full history</button>
       <button role="tab" data-v="recent" aria-selected="false">Last 30 days</button>
     </div>
-    <div class="ccy" role="group" aria-label="Currency">
+  </div>
+  <div class="pick">
+    <div class="ccy subj" role="group" aria-label="Currency">
+      <span class="lab">Currency</span>
+      <button data-s="AFN" aria-pressed="true">Afghani</button>
+      <button data-s="PKR" aria-pressed="false">Pakistani rupee</button>
+    </div>
+    <div class="ccy against" role="group" aria-label="Against">
+      <span class="lab">Against</span>
       <button data-c="USD" aria-pressed="true">US dollar</button>
       <button data-c="GBP" aria-pressed="false">Pound sterling</button>
+      <button data-c="OTHER" aria-pressed="false"></button>
     </div>
   </div>
   <div class="stats"></div>
   <div class="legend"></div>
-  <div class="chart" role="img" aria-label="Line chart of afghani per US dollar or pound sterling"></div>
+  <div class="chart" role="img" aria-label="Line chart of the exchange rate of the afghani or the Pakistani rupee"></div>
   <div class="tooltip" hidden></div>
   <p class="source"></p>
 </figure>
 <script src="d3.v7.9.0.min.js"></script>
-<script src="exchange.js?v=20261015124420"></script>
+<script src="exchange.js?v=20261017011341"></script>
 </body>
 </html>
