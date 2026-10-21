@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Afghanistan to 2075: a microsimulation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="microsim.css?v=20261020112406">
+</head>
+<body>
+<figure class="viz-root" data-v="20261020112406">
+  <figcaption>
+    <h2>Afghanistan to 2075: a microsimulation</h2>
+    <p class="subtitle">GDP per person under different futures, built up from 20,000 simulated Afghans who are born, go to school, work, have children and die, year by year. Pick a scenario or set your own.</p>
+  </figcaption>
+  <div class="ccy pills" role="group" aria-label="Scenario">
+    <span class="lab">Scenario</span>
+    <button data-p="sq" aria-pressed="true">Status quo</button>
+    <button data-p="reform" aria-pressed="false">Reform</button>
+    <button data-p="crisis" aria-pressed="false">Crisis</button>
+    <span class="custom"></span>
+  </div>
+  <div class="ctl">
+    <label>Girls back in secondary school and university
+      <select id="reopen"><option value="2027">From 2027</option><option value="2030">From 2030</option><option value="2035">From 2035</option><option value="9999">Never</option></select></label>
+    <label>Women in the labour force by 2050 <b id="flfp50o"></b><input type="range" id="flfp50" min="4" max="40" step="1"></label>
+    <label>Productivity growth a year <b id="tfpo"></b><input type="range" id="tfp" min="-1" max="3" step="0.1"></label>
+    <label>Investment, share of GDP <b id="invo"></b><input type="range" id="inv" min="5" max="35" step="1"></label>
+    <label>Births per woman in 2075, at today's schooling <b id="tfr75o"></b><input type="range" id="tfr75" min="1.8" max="4" step="0.1"></label>
+  </div>
+  <div class="stats"></div>
+  <div class="legend" id="leg"></div>
+  <div class="chart" id="main" role="img" aria-label="Line chart of GDP per person in Afghanistan, 2000 to 2025 and projected to 2075 under each scenario"><p class="wait">Running the simulation…</p></div>
+  <div class="yr"><button id="play" aria-label="Play the years">▶</button>
+    <input type="range" id="year" min="2024" max="2075" step="1" value="2075" aria-label="Year"><b id="yearo">2075</b></div>
+  <div class="low">
+    <div><div class="k"><span>People by age and schooling, <span id="pyy"></span></span></div><div id="pyr"></div><div class="legend" id="pleg"></div></div>
+    <div id="sparks"></div>
+  </div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="microsim.js?v=20261020112406"></script>
+</body>
+</html>
