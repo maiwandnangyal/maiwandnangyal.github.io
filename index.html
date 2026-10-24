@@ -451,6 +451,24 @@
         /* ---------- Data maps ---------- */
         .viz-intro { margin: 0 0 20px; }
 
+        .data-toc {
+            margin: 32px 0 0;
+            padding: 18px 22px;
+            background: var(--card);
+            border: 1px solid var(--rule);
+            border-radius: 10px;
+        }
+
+        .data-toc ol { margin: 6px 0 0; padding-left: 20px; columns: 2; column-gap: 32px; }
+        .data-toc li { margin: 0 0 6px; break-inside: avoid; }
+
+        #data-section .section { scroll-margin-top: 80px; }
+
+        @media (max-width: 720px) {
+            .data-toc ol { columns: 1; }
+            #data-section .section { scroll-margin-top: 110px; }
+        }
+
         .viz-frame {
             margin: 0 0 24px;
             padding: 20px;
@@ -843,7 +861,7 @@
             </ol>
         </nav>
 
-        <div class="section">
+        <div class="section" id="viz-regions">
             <h2>Regions of Focus</h2>
             <p class="research-meta viz-intro">Khyber Pakhtunkhwa, the former Federally Administered Tribal Areas (FATA) and Balochistan are the focus of my PhD; Afghanistan is the focus of my working paper outside the PhD. Hover over the map to see each district and tribal agency.</p>
 
@@ -852,7 +870,7 @@
             </figure>
         </div>
 
-        <div class="section">
+        <div class="section" id="viz-opium">
             <h2>Afghanistan: Opium and Conflict by District</h2>
             <p class="research-meta viz-intro">Interactive maps from <a href="#research" onclick="showSection('research')"><em>The Game of Thorns</em></a>, showing average annual values: opium cultivation for 2002&ndash;2020 and terrorist incidents for 1994&ndash;2020 (the terrorism data end in 2020). Hover over a district to see its band.</p>
 
@@ -865,7 +883,7 @@
             </figure>
         </div>
 
-        <div class="section">
+        <div class="section" id="viz-attention">
             <h2>Global Attention on Afghanistan, 2017&ndash;2026</h2>
             <p class="research-meta viz-intro">How much the world looked at Afghanistan before, during and after August 2021, measured by Wikipedia views and online news coverage. Switch to the 2021 view to follow the year day by day.</p>
 
@@ -874,7 +892,7 @@
             </figure>
         </div>
 
-        <div class="section">
+        <div class="section" id="viz-lights">
             <h2>Night-Time Light, 2012&ndash;2025</h2>
             <p class="research-meta viz-intro">Satellite images of light at night are a common proxy for economic activity where statistics are scarce. After August 2021, Afghanistan dimmed while the regions across the border brightened. Press play or drag the slider to move through the years, and switch to &lsquo;Change since 2020&rsquo; to see which districts grew brighter or dimmer.</p>
 
@@ -882,7 +900,7 @@
                 <iframe src="lights/nightlights.html?embed" title="Map and line chart of night-time light by district in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 2012 to 2025" loading="lazy"></iframe>
             </figure>
         </div>
-        <div class="section">
+        <div class="section" id="viz-earthquakes">
             <h2>Earthquakes Across the Frontier, Since 1902</h2>
             <p class="research-meta viz-intro">Every earthquake of magnitude 4 or more in the USGS catalogue for Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, updated daily. Nearly six in ten strike deep beneath the Hindu Kush; shallow ones, such as Awaran in 2013, shake the ground hardest. Press play or drag the slider to move through the years, and switch to &lsquo;Magnitude 5 and above&rsquo; to compare decades fairly, since smaller earthquakes were only recorded from 1973.</p>
 
@@ -890,7 +908,7 @@
                 <iframe src="earthquakes/earthquakes.html?embed" title="Map and bar chart of earthquakes of magnitude 4 or more in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 1902 to today" loading="lazy"></iframe>
             </figure>
         </div>        
-        <div class="section">
+        <div class="section" id="viz-refugees">
             <h2>Afghan Refugees and Returns, 1979&ndash;2025</h2>
             <p class="research-meta viz-intro">Afghans living abroad under UNHCR&rsquo;s mandate, by host country, and the refugees recorded as returning each year. Close to two million returned in 2025, the most since 2002, most of them from Iran. Use the tabs to switch between the two views.</p>
 
@@ -899,7 +917,7 @@
             </figure>
         </div>
 
-        <div class="section">
+        <div class="section" id="viz-exchange">
                <h2>The Afghani and the Pakistani Rupee</h2>
    <p class="research-meta viz-intro">The afghani and the Pakistani rupee against the US dollar and pound sterling, and against each other, from 2000 to today. Choose a currency and what to compare it against, and use the tabs to switch between the full history and the last 30 days.</p>
 
@@ -907,14 +925,14 @@
                 <iframe src="exchange/exchange.html?embed" title="Line chart of the afghani exchange rate against the US dollar and pound sterling" loading="lazy"></iframe>
             </figure>
         </div>
-    <div class="section">
+    <div class="section" id="viz-inflation">
     <h2>Inflation in Afghanistan and Pakistan</h2>
     <p class="research-meta viz-intro">Consumer price inflation every year since 1960 for Pakistan and since 2003 for Afghanistan, and month by month this year, updated automatically. Prices in Afghanistan fell in 2023 and 2024, while Pakistan's inflation reached 30.8% in 2023, its highest since at least 1960.</p>
     <figure class="viz-frame">
         <iframe src="inflation/inflation.html?embed" title="Line charts of consumer price inflation in Afghanistan and Pakistan, yearly since 1960 and monthly this year" loading="lazy"></iframe>
     </figure>
 </div>
-        <div class="section">
+        <div class="section" id="viz-microsim">
     <h2>Afghanistan to 2075: A Microsimulation</h2>
     <p class="research-meta viz-intro">How rich could Afghanistan be in fifty years? This model follows 20,000 simulated Afghans, calibrated to World Bank, UN and household survey data, as they are born, go to school, work, have children and die each year to 2075, and adds up what they produce. Choose a scenario or set your own assumptions, from girls' return to secondary school to productivity growth, and press play to watch the population change. These are scenarios, not forecasts.</p>
     <figure class="viz-frame">
@@ -1633,6 +1651,12 @@
     document.addEventListener('DOMContentLoaded', loadSectionFromHash);
     window.addEventListener('load', loadSectionFromHash);
     window.addEventListener('hashchange', loadSectionFromHash);
+
+    function jumpTo(e, id) {
+        e.preventDefault();
+        const target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 
     function toggleCourse(contentId, chevronId) {
         const content = document.getElementById(contentId);
