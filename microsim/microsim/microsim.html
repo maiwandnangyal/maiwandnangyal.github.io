@@ -6,10 +6,10 @@
 <title>Afghanistan to 2075: a microsimulation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="microsim.css?v=20261020112406">
+<link rel="stylesheet" href="microsim.css?v=20261025230850">
 </head>
 <body>
-<figure class="viz-root" data-v="20261020112406">
+<figure class="viz-root" data-v="20261025230850">
   <figcaption>
     <h2>Afghanistan to 2075: a microsimulation</h2>
     <p class="subtitle">GDP per person under different futures, built up from 20,000 simulated Afghans who are born, go to school, work, have children and die, year by year. Pick a scenario or set your own.</p>
@@ -28,20 +28,29 @@
     <label>Productivity growth a year <b id="tfpo"></b><input type="range" id="tfp" min="-1" max="3" step="0.1"></label>
     <label>Investment, share of GDP <b id="invo"></b><input type="range" id="inv" min="5" max="35" step="1"></label>
     <label>Births per woman in 2075, at today's schooling <b id="tfr75o"></b><input type="range" id="tfr75" min="1.8" max="4" step="0.1"></label>
+    <label>Further returnees from Iran and Pakistan, 2027-2030 <b id="reto"></b><input type="range" id="ret" min="0" max="5" step="0.5">
+      <span class="hint">3.7 million returned in 2025 and about 1.6 million in 2026; both are already in the model.</span></label>
+    <label>Extra investment from abroad, share of GDP a year <b id="xinvo"></b><input type="range" id="xinv" min="0" max="12" step="0.5">
+      <span class="hint">Aid, mining and energy deals. The $200m Saudi oil and gas deal of 2026 is about 1% of one year's GDP; the up to $50bn over 25 years the Saudi firm says is possible would be about 11% a year.</span></label>
   </div>
   <div class="stats"></div>
   <div class="legend" id="leg"></div>
   <div class="chart" id="main" role="img" aria-label="Line chart of GDP per person in Afghanistan, 2000 to 2025 and projected to 2075 under each scenario"><p class="wait">Running the simulation…</p></div>
   <div class="yr"><button id="play" aria-label="Play the years">▶</button>
     <input type="range" id="year" min="2024" max="2075" step="1" value="2075" aria-label="Year"><b id="yearo">2075</b></div>
+  <div class="decomp">
+    <div class="k"><span id="dech">What makes the difference in 2075</span></div>
+    <div id="dec"></div>
+  </div>
   <div class="low">
     <div><div class="k"><span>People by age and schooling, <span id="pyy"></span></span></div><div id="pyr"></div><div class="legend" id="pleg"></div></div>
     <div id="sparks"></div>
   </div>
+  <div class="share"><button id="copy">Copy link to these settings</button><span id="copied" aria-live="polite"></span></div>
   <div class="tooltip" hidden></div>
   <p class="source"></p>
 </figure>
 <script src="d3.v7.9.0.min.js"></script>
-<script src="microsim.js?v=20261020112406"></script>
+<script src="microsim.js?v=20261025230850"></script>
 </body>
 </html>

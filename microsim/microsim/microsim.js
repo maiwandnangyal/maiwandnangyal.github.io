@@ -78,7 +78,7 @@
     const flfp = t => t >= 2050 ? P.flfp50 : t <= 2025 ? LFP0.F : LFP0.F + (P.flfp50 - LFP0.F) * (t - 2025) / 25;
     const migW0 = d3.mean(people, p => MIGW(p.age));
     const out = [], snaps = {}, bA = new Array(50).fill(0), wA = new Array(50).fill(0), Hs = {}, pops = {};
-    let Kc, A, Yprev, A25, K25;
+    let Kc, A, Yprev, A26, K26;
     for (let t = T0; t <= T1; t++) {
       if (t > T0) {
         const qF = qtable('F', t), qM = qtable('M', t), born = [], scale = tfrNoEdu0 * tfrPath(t) / tfr0;
@@ -95,8 +95,9 @@
           p.age++;
           schoolStep(p, t, P, r);
         }
-        if (t === 2025) {
-          const live = people.filter(p => !p.dead), n = Math.round(D.RETURNS25 / W);
+        const nret = t === 2025 ? D.RETURNS25 : t === 2026 ? D.RETURNS26 : (t >= 2027 && t <= 2030 ? P.ret * 1e6 / 4 : 0);
+        if (nret > 0) {
+          const live = people.filter(p => !p.dead), n = Math.round(nret / W);
           for (let i = 0; i < n; i++) people.push({...live[Math.floor(r() * live.length)]});
         }
         for (const b of born) people.push(b);
@@ -121,8 +122,8 @@
       let Y;
       if (t === T0) { Y = GDPPC0 * pop; Kc = D.KY0 * Y; A = Y / (Math.pow(Kc, ALPHA) * Math.pow(H, 1 - ALPHA)); }
       else {
-        Kc = (1 - DELTA) * Kc + P.inv / 100 * Yprev;
-        if (t === 2025) { Y = Yprev * (1 + D.GROWTH25); A = Y / (Math.pow(Kc, ALPHA) * Math.pow(H, 1 - ALPHA)); A25 = A; K25 = Kc; }
+        Kc = (1 - DELTA) * Kc + (P.inv + (t >= 2027 ? P.xinv : 0)) / 100 * Yprev;
+        if (t <= 2026) { Y = Yprev * (1 + (t === 2025 ? D.GROWTH25 : D.GROWTH26)); A = Y / (Math.pow(Kc, ALPHA) * Math.pow(H, 1 - ALPHA)); A26 = A; K26 = Kc; }
         else { A *= 1 + P.tfp / 100; Y = A * Math.pow(Kc, ALPHA) * Math.pow(H, 1 - ALPHA); }
       }
       out.push({t, pop, gdp: Y, gdppc: Y / pop, emp100: 100 * (lfF + lfM) * (1 - U0) / alive.length,
@@ -136,11 +137,11 @@
         snaps[t] = sn;
       }
     }
-    const rb = rng(777), Dn = opts.band || 200, paths = [], r25 = out[1];
+    const rb = rng(777), Dn = opts.band === undefined ? 200 : opts.band, paths = [], r26 = out[2];
     for (let d = 0; d < Dn; d++) {
-      let k = K25, a = A25, yprev = r25.gdp; const path = [];
-      for (let t = 2026; t <= T1; t++) {
-        k = (1 - DELTA) * k + P.inv / 100 * yprev;
+      let k = K26, a = A26, yprev = r26.gdp; const path = [];
+      for (let t = 2027; t <= T1; t++) {
+        k = (1 - DELTA) * k + (P.inv + P.xinv) / 100 * yprev;
         a *= (1 + P.tfp / 100) * Math.exp(D.SIGP * gauss(rb) - D.SIGP * D.SIGP / 2);
         const y = a * Math.exp(D.SIGT * gauss(rb) - D.SIGT * D.SIGT / 2) * Math.pow(k, ALPHA) * Math.pow(Hs[t], 1 - ALPHA);
         path.push(y / pops[t]); yprev = y;
@@ -148,9 +149,9 @@
       paths.push(path);
     }
     const band = [];
-    for (let i = 0; i <= T1 - 2026; i++) {
+    for (let i = 0; Dn && i <= T1 - 2027; i++) {
       const v = paths.map(p => p[i]).sort((x, y) => x - y), q = f => v[Math.floor(f * (Dn - 1))];
-      band.push({t: 2026 + i, lo: q(0.1), hi: q(0.9)});
+      band.push({t: 2027 + i, lo: q(0.1), hi: q(0.9)});
     }
     return {rows: out, snaps, band};
   }
@@ -159,13 +160,27 @@
   const PRE = D.PRESETS, NAME = {sq: 'Status quo', reform: 'Reform', crisis: 'Crisis', custom: 'Your settings'};
   const COL = {sq: '#2a78d6', reform: '#1baf7a', crisis: '#eb6834', custom: '#4a3aa7'}, GREY = '#898781';
   const EDC = ['#d3d1c7', '#9fe1cb', '#1d9e75', '#085041', '#f1efe8'], EDN = ['No schooling', 'Primary', 'Secondary', 'Higher', 'Under 7'];
-  const money = v => '$' + d3.format(',.0f')(v), ids = ['flfp50', 'tfp', 'inv', 'tfr75'];
-  const fmt = {flfp50: v => v + '%', tfp: v => (v > 0 ? '+' : '') + (+v).toFixed(1) + '%', inv: v => v + '%', tfr75: v => (+v).toFixed(1)};
-  let P = {...PRE.sq}, key = 'sq', year = T1, timer = null, X, Y, deb, runs = {}, cur, H25;
+  const money = v => '$' + d3.format(',.0f')(v), ids = ['flfp50', 'tfp', 'inv', 'tfr75', 'ret', 'xinv'];
+  const fmt = {flfp50: v => v + '%', tfp: v => (v > 0 ? '+' : '') + (+v).toFixed(1) + '%', inv: v => v + '%', tfr75: v => (+v).toFixed(1),
+    ret: v => (+v).toFixed(1) + ' million', xinv: v => (+v).toFixed(1) + '%'};
+  const LEVER = {reopen: v => +v === 9999 ? 'Girls never back in school' : 'Girls back in school from ' + v, flfp50: v => 'Women in the labour force by 2050: ' + v + '%',
+    tfp: v => 'Productivity growth: ' + fmt.tfp(v), inv: v => 'Investment: ' + v + '% of GDP', tfr75: v => 'Births per woman in 2075: ' + fmt.tfr75(v),
+    ret: v => 'Further returnees: ' + fmt.ret(v), xinv: v => 'Investment from abroad: ' + fmt.xinv(v) + ' of GDP'};
+  const KEYS = ['reopen', ...ids], RANGE = {flfp50: [4, 40], tfp: [-1, 3], inv: [5, 35], tfr75: [1.8, 4], ret: [0, 5], xinv: [0, 12]};
+  const embedded = new URLSearchParams(location.search).has('embed');
+  let P = {...PRE.sq}, key = 'sq', year = T1, timer = null, X, Y, deb, runs = {}, cur, H25, H26, decTok = 0;
+  const DEC = {};
+  // settings from a shared link
+  const QS = new URLSearchParams(location.search);
+  if (['2027', '2030', '2035', '9999'].includes(QS.get('reopen'))) P.reopen = +QS.get('reopen');
+  for (const id of ids) { const v = parseFloat(QS.get(id)); if (QS.has(id) && isFinite(v) && v >= RANGE[id][0] && v <= RANGE[id][1]) P[id] = v; }
 
   await new Promise(r => setTimeout(r, 30));          // let the page paint before the first runs
   for (const k of Object.keys(PRE)) runs[k] = run(PRE[k], {snaps: k === 'sq'});
-  cur = runs.sq; H25 = cur.rows[1].gdppc;
+  const matchPreset = () => { for (const k in PRE) if (Object.keys(PRE[k]).every(f => +PRE[k][f] === +P[f])) return k; return 'custom'; };
+  key = matchPreset();
+  cur = key === 'custom' ? run(P, {snaps: true}) : runs[key];
+  if (key !== 'sq' && key !== 'custom') runs[key] = cur = run(P, {snaps: true});
 
   function syncInputs() {
     $('#reopen').value = String(P.reopen);
@@ -173,14 +188,68 @@
     root.querySelectorAll('.pills button').forEach(b => b.setAttribute('aria-pressed', b.dataset.p === key));
     $('.custom').textContent = key === 'custom' ? 'Your settings' : '';
   }
-  const matchPreset = () => { for (const k in PRE) if (Object.keys(PRE[k]).every(f => +PRE[k][f] === +P[f])) return k; return 'custom'; };
   function recompute() {
     key = matchPreset(); syncInputs(); clearTimeout(deb);
     deb = setTimeout(() => {
       if (!(runs[key] && runs[key].snaps[T0])) { cur = run(P, {snaps: true}); if (PRE[key]) runs[key] = cur; }
       else cur = runs[key];
       draw();
+      if (!embedded) history.replaceState(null, '', link());
     }, 120);
+  }
+
+  // ------------------------------------------------------------ shareable link
+  const link = () => location.origin + location.pathname + '?' + KEYS.map(k => k + '=' + P[k]).join('&');
+  $('#copy').addEventListener('click', async () => {
+    const url = link();
+    try { await navigator.clipboard.writeText(url); $('#copied').textContent = 'Link copied'; }
+    catch (e) { $('#copied').textContent = url; }
+    setTimeout(() => { if ($('#copied').textContent === 'Link copied') $('#copied').textContent = ''; }, 2500);
+  });
+
+  // ------------------------------------------------------------ what makes the difference
+  // each setting on its own against the status quo, then what they add together
+  function decompose() {
+    const el = $('#dec'), SQ = PRE.sq, base = runs.sq.rows[runs.sq.rows.length - 1].gdppc;
+    const diff = KEYS.filter(k => +P[k] !== +SQ[k]), id = KEYS.map(k => P[k]).join('|'), tok = ++decTok;
+    $('#dech').textContent = `What makes the difference in ${T1}: GDP per person compared with the status quo (${money(base)})`;
+    if (!diff.length) { el.innerHTML = '<p class="note">This is the status quo. Pick another scenario or move a setting to see how much each one adds or takes away.</p>'; return; }
+    const total = cur.rows[cur.rows.length - 1].gdppc - base, parts = DEC[id] ? DEC[id].slice() : [];
+    const show = () => {
+      const bars = parts.map(([k, v]) => ({lab: LEVER[k](P[k]), v}));
+      if (parts.length === diff.length && diff.length > 1) bars.push({lab: 'The settings together, beyond their separate effects', v: total - d3.sum(parts, x => x[1]), grey: true});
+      drawDec(bars, parts.length < diff.length);
+    };
+    show();
+    const next = () => {
+      if (tok !== decTok) return;
+      if (parts.length === diff.length) { DEC[id] = parts.slice(); return; }
+      const k = diff[parts.length];
+      parts.push([k, run({...SQ, [k]: P[k]}, {band: 0}).rows[T1 - T0].gdppc - base]);
+      show();
+      setTimeout(next, 0);
+    };
+    setTimeout(next, 30);
+  }
+  function drawDec(bars, busy) {
+    const el = $('#dec'); el.innerHTML = '';
+    const noise = 0.03 * Math.max(runs.sq.rows[T1 - T0].gdppc, cur.rows[T1 - T0].gdppc);
+    const width = el.clientWidth || 700, narrow = width < 560, lw = narrow ? 0 : Math.min(300, width * 0.42), rh = narrow ? 40 : 24;
+    if (!bars.length) { el.innerHTML = '<p class="note">Working out each setting…</p>'; return; }
+    const h = bars.length * rh + 4, lo = Math.min(0, d3.min(bars, b => b.v)), hi = Math.max(0, d3.max(bars, b => b.v)), pad = Math.max(20, 0.1 * (hi - lo));
+    const x = d3.scaleLinear([lo < 0 ? lo - pad : 0, hi > 0 ? hi + pad : 0], [lw + (lo < 0 ? 60 : 12), width - (hi > 0 ? 60 : 12)]);
+    const svg = d3.select(el).append('svg').attr('viewBox', [0, 0, width, h]).attr('role', 'img')
+      .attr('aria-label', 'Bar chart of how much each setting changes GDP per person in 2075 compared with the status quo');
+    svg.append('line').attr('x1', x(0)).attr('x2', x(0)).attr('y1', 0).attr('y2', h).attr('stroke', 'var(--axis)');
+    bars.forEach((b, i) => {
+      const y0 = i * rh + (narrow ? 16 : 3), bh = narrow ? 14 : 16;
+      svg.append('text').attr('x', narrow ? 0 : lw).attr('y', narrow ? y0 - 4 : y0 + 12).attr('text-anchor', narrow ? 'start' : 'end').style('font-size', '12px').text(b.lab);
+      svg.append('rect').attr('x', Math.min(x(0), x(b.v))).attr('y', y0).attr('width', Math.abs(x(b.v) - x(0))).attr('height', bh).attr('rx', 3)
+        .attr('fill', b.grey ? '#898781' : b.v >= 0 ? '#2a78d6' : '#eb6834').attr('fill-opacity', b.grey ? 0.6 : 0.9);
+      svg.append('text').attr('x', b.v >= 0 ? x(b.v) + 5 : x(b.v) - 5).attr('y', y0 + bh - 3).attr('text-anchor', b.v >= 0 ? 'start' : 'end')
+        .style('font-size', '12px').style('font-weight', 600).text((b.v >= 0 ? '+' : '-') + money(Math.abs(b.v)));
+    });
+    el.insertAdjacentHTML('beforeend', `<p class="note">${busy ? 'Working out each setting…' : `Each setting on its own, the rest as in the status quo. Differences smaller than about ${money(noise)} are within random variation.`}</p>`);
   }
   root.querySelectorAll('.pills button').forEach(b => b.addEventListener('click', () => { P = {...PRE[b.dataset.p]}; recompute(); }));
   $('#reopen').addEventListener('change', e => { P.reopen = +e.target.value; recompute(); });
@@ -223,10 +292,11 @@
     g.append('text').attr('class', 'lab2').attr('x', X(T0) - 4).attr('y', 11).attr('text-anchor', 'end').text('Actual');
     g.append('text').attr('class', 'lab2').attr('x', X(T0) + 4).attr('y', 11).text('Projected');
     const ln = d3.line().x(r => X(r.t)).y(r => Y(r.gdppc));
-    g.append('path').datum([{t: 2025, lo: H25, hi: H25}, ...cur.band]).attr('fill', COL[key]).attr('fill-opacity', 0.14)
+    H25 = cur.rows[1].gdppc; H26 = cur.rows[2].gdppc;
+    g.append('path').datum([{t: 2026, lo: H26, hi: H26}, ...cur.band]).attr('fill', COL[key]).attr('fill-opacity', 0.14)
       .attr('d', d3.area().x(b => X(b.t)).y0(b => Y(b.lo)).y1(b => Y(b.hi)));
     g.append('path').datum(D.HIST.map(([t, v]) => ({t, gdppc: v}))).attr('fill', 'none').attr('stroke', GREY).attr('stroke-width', 2).attr('d', ln);
-    g.append('path').datum([{t: T0, gdppc: D.HIST[D.HIST.length - 1][1]}, {t: 2025, gdppc: H25}]).attr('fill', 'none').attr('stroke', GREY).attr('stroke-width', 2).attr('stroke-dasharray', '3 3').attr('d', ln);
+    g.append('path').datum([{t: T0, gdppc: D.HIST[D.HIST.length - 1][1]}, {t: 2025, gdppc: H25}, {t: 2026, gdppc: H26}]).attr('fill', 'none').attr('stroke', GREY).attr('stroke-width', 2).attr('stroke-dasharray', '3 3').attr('d', ln);
     const ends = [];
     lines.forEach(l => {
       const on = l.k === key;
@@ -245,7 +315,11 @@
         const [mx] = d3.pointer(e, g.node()), t = Math.max(2000, Math.min(T1, Math.round(X.invert(mx))));
         let html = `<div class="dt">${t}</div>`;
         if (t <= T0) { const h = D.HIST.find(x => x[0] === t); html += `<div class="row"><span class="nm">Actual</span><span class="vv">${h ? money(h[1]) : 'n/a'}</span></div>`; }
-        else if (t === 2025) html += `<div class="row"><span class="nm">World Bank estimate</span><span class="vv">${money(H25)}</span></div><div class="note">GDP up 4.8%; population up about 11% with 3.7 million returnees</div>`;
+        else if (t <= 2026) {
+          const r = cur.rows[t - T0], up = Math.round(100 * (r.pop / cur.rows[t - T0 - 1].pop - 1));
+          html += `<div class="row"><span class="nm">World Bank ${t === 2025 ? 'estimate' : 'forecast'}</span><span class="vv">${money(r.gdppc)}</span></div>` +
+            `<div class="note">GDP up ${t === 2025 ? '4.8' : '4.0'}%; population up about ${up}% with ${t === 2025 ? '3.7' : '1.6'} million returnees</div>`;
+        }
         else {
           lines.forEach(l => { const r = l.rows.find(x => x.t === t); html += `<div class="row"><span class="kk" style="background:${COL[l.k]}"></span><span class="nm">${NAME[l.k]}</span><span class="vv">${money(r.gdppc)}</span></div>`; });
           const bb = cur.band.find(x => x.t === t); html += `<div class="note">${NAME[key]}: likely range ${money(bb.lo)} to ${money(bb.hi)}</div>`;
@@ -317,7 +391,7 @@
     SP.forEach((s, i) => { $('#sv' + i).textContent = s.v(s.f(r), s.f2 && s.f2(r)); s.svg.select('.sm').attr('x1', s.x(year)).attr('x2', s.x(year)); });
     drawPyr();
   }
-  function draw() { stats(); drawMain(); drawSparks(); drawYear(); }
+  function draw() { stats(); drawMain(); drawSparks(); drawYear(); decompose(); }
   syncInputs(); draw();
   let lw = root.clientWidth;
   new ResizeObserver(() => { if (Math.abs(root.clientWidth - lw) < 2) return; lw = root.clientWidth; clearTimeout(window.__rz); window.__rz = setTimeout(draw, 120); }).observe(root);
