@@ -2148,7 +2148,7 @@
 })();
 </script>
 
-
+<script>
 window.addEventListener('message', function (e) {
     if (e.origin !== window.location.origin || !e.data || e.data.type !== 'viz-height') return;
     document.querySelectorAll('.viz-frame iframe').forEach(function (f) {
