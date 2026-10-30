@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Misc: fund tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="funds.css?v=20261030022923">
+</head>
+<body>
+<figure class="viz-root" data-v="20261030022923">
+  <figcaption>
+    <h2>Fund tracker</h2>
+    <p class="subtitle"></p>
+  </figcaption>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Time range">
+      <button role="tab" data-v="1w" aria-selected="false">Last week</button>
+      <button role="tab" data-v="1m" aria-selected="true">Last month</button>
+      <button role="tab" data-v="3m" aria-selected="false">Last 3 months</button>
+      <button role="tab" data-v="1y" aria-selected="false">Last year</button>
+    </div>
+  </div>
+  <div class="ccy picks" role="group" aria-label="Funds shown"><span class="lab">Funds</span></div>
+  <div class="stats"></div>
+  <div class="chart" role="img" aria-label="Line chart of each fund's return in pounds over the chosen period"><p class="wait">Loading prices…</p></div>
+  <div class="tooltip" hidden></div>
+  <div class="calc">
+    <div class="calc-head">
+      <h3>If you had invested</h3>
+      <label class="amt">£<input id="amt" type="number" min="1" step="10" value="100" inputmode="decimal" aria-label="Amount invested in pounds"></label>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>Fund</th><th>Today</th><th>1 week ago</th><th>1 month ago</th><th>3 months ago</th><th>1 year ago</th></tr></thead>
+      <tbody id="calc"></tbody>
+    </table></div>
+    <p class="note">Value now of a single amount invested at the closing price on each date. Money invested today is worth what you put in until prices move.</p>
+  </div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="funds.js?v=20261030022923"></script>
+</body>
+</html>
