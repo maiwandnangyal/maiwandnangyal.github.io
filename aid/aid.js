@@ -164,7 +164,7 @@
       'Afghanistan Humanitarian Fund': 'Afghan. Hum. Fund', 'World Food Programme': 'WFP', 'Food and agriculture': 'Food and agric.',
       'Water and sanitation': 'Water, sanitation', 'Saudi Arabia': 'Saudi Arabia', 'United Kingdom': 'UK', 'United States': 'US', 'European Union': 'EU'};
     const short = nm => SHORT[nm] || (nm.length > 15 ? nm.slice(0, 14) + '\u2026' : nm);
-    const height = Math.max(320, Math.min(540, 26 * Math.max(donors.length, secs.length)));
+    const height = Math.max(340, Math.min(560, 28 * Math.max(donors.length, secs.length)));
     const k = (height - gap * (Math.max(donors.length, secs.length) - 1)) / tot;
     const x0 = lw, x1 = width - rw, nw = 10;
     const pos = (names, val, n) => { let y = 0; const spare = height - k * tot - gap * (n - 1), o = {}; names.forEach(nm => { o[nm] = {y: y + spare / 2, h: Math.max(1, k * val(nm))}; y += o[nm].h + gap; }); return o; };
@@ -180,10 +180,21 @@
     const lp = svg.append('g').selectAll('path').data(ordered).join('path').attr('class', 'link').attr('d', band)
       .on('pointermove', (ev, l) => { lp.classed('hi', x => x === l); tip.innerHTML = `<div class="dt">${l.d} to ${l.s.toLowerCase()}</div>` + rows([['Funding', money(l.v)], ['Share of ' + l.d + "'s", Math.round(100 * l.v / dv(l.d)) + '%']]); place(ev); })
       .on('pointerleave', () => { lp.classed('hi', false); tip.hidden = true; });
+    // labels at least 13px apart: small nodes get a short leader line to their label
+    const spread = (names, B) => {
+      const ys = names.map(n => B[n].y + B[n].h / 2), gapL = 13;
+      for (let i = 1; i < ys.length; i++) ys[i] = Math.max(ys[i], ys[i - 1] + gapL);
+      for (let i = ys.length - 1; i >= 0; i--) ys[i] = Math.min(ys[i], (i === ys.length - 1 ? height - 4 : ys[i + 1] - gapL));
+      return Object.fromEntries(names.map((n, i) => [n, ys[i]]));
+    };
+    const LY = spread(donors, L), RY = spread(secs, R);
     const node = (side, nm, b, val) => {
-      const g = svg.append('g').style('cursor', 'pointer');
-      g.append('rect').attr('class', 'node').attr('x', side === 'l' ? x0 : x1).attr('y', b.y).attr('width', nw).attr('height', b.h);
-      if (b.h >= 7 || !narrow) g.append('text').attr('x', side === 'l' ? x0 - 6 : x1 + nw + 6).attr('y', b.y + b.h / 2 + 4)
+      const g = svg.append('g').style('cursor', 'pointer'), ly = (side === 'l' ? LY : RY)[nm], cy = b.y + b.h / 2, off = side === 'l' ? -6 : nw + 6;
+      const xn = side === 'l' ? x0 : x1, lx = side === 'l' ? x0 - 14 : x1 + nw + 14, moved = Math.abs(ly - cy) > 2;
+      g.append('rect').attr('class', 'node').attr('x', xn).attr('y', b.y).attr('width', nw).attr('height', b.h);
+      if (moved) g.append('path').attr('d', `M${side === 'l' ? x0 : x1 + nw},${cy}L${side === 'l' ? x0 - 4 : x1 + nw + 4},${cy}L${side === 'l' ? lx + 3 : lx - 3},${ly}`)
+        .attr('fill', 'none').attr('stroke', css('--axis'));
+      g.append('text').attr('x', moved ? lx : xn + off).attr('y', ly + 4)
         .attr('text-anchor', side === 'l' ? 'end' : 'start').style('font-size', narrow ? '11px' : '12px')
         .text(narrow ? short(nm) : `${nm} ${money(val)}`);
       g.on('pointermove', ev => {
@@ -206,7 +217,7 @@
   sel.addEventListener('change', () => setYear(sel.value === 'all' ? 'all' : +sel.value));
   $('#yhint').textContent = 'or click a year in the chart';
   function setYear(y) { year = y; sel.value = String(y); draw(); }
-  function draw() { stats(); drawBars(); drawSectors(); drawFlow(); }
+  function draw() { tip.hidden = true; stats(); drawBars(); drawSectors(); drawFlow(); }
   sel.value = String(year);
   draw();
   let lw = root.clientWidth;
