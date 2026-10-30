@@ -1,0 +1,40 @@
+name: Update fund chart
+
+on:
+  schedule:
+    - cron: "41 17 * * 1-5"   # weekdays at 17:41 UTC, after the London market closes
+  workflow_dispatch:          # adds a "Run workflow" button in the Actions tab
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download latest prices and rebuild funds.json
+        run: python .github/scripts/update_funds.py
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- funds; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add funds
+          git commit -m "Update fund data ($(date -u +%F))"
+          git pull --rebase
+          git push
+          # Pushes made by this workflow do not always start a Pages rebuild, so request one
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+        env:
+          GH_TOKEN: ${{ github.token }}
