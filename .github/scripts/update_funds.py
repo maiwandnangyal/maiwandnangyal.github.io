@@ -1,10 +1,14 @@
 """Refresh funds/funds.json: daily prices of a short list of London-listed ETFs, in pounds.
 
+Version 2 (30 October 2026): glitches in the price feeds are corrected (see clean below).
+
 Run by .github/workflows/update-funds.yml every weekday; standard library only.
   - Prices: Yahoo Finance chart API (adjusted close, so dividends are included), with Stooq
     daily closes as a fallback when Yahoo does not answer.
   - Funds quoted in pence are divided by 100; funds quoted in US dollars are converted to
     pounds with the daily European Central Bank rate via api.frankfurter.dev.
+  - Glitches are corrected: days quoted in pounds instead of pence (or the other way round), which
+    are 100 times too small or large, and single days far off both neighbours, which are dropped.
   - Keeps about 400 days, enough for the one-year view.
 Safety: a fund whose download fails, or whose new series would end earlier or be shorter than
 the published one, keeps its published series. If no fund at all can be updated and there is no
@@ -38,7 +42,6 @@ FUNDS = {
     "HIES": "GBP",
     "HBKS": "GBP",
 }
-HELD = ["ISWD", "ISDE"]
 YAHOO = "https://query1.finance.yahoo.com/v8/finance/chart/{sym}.L?range=2y&interval=1d&includeAdjustedClose=true"
 STOOQ = "https://stooq.com/q/d/l/?s={sym}.uk&i=d"
 FX = "https://api.frankfurter.dev/v2/rates?from={start}&to={end}&base=USD&quotes=GBP"
@@ -111,6 +114,33 @@ def usd_to_gbp(start, end):
     return rows
 
 
+def clean(sym, rows):
+    """{date: price} with feed glitches corrected: prices 100 times too small or large (pounds given for
+    pence, or the other way round) are rescaled, and a single day that is more than 15% above or below
+    both neighbours, which agree with each other within 5%, is dropped. Prints what it changed."""
+    if len(rows) < 5:
+        return dict(rows)
+    days = sorted(rows)
+    vals = sorted(rows.values())
+    med = vals[len(vals) // 2]
+    out = {}
+    for d in days:
+        v = rows[d]
+        out[d] = v * 100 if v < med / 30 else v / 100 if v > med * 30 else v
+    rescaled = [d for d in days if out[d] != rows[d]]
+    dropped = []
+    for i in range(1, len(days) - 1):
+        a, b, c = out[days[i - 1]], out[days[i]], out[days[i + 1]]
+        if abs(b / a - 1) > 0.15 and abs(b / c - 1) > 0.15 and abs(c / a - 1) < 0.05 and (b - a) * (b - c) > 0:
+            dropped.append(days[i])
+    for d in dropped:
+        del out[d]
+    if rescaled or dropped:
+        print(f"  {sym}: rescaled {len(rescaled)} days quoted 100 times too high or low {rescaled[:6]}; "
+              f"dropped {len(dropped)} one-day spikes {dropped[:6]}")
+    return out
+
+
 def to_pounds(rows, cur, fx):
     """Convert a price series to pounds. fx is {date: GBP per USD}; earlier rates carry forward."""
     if cur in ("GBp", "GBX"):
@@ -149,6 +179,7 @@ def build(old_funds, today=None):
             try:
                 rows, cur = fn(sym)
                 cur = cur or default_cur
+                rows = clean(sym, rows)
                 gbp = {d: round(v, 6) for d, v in to_pounds(rows, cur, fx).items() if d >= cut}
                 if len(gbp) < 5:
                     raise ValueError(f"only {len(gbp)} days")
@@ -162,11 +193,11 @@ def build(old_funds, today=None):
             print(f"{sym}: new data end before the published data; keeping the published series")
             new = None
         if new:
-            new["held"] = sym in HELD
             funds[sym] = new
             updated.append(sym)
         elif old:
-            funds[sym] = old
+            kept = clean(sym, dict(old["rows"]))
+            funds[sym] = {"src": old["src"], "cur": old["cur"], "rows": [[d, kept[d]] for d in sorted(kept)]}
     return funds, updated
 
 
