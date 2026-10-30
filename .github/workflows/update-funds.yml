@@ -1,9 +1,18 @@
 name: Update fund chart
+# Version 3 (30 October 2026): every hour while the London market is open, plus once after the close.
 
 on:
   schedule:
-    - cron: "41 17 * * 1-5"   # weekdays at 17:41 UTC, after the London market closes
+    # 17 minutes past each hour from 07:17 to 16:17 UTC on weekdays. London trades 08:00 to 16:30,
+    # which is 08:00 to 16:30 UTC in winter and 07:00 to 15:30 UTC in summer, so this covers both.
+    # Runs that find no new prices change nothing.
+    - cron: "17 7-16 * * 1-5"
+    - cron: "41 17 * * 1-5"   # after the close, for the closing prices
   workflow_dispatch:          # adds a "Run workflow" button in the Actions tab
+
+concurrency:
+  group: update-funds         # never two runs at once
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -12,6 +21,7 @@ permissions:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
@@ -31,9 +41,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add funds
-          git commit -m "Update fund data ($(date -u +%F))"
-          git pull --rebase
-          git push
+          git commit -m "Update fund data ($(date -u '+%F %H:%M') UTC)"
+          ok=0
+          for i in 1 2 3; do
+            if git pull --rebase && git push; then ok=1; break; fi
+            sleep 15
+          done
+          if [ "$ok" != 1 ]; then echo "Push failed three times."; exit 1; fi
           # Pushes made by this workflow do not always start a Pages rebuild, so request one
           gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
         env:
