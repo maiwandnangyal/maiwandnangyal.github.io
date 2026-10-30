@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Population growth in Pakistan's districts, 1998 to 2023</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="growth.css?v=20261030033340">
+</head>
+<body>
+<figure class="viz-root" data-v="20261030033340">
+  <figcaption>
+    <h2>Population growth in Pakistan's districts, 1998 to 2023</h2>
+    <p class="subtitle">How fast each district grew each year between the last three censuses, on boundaries that stay the same throughout. Hover or tap a district on the map or in the slope chart.</p>
+  </figcaption>
+  <div class="ccy pills" role="group" aria-label="Map shows">
+    <span class="lab">Map shows</span>
+    <button data-m="g2" aria-pressed="true">2017 to 2023</button>
+    <button data-m="g1" aria-pressed="false">1998 to 2017</button>
+    <button data-m="d" aria-pressed="false">Change between the two</button>
+  </div>
+  <div class="ccy provs" role="group" aria-label="Province">
+    <span class="lab">Province</span>
+  </div>
+  <div class="stats"></div>
+  <div class="two">
+    <div>
+      <div class="k" id="mapk"></div>
+      <div id="map" role="img" aria-label="Map of Pakistan's districts coloured by yearly population growth"></div>
+      <div class="legend" id="mleg"></div>
+    </div>
+    <div>
+      <div class="k">Each district's yearly growth in the two periods</div>
+      <div id="slope" role="img" aria-label="Slope chart of each district's yearly population growth, 1998 to 2017 and 2017 to 2023"></div>
+      <div class="legend" id="sleg"></div>
+    </div>
+  </div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="growth.js?v=20261030033340"></script>
+</body>
+</html>
