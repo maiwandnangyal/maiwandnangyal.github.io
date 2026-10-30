@@ -26,7 +26,7 @@
 
   const F = order.map((k, i) => {
     const f = raw.funds[k];
-    return {k, held: !!f.held, col: css(COLS[i % COLS.length]), rows: f.rows.map(([d, v]) => ({date: parse(d), v}))};
+    return {k, col: css(COLS[i % COLS.length]), rows: f.rows.map(([d, v]) => ({date: parse(d), v}))};
   }).filter(f => f.rows.length);
   const end = d3.max(F, f => f.rows[f.rows.length - 1].date);
   let view = '1m';
@@ -41,9 +41,9 @@
   const picks = $('.picks');
   F.forEach(f => {
     const b = document.createElement('button');
-    b.type = 'button'; b.setAttribute('aria-pressed', 'true'); if (f.held) b.className = 'held';
-    b.innerHTML = `<i class="sw" style="background:${f.col}"></i>${f.k}${f.held ? ' ★' : ''}`;
-    b.title = f.held ? f.k + ' (you hold this)' : f.k;
+    b.type = 'button'; b.setAttribute('aria-pressed', 'true');
+    b.innerHTML = `<i class="sw" style="background:${f.col}"></i>${f.k}`;
+    b.title = f.k;
     b.addEventListener('click', () => {
       if (shown.has(f.k) && shown.size > 1) shown.delete(f.k); else shown.add(f.k);
       b.setAttribute('aria-pressed', shown.has(f.k)); draw();
@@ -71,12 +71,11 @@
     $('.subtitle').textContent = `Return in pounds over the ${label}, to ${fDay(end)}. Each line starts at 0% on the last close before ${fDay(start)}.` +
       (missing.length ? ` Not enough history yet for ${missing.join(', ')}.` : '');
 
-    // stats: held funds plus best and worst over the period
-    const all = F.map(f => series(f, start)).filter(Boolean).map(s => ({k: s.f.k, held: s.f.held, r: s.pts[s.pts.length - 1].r}));
+    // stats: best and worst over the period
+    const all = F.map(f => series(f, start)).filter(Boolean).map(s => ({k: s.f.k, r: s.pts[s.pts.length - 1].r}));
     const best = all.slice().sort((a, b) => b.r - a.r)[0], worst = all.slice().sort((a, b) => a.r - b.r)[0];
     const stat = (k, v, s) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
-    $('.stats').innerHTML = all.filter(a => a.held).map(a => stat(`${a.k} (you hold)`, pct(a.r), label)).join('') +
-      (best ? stat('Best', `${best.k} ${pct(best.r)}`, label) : '') + (worst ? stat('Worst', `${worst.k} ${pct(worst.r)}`, label) : '');
+    $('.stats').innerHTML = (best ? stat('Best', `${best.k} ${pct(best.r)}`, label) : '') + (worst ? stat('Worst', `${worst.k} ${pct(worst.r)}`, label) : '');
 
     if (!S.length) { holder.innerHTML = '<p class="wait">No data for this period yet.</p>'; calc(); return; }
     const width = holder.clientWidth || 800, narrow = width < 560;
@@ -99,7 +98,7 @@
 
     const line = d3.line().x(p => x(p.date)).y(p => y(p.r));
     S.forEach(s => g.append('path').datum(s.pts).attr('class', 'line').attr('stroke', s.f.col)
-      .attr('stroke-width', s.f.held ? 3 : 1.8).attr('d', line));
+      .attr('stroke-width', 2).attr('d', line));
     if (view === '1w') S.forEach(s => g.append('g').selectAll('circle').data(s.pts).join('circle')
       .attr('cx', p => x(p.date)).attr('cy', p => y(p.r)).attr('r', 2.5).attr('fill', s.f.col));
 
@@ -121,7 +120,7 @@
         const rows = S.map((s, i) => { const p = s.pts[bis(s.pts, t)]; dots[i].attr('cx', x(p.date)).attr('cy', y(p.r)); return {s, p}; })
           .sort((a, b) => b.p.r - a.p.r);
         tip.innerHTML = `<div class="dt">${fDay(rows[0].p.date)}</div>` + rows.map(({s, p}) =>
-          `<div class="row"><span class="k" style="background:${s.f.col}"></span><span class="nm">${s.f.k}${s.f.held ? ' ★' : ''}</span><span class="v">${pct(p.r)}</span></div>`).join('');
+          `<div class="row"><span class="k" style="background:${s.f.col}"></span><span class="nm">${s.f.k}</span><span class="v">${pct(p.r)}</span></div>`).join('');
         tip.hidden = false;
         const box = root.getBoundingClientRect(), hb = holder.getBoundingClientRect(), sc = hb.width / width;
         const px = (m.left + mx) * sc + (hb.left - box.left), tw = tip.offsetWidth;
@@ -143,7 +142,7 @@
         const v = amt * z.v / b.v, g = v - amt;
         return `<td class="${g > 0 ? 'up' : g < 0 ? 'down' : ''}">£${gbp(v)}<span class="g">${g >= 0 ? '+' : '−'}£${gbp(Math.abs(g))}</span></td>`;
       }).join('');
-      return `<tr class="${f.held ? 'held' : ''}"><td>${f.k}${f.held ? ' ★' : ''}</td>${cells}</tr>`;
+      return `<tr><td>${f.k}</td>${cells}</tr>`;
     }).join('');
   }
   $('#amt').addEventListener('input', calc);
