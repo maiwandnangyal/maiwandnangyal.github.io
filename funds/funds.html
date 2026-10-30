@@ -7,20 +7,22 @@
 <title>Misc: fund tracker</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="funds.css?v=20261030025531">
+<link rel="stylesheet" href="funds.css?v=20261030210545">
 </head>
 <body>
-<figure class="viz-root" data-v="20261030025531">
+<figure class="viz-root" data-v="20261030210545">
   <figcaption>
     <h2>Fund tracker</h2>
     <p class="subtitle"></p>
+    <p class="asof"></p>
   </figcaption>
   <div class="bar">
     <div class="tabs" role="tablist" aria-label="Time range">
-      <button role="tab" data-v="1w" aria-selected="false">Last week</button>
-      <button role="tab" data-v="1m" aria-selected="true">Last month</button>
-      <button role="tab" data-v="3m" aria-selected="false">Last 3 months</button>
-      <button role="tab" data-v="1y" aria-selected="false">Last year</button>
+      <button role="tab" data-v="1d" aria-selected="false">Today</button>
+      <button role="tab" data-v="1w" aria-selected="false"><span class="lg">Last week</span><span class="sh">Week</span></button>
+      <button role="tab" data-v="1m" aria-selected="true"><span class="lg">Last month</span><span class="sh">Month</span></button>
+      <button role="tab" data-v="3m" aria-selected="false"><span class="lg">Last 3 months</span><span class="sh">3 months</span></button>
+      <button role="tab" data-v="1y" aria-selected="false"><span class="lg">Last year</span><span class="sh">Year</span></button>
     </div>
   </div>
   <div class="ccy picks" role="group" aria-label="Funds shown"><span class="lab">Funds</span></div>
@@ -33,14 +35,14 @@
       <label class="amt">£<input id="amt" type="number" min="1" step="10" value="100" inputmode="decimal" aria-label="Amount invested in pounds"></label>
     </div>
     <div class="tbl"><table>
-      <thead><tr><th>Fund</th><th>Today</th><th>1 week ago</th><th>1 month ago</th><th>3 months ago</th><th>1 year ago</th></tr></thead>
+      <thead><tr><th>Fund <span class="th2">latest trade</span></th><th>Previous close</th><th>1 week ago</th><th>1 month ago</th><th>3 months ago</th><th>1 year ago</th></tr></thead>
       <tbody id="calc"></tbody>
     </table></div>
-    <p class="note">Value now of a single amount invested at the closing price on each date. Money invested today is worth what you put in until prices move.</p>
+    <p class="note">Value now of a single amount invested at the closing price on each date, with dividends reinvested. Under each fund is the time of its latest trade, London time.</p>
   </div>
   <p class="source"></p>
 </figure>
 <script src="d3.v7.9.0.min.js"></script>
-<script src="funds.js?v=20261030025531"></script>
+<script src="funds.js?v=20261030210545"></script>
 </body>
 </html>

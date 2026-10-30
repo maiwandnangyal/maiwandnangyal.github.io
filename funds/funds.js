@@ -3,8 +3,21 @@
   const $ = s => root.querySelector(s);
   const css = v => getComputedStyle(root).getPropertyValue(v).trim();
   const holder = $('.chart'), tip = $('.tooltip');
-  const parse = d3.utcParse('%Y-%m-%d');
+  const parse = d3.utcParse('%Y-%m-%d'), iso = d3.utcFormat('%Y-%m-%d');
   const pct = d3.format('+.2%'), gbp = d3.format(',.2f'), fDay = d3.utcFormat('%-d %B %Y'), fShort = d3.utcFormat('%-d %b');
+  // all times are shown in London time, wherever the reader is
+  const LON = {timeZone: 'Europe/London'};
+  const ft = o => new Intl.DateTimeFormat('en-GB', Object.assign({}, LON, o));
+  const fHMS = ft({hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23'});
+  const fHM = ft({hour: '2-digit', minute: '2-digit', hourCycle: 'h23'});
+  const fLong = ft({weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
+  const fDM = ft({day: 'numeric', month: 'short'});
+  const lonISO = d => { const p = Object.fromEntries(ft({year: 'numeric', month: '2-digit', day: '2-digit'}).formatToParts(d).map(x => [x.type, x.value])); return `${p.year}-${p.month}-${p.day}`; };
+  const atLondon = (day, h, m) => {   // a London wall-clock time on a date (YYYY-MM-DD) as a Date
+    const [y, mo, d] = day.split('-').map(Number), guess = new Date(Date.UTC(y, mo - 1, d, h, m));
+    const shown = ft({hour: '2-digit', minute: '2-digit', hourCycle: 'h23'}).format(guess).split(':').map(Number);
+    return new Date(guess - ((shown[0] * 60 + shown[1]) - (h * 60 + m)) * 60000);
+  };
   const PER = {'1w': ['last week', d => d3.utcDay.offset(d, -7)], '1m': ['last month', d => d3.utcMonth.offset(d, -1)],
                '3m': ['last 3 months', d => d3.utcMonth.offset(d, -3)], '1y': ['last year', d => d3.utcYear.offset(d, -1)]};
   const COLS = ['--a', '--b', '--c3', '--c4', '--c5', '--c6', '--c7', '--c8'];
@@ -26,16 +39,26 @@
 
   const F = order.map((k, i) => {
     const f = raw.funds[k];
-    return {k, col: css(COLS[i % COLS.length]), rows: f.rows.map(([d, v]) => ({date: parse(d), v}))};
+    return {k, col: css(COLS[i % COLS.length]), rows: f.rows.map(([d, v]) => ({date: parse(d), v})),
+            t: f.t ? new Date(f.t * 1000) : null, today: (f.today || []).map(([t, v]) => ({date: new Date(t * 1000), v}))};
   }).filter(f => f.rows.length);
-  const end = d3.max(F, f => f.rows[f.rows.length - 1].date);
+  const end = d3.max(F, f => f.rows[f.rows.length - 1].date), endISO = iso(end);
   let view = '1m';
   const shown = new Set(F.map(f => f.k));
+
+  // when the prices are from: the latest trade of any fund, and when the page was last updated
+  if (raw.asof) {
+    const a = new Date(raw.asof * 1000), u = raw.updated ? new Date(raw.updated * 1000) : null;
+    $('.asof').innerHTML = `Latest prices: <b>${fHMS.format(a)}</b> London time on ${fLong.format(a)}. Yahoo Finance delays them by 20 minutes.` +
+      (u ? ` Page updated at ${fHMS.format(u)}${lonISO(u) === lonISO(a) ? '' : ' on ' + fLong.format(u)}.` : '');
+  } else $('.asof').hidden = true;
 
   // value on or before a date (last close at that point)
   const bisL = d3.bisector(r => r.date).right;
   const at = (f, d) => { const i = bisL(f.rows, d) - 1; return i >= 0 ? f.rows[i] : null; };
   const last = f => f.rows[f.rows.length - 1];
+  const tradedToday = f => iso(last(f).date) === endISO && f.today.length > 0 && f.rows.length > 1;
+  const prevClose = () => d3.utcDay.offset(end, -1);
 
   // fund picker
   const picks = $('.picks');
@@ -62,44 +85,65 @@
     const rows = f.rows.filter(r => r.date >= base.date);
     return {f, base, pts: rows.map(r => ({date: r.date, r: r.v / base.v - 1}))};
   }
+  function todaySeries(f) {      // today's prices against the previous close
+    if (!tradedToday(f)) return null;
+    const base = f.rows[f.rows.length - 2];
+    return {f, base, pts: f.today.map(p => ({date: p.date, r: p.v / base.v - 1}))};
+  }
+  const get = f => view === '1d' ? todaySeries(f) : series(f, PER[view][1](end));
 
   function draw() {
     holder.innerHTML = ''; tip.hidden = true;
-    const [label, back] = PER[view], start = back(end);
-    const S = F.filter(f => shown.has(f.k)).map(f => series(f, start)).filter(Boolean);
-    const missing = F.filter(f => shown.has(f.k) && !series(f, start)).map(f => f.k);
-    $('.subtitle').textContent = `Return in pounds over the ${label}, to ${fDay(end)}. Each line starts at 0% on the last close before ${fDay(start)}.` +
-      (missing.length ? ` Not enough history yet for ${missing.join(', ')}.` : '');
+    const day = view === '1d';
+    const label = day ? 'today' : PER[view][0];
+    const S = F.filter(f => shown.has(f.k)).map(get).filter(Boolean);
+    const missing = F.filter(f => shown.has(f.k) && !get(f)).map(f => f.k);
+    if (day) {
+      const prev = d3.max(S, s => s.base.date) || prevClose();
+      $('.subtitle').textContent = `Return in pounds on ${fDay(end)}, from each fund's previous close (${fDay(prev)}) to its latest trade.` +
+        (missing.length ? ` No trades yet that day for ${missing.join(', ')}.` : '');
+    } else {
+      const start = PER[view][1](end);
+      $('.subtitle').textContent = `Return in pounds over the ${label}, to ${fDay(end)}. Each line starts at 0% on the last close before ${fDay(start)}.` +
+        (missing.length ? ` Not enough history yet for ${missing.join(', ')}.` : '');
+    }
 
     // stats: best and worst over the period
-    const all = F.map(f => series(f, start)).filter(Boolean).map(s => ({k: s.f.k, r: s.pts[s.pts.length - 1].r}));
+    const all = F.map(get).filter(Boolean).map(s => ({k: s.f.k, r: s.pts[s.pts.length - 1].r}));
     const best = all.slice().sort((a, b) => b.r - a.r)[0], worst = all.slice().sort((a, b) => a.r - b.r)[0];
     const stat = (k, v, s) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div><div class="s">${s}</div></div>`;
-    $('.stats').innerHTML = (best ? stat('Best', `${best.k} ${pct(best.r)}`, label) : '') + (worst ? stat('Worst', `${worst.k} ${pct(worst.r)}`, label) : '');
+    $('.stats').innerHTML = (best ? stat('Best', `${best.k} ${pct(best.r)}`, label) : '') + (worst && all.length > 1 ? stat('Worst', `${worst.k} ${pct(worst.r)}`, label) : '');
 
-    if (!S.length) { holder.innerHTML = '<p class="wait">No data for this period yet.</p>'; calc(); return; }
+    if (!S.length) { holder.innerHTML = `<p class="wait">${day ? 'No trades yet today.' : 'No data for this period yet.'}</p>`; calc(); return; }
     const width = holder.clientWidth || 800, narrow = width < 560;
     const m = {top: 14, right: narrow ? 52 : 64, bottom: 28, left: 50};
     const height = Math.max(260, Math.min(420, width * 0.48));
     const iw = width - m.left - m.right, ih = height - m.top - m.bottom;
     const pts = S.flatMap(s => s.pts);
-    const x = d3.scaleUtc().domain(d3.extent(pts, p => p.date)).range([0, iw]);
-    const ext = d3.extent(pts.map(p => p.r).concat([0])), pad = (ext[1] - ext[0]) * 0.1 || 0.01;
+    const dom = day ? [atLondon(endISO, 8, 0), new Date(Math.max(+atLondon(endISO, 16, 35), d3.max(pts, p => +p.date)))]
+                    : d3.extent(pts, p => p.date);
+    const x = d3.scaleUtc().domain(dom).range([0, iw]);
+    const ext = d3.extent(pts.map(p => p.r).concat([0])), pad = (ext[1] - ext[0]) * 0.1 || 0.002;
     const y = d3.scaleLinear().domain([ext[0] - pad, ext[1] + pad]).nice().range([ih, 0]);
+    const yfmt = (y.domain()[1] - y.domain()[0]) < 0.04 ? d3.format('+.1%') : d3.format('+.0%');
 
     const svg = d3.select(holder).append('svg').attr('viewBox', [0, 0, width, height]);
     const g = svg.append('g').attr('transform', `translate(${m.left},${m.top})`);
     g.append('g').attr('class', 'grid').call(d3.axisLeft(y).ticks(5).tickSize(-iw).tickFormat(''));
-    g.append('g').attr('class', 'axis').call(d3.axisLeft(y).ticks(5).tickSize(0).tickPadding(6).tickFormat(d3.format('+.0%')))
+    g.append('g').attr('class', 'axis').call(d3.axisLeft(y).ticks(5).tickSize(0).tickPadding(6).tickFormat(yfmt))
       .call(s => s.select('.domain').remove());
-    g.append('g').attr('class', 'axis').attr('transform', `translate(0,${ih})`)
-      .call(d3.axisBottom(x).ticks(view === '1w' ? 5 : (narrow ? 4 : 7)).tickFormat(view === '1y' ? d3.utcFormat('%b %Y') : fShort).tickSizeOuter(0));
+    const xa = d3.axisBottom(x).tickSizeOuter(0);
+    if (day) xa.ticks(d3.utcHour.every(narrow ? 2 : 1)).tickFormat(d => fHM.format(d));
+    else xa.ticks(view === '1w' ? 5 : (narrow ? 4 : 7)).tickFormat(view === '1y' ? d3.utcFormat('%b %Y') : fShort);
+    g.append('g').attr('class', 'axis').attr('transform', `translate(0,${ih})`).call(xa);
     g.append('line').attr('x1', 0).attr('x2', iw).attr('y1', y(0)).attr('y2', y(0)).attr('stroke', css('--muted')).attr('stroke-dasharray', '3 3');
 
-    const line = d3.line().x(p => x(p.date)).y(p => y(p.r));
+    // between trades a price stays where it was, so today's lines are steps
+    const line = d3.line().x(p => x(p.date)).y(p => y(p.r)).curve(day ? d3.curveStepAfter : d3.curveLinear);
     S.forEach(s => g.append('path').datum(s.pts).attr('class', 'line').attr('stroke', s.f.col)
       .attr('stroke-width', 2).attr('d', line));
-    if (view === '1w') S.forEach(s => g.append('g').selectAll('circle').data(s.pts).join('circle')
+    if (view === '1w' || (day && S.some(s => s.pts.length < 3))) S.forEach(s => g.append('g').selectAll('circle')
+      .data(day ? s.pts.slice(-1) : s.pts).join('circle')
       .attr('cx', p => x(p.date)).attr('cy', p => y(p.r)).attr('r', 2.5).attr('fill', s.f.col));
 
     // end labels, nudged apart
@@ -111,15 +155,22 @@
     const hover = g.append('g').style('display', 'none');
     const cross = hover.append('line').attr('class', 'cross').attr('y1', 0).attr('y2', ih);
     const dots = S.map(s => hover.append('circle').attr('class', 'dot').attr('r', 4.5).attr('fill', s.f.col));
-    const bis = d3.bisector(p => p.date).center;
+    const bisC = d3.bisector(p => p.date).center, bisR = d3.bisector(p => p.date).right;
     svg.append('rect').attr('x', m.left).attr('y', m.top).attr('width', iw).attr('height', ih).attr('fill', 'transparent')
       .on('pointerleave', () => { hover.style('display', 'none'); tip.hidden = true; })
       .on('pointermove', e => {
         const [mx] = d3.pointer(e, g.node()), t = x.invert(mx);
         hover.style('display', null); cross.attr('x1', mx).attr('x2', mx);
-        const rows = S.map((s, i) => { const p = s.pts[bis(s.pts, t)]; dots[i].attr('cx', x(p.date)).attr('cy', y(p.r)); return {s, p}; })
-          .sort((a, b) => b.p.r - a.p.r);
-        tip.innerHTML = `<div class="dt">${fDay(rows[0].p.date)}</div>` + rows.map(({s, p}) =>
+        // today: each fund's latest price at that moment; other views: the nearest day
+        const rows = S.map((s, i) => {
+          const p = day ? s.pts[bisR(s.pts, t) - 1] : s.pts[bisC(s.pts, t)];
+          dots[i].style('display', p ? null : 'none');
+          if (p) dots[i].attr('cx', x(day ? t : p.date)).attr('cy', y(p.r));
+          return {s, p};
+        }).filter(d => d.p).sort((a, b) => b.p.r - a.p.r);
+        if (!rows.length) { tip.hidden = true; return; }
+        const head = day ? `${fHM.format(t)} London time` : fDay(rows[0].p.date);
+        tip.innerHTML = `<div class="dt">${head}</div>` + rows.map(({s, p}) =>
           `<div class="row"><span class="k" style="background:${s.f.col}"></span><span class="nm">${s.f.k}</span><span class="v">${pct(p.r)}</span></div>`).join('');
         tip.hidden = false;
         const box = root.getBoundingClientRect(), hb = holder.getBoundingClientRect(), sc = hb.width / width;
@@ -132,17 +183,17 @@
 
   function calc() {
     const amt = Math.max(0, +$('#amt').value || 0);
-    const cols = [null, '1w', '1m', '3m', '1y'];
+    const cols = [prevClose, ...['1w', '1m', '3m', '1y'].map(c => () => PER[c][1](end))];
     $('#calc').innerHTML = F.map(f => {
       const z = last(f);
       const cells = cols.map(c => {
-        if (!c) return `<td>£${gbp(amt)}<span class="g">no change yet</span></td>`;
-        const b = at(f, PER[c][1](end));
+        const b = at(f, c());
         if (!b) return '<td>–</td>';
         const v = amt * z.v / b.v, g = v - amt;
-        return `<td class="${g > 0 ? 'up' : g < 0 ? 'down' : ''}">£${gbp(v)}<span class="g">${g >= 0 ? '+' : '−'}£${gbp(Math.abs(g))}</span></td>`;
+        return `<td class="${g > 0.005 ? 'up' : g < -0.005 ? 'down' : ''}">£${gbp(v)}<span class="g">${g >= 0 ? '+' : '−'}£${gbp(Math.abs(g))}</span></td>`;
       }).join('');
-      return `<tr><td>${f.k}</td>${cells}</tr>`;
+      const when = f.t ? (lonISO(f.t) === endISO ? fHMS.format(f.t) : `${fDM.format(f.t)}, ${fHMS.format(f.t)}`) : '';
+      return `<tr><td>${f.k}<span class="lt">${when}</span></td>${cells}</tr>`;
     }).join('');
   }
   $('#amt').addEventListener('input', calc);
