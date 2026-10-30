@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catching up: literacy in former FATA and Balochistan to 2075</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="literacy.css?v=20261021152237">
+</head>
+<body>
+<figure class="viz-root" data-v="20261021152237">
+  <figcaption>
+    <h2>Catching up: literacy in former FATA and Balochistan to 2075</h2>
+    <p class="subtitle">68,000 simulated people, built from the 2023 census, are born, learn to read or not, and die, year by year. How fast could former FATA and Balochistan close the gap with the rest of Khyber Pakhtunkhwa? Pick a scenario or set your own.</p>
+  </figcaption>
+  <div class="ccy pills" role="group" aria-label="Scenario">
+    <span class="lab">Scenario</span>
+    <button data-p="sq" aria-pressed="true">Current trends</button>
+    <button data-p="plan" aria-pressed="false">Steady catch-up</button>
+    <button data-p="fast" aria-pressed="false">Fast catch-up</button>
+    <span class="custom"></span>
+  </div>
+  <div class="ctl">
+    <label>Who catches up
+      <select id="who"><option value="both">Both regions</option><option value="fata">Former FATA</option><option value="bal">Balochistan</option></select></label>
+    <label>Catch-up speed: share of the gap closed a year <b id="speedo"></b><input type="range" id="speed" min="0" max="25" step="1"></label>
+    <label>Extra push for girls <b id="girlso"></b><input type="range" id="girls" min="1" max="2" step="0.1"></label>
+    <label>Catch-up starts <b id="starto"></b><input type="range" id="start" min="2025" max="2040" step="1"></label>
+  </div>
+  <div class="ccy sexes" role="group" aria-label="Show">
+    <span class="lab">Show</span>
+    <button data-s="F" aria-pressed="true">Women</button>
+    <button data-s="M" aria-pressed="false">Men</button>
+    <button data-s="T" aria-pressed="false">Everyone</button>
+  </div>
+  <div class="stats"></div>
+  <div class="two">
+    <div>
+      <div class="k" id="maph"></div>
+      <div id="map" role="img" aria-label="Map of literacy by district in Khyber Pakhtunkhwa and Balochistan"><p class="wait">Running the simulation…</p></div>
+      <div class="yr"><button id="play" aria-label="Play the years">▶</button>
+        <input type="range" id="year" min="2023" max="2075" step="1" value="2023" aria-label="Year"><b id="yearo">2023</b></div>
+      <div class="legend" id="mleg"></div>
+    </div>
+    <div>
+      <div class="k" id="lineh"></div>
+      <div class="legend" id="lleg"></div>
+      <div id="line" role="img" aria-label="Line chart of literacy in the rest of Khyber Pakhtunkhwa, former FATA and Balochistan, 2023 to 2075"></div>
+      <div class="ccy dists" role="group" aria-label="Districts">
+        <button data-d="fata" aria-pressed="true">Former FATA</button>
+        <button data-d="bal" aria-pressed="false">Balochistan</button>
+        <button data-d="rest" aria-pressed="false">Rest of KP</button>
+      </div>
+      <div class="k" id="dumh"></div>
+      <div id="dum"></div>
+    </div>
+  </div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="d3.v7.9.0.min.js"></script>
+<script src="literacy.js?v=20261021152237"></script>
+</body>
+</html>
