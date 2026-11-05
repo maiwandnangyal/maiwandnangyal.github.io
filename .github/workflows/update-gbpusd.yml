@@ -1,0 +1,51 @@
+name: Update pound and dollar chart
+# Version 2 (5 November 2026): never two runs at once, and the push retries if another update
+# (such as the hourly fund tracker) has pushed in the meantime. Version 1 is in _TO_BE_DELETED/gbpusd_chart_v1.
+
+on:
+  schedule:
+    - cron: "17 17 * * *"     # every day at 17:17 UTC, after the ECB publishes (around 15:00 UTC)
+  workflow_dispatch:          # adds a "Run workflow" button in the Actions tab
+
+concurrency:
+  group: update-gbpusd
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Download latest rates and rebuild gbpusd.json
+        run: python .github/scripts/update_gbpusd.py
+
+      - name: Commit if anything changed
+        run: |
+          git add gbpusd
+          if git diff --cached --quiet; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update pound and dollar data ($(date -u +%F))"
+          ok=0
+          for i in 1 2 3; do
+            if git pull --rebase && git push; then ok=1; break; fi
+            sleep 15
+          done
+          if [ "$ok" != 1 ]; then echo "Push failed three times."; exit 1; fi
+          # Pushes made by this workflow do not always start a Pages rebuild, so request one
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+        env:
+          GH_TOKEN: ${{ github.token }}
