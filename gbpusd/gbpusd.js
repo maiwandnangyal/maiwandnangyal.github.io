@@ -1,6 +1,7 @@
 /* The pound and the US dollar: last week, month, quarter and year, as ECB reference rates, Wise rates before
    and after fees, or all three. Reads gbpusd.json (rebuilt every day by .github/workflows/update-gbpusd.yml).
-   No libraries needed. Version 5 (5 November 2026); earlier versions are in _TO_BE_DELETED. */
+   No libraries needed. Version 6 (5 November 2026): a series with only one day so far shows that day's rate
+   alone, without a change or range. Earlier versions are in _TO_BE_DELETED. */
 (async function () {
   const root = document.querySelector('.viz-root');
   const $ = s => root.querySelector(s);
@@ -122,6 +123,13 @@
 
   function stats(data, ks, start) {
     const D = DIR[dir], box = $('.stats');
+    if (ks.length === 1 && data[ks[0]].length < 2) {     // one day so far: just that day's rate
+      const r = data[ks[0]][0];
+      box.innerHTML = `
+        <div class="stat"><div class="k">${fShort(r.date)} ${r.date.getUTCFullYear()}${ks[0] === 'wise' ? wiseTime(r) : ''}</div>
+          <div class="v">${D.sym}${fmt(r[dir])}</div><div class="s">${D.short}</div></div>` + (ks[0] === 'net' ? feeStat() : '');
+      return;
+    }
     if (ks.length === 1) {
       const rows = data[ks[0]], a = rows[0][dir], zr = rows[rows.length - 1], z = zr[dir], ch = z / a - 1, lab = span(rows, start);
       const vals = rows.map(r => r[dir]), lo = Math.min(...vals), hi = Math.max(...vals);
@@ -185,9 +193,10 @@
       : ks.length > 1 ? 'ECB reference and Wise rates'
       : mode === 'wise' ? 'Wise rates' : mode === 'net' ? 'Wise rates after fees' : 'ECB reference rates';
     const one = ks.length === 1 && partial(data[ks[0]], start);
-    const when = one ? `from ${fLong(data[ks[0]][0].date)}` : `over the ${PER[period].label}`;
+    const single = ks.length === 1 && data[ks[0]].length < 2;
+    const when = single ? 'recorded from' : one ? `from ${fLong(data[ks[0]][0].date)}` : `over the ${PER[period].label}`;
     const note = ks.length > 1 && partial(data.wise, start) ? ` Wise rates are recorded from ${fLong(data.wise[0].date)}.` : '';
-    $('.subtitle').textContent = `${D.unit[0].toUpperCase() + D.unit.slice(1)}, daily ${what}, ${when} to ${fLong(end)}.${note}`;
+    $('.subtitle').textContent = `${D.unit[0].toUpperCase() + D.unit.slice(1)}, daily ${what}, ${when}${single ? ' ' : ' to '}${fLong(end)}.${note}`;
     $('.legend').innerHTML = ks.length > 1 ? ks.map(k => `<span><span class="sw" style="background:${S[k].color}"></span>${S[k].name}</span>`).join('') : '';
     $('.source').textContent = [...new Set(ks.map(k => SRC[k]).filter(Boolean))].join(' ');
 
