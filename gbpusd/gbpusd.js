@@ -1,7 +1,9 @@
 /* The pound and the US dollar: last week, month, quarter and year, as ECB reference rates, Wise rates before
    and after fees, or all three. Reads gbpusd.json (rebuilt every day by .github/workflows/update-gbpusd.yml).
-   No libraries needed. Version 6 (5 November 2026): a series with only one day so far shows that day's rate
-   alone, without a change or range. Earlier versions are in _TO_BE_DELETED. */
+   No libraries needed. Version 7 (5 November 2026): 'Wise after fees' is estimated for the days before fees were
+   first recorded, by applying the first recorded fee to Wise's rate; those days are drawn dashed and labelled
+   as estimates. Version 6: a series with only one day so far shows that day's rate alone. Earlier versions are
+   in _TO_BE_DELETED. */
 (async function () {
   const root = document.querySelector('.viz-root');
   const $ = s => root.querySelector(s);
@@ -38,6 +40,16 @@
           rows: raw.wise && raw.wise.cost_usd_gbp && raw.wise.cost_usd_gbp.length
             ? raw.wise.cost_usd_gbp.map(([d, fee, got]) => ({date: parse(d), gbp: got / 1000, usd: 1000 / got, fee, got})) : null}
   };
+  // before fees were first recorded: estimated with the first recorded fee and Wise's rate that day
+  if (S.net.rows && S.wise.rows) {
+    const first = S.net.rows[0], fee0 = first.fee;
+    const est = S.wise.rows.filter(r => r.date < first.date).map(r => {
+      const got = Math.round((1000 - fee0) / r.usd * 100) / 100;
+      return {date: r.date, gbp: got / 1000, usd: 1000 / got, fee: fee0, got, est: true};
+    });
+    S.net.rows = est.concat(S.net.rows);
+    S.net.since = first.date;
+  }
   const SRC = {
     ecb: (raw.sources && raw.sources.ecb) || raw.source,
     wise: raw.sources && raw.sources.wise,
@@ -195,7 +207,9 @@
     const one = ks.length === 1 && partial(data[ks[0]], start);
     const single = ks.length === 1 && data[ks[0]].length < 2;
     const when = single ? 'recorded from' : one ? `from ${fLong(data[ks[0]][0].date)}` : `over the ${PER[period].label}`;
-    const note = ks.length > 1 && partial(data.wise, start) ? ` Wise rates are recorded from ${fLong(data.wise[0].date)}.` : '';
+    const estIn = ks.includes('net') && data.net.some(r => r.est);
+    const note = (ks.length > 1 && partial(data.wise, start) ? ` Wise rates are recorded from ${fLong(data.wise[0].date)}.` : '')
+      + (estIn ? ` Wise after fees before ${fLong(S.net.since)} is estimated with the fee charged on that date (dashed line).` : '');
     $('.subtitle').textContent = `${D.unit[0].toUpperCase() + D.unit.slice(1)}, daily ${what}, ${when}${single ? ' ' : ' to '}${fLong(end)}.${note}`;
     $('.legend').innerHTML = ks.length > 1 ? ks.map(k => `<span><span class="sw" style="background:${S[k].color}"></span>${S[k].name}</span>`).join('') : '';
     $('.source').textContent = [...new Set(ks.map(k => SRC[k]).filter(Boolean))].join(' ');
@@ -242,7 +256,11 @@
       const pts = rows.map(r => [x(r.date), y(r[dir])]);
       const dLine = 'M' + pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L');
       if (ks.length === 1) el('path', {class: 'area', fill: col, d: dLine + `L${pts[pts.length - 1][0].toFixed(1)},${ih}L${pts[0][0].toFixed(1)},${ih}Z`}, g);
-      const line = el('path', {class: 'line', stroke: col, d: dLine}, g);
+      const nEst = rows.filter(r => r.est).length;     // estimated days come first: dashed, the rest solid
+      const solid = nEst ? pts.slice(Math.max(0, nEst - 1)) : pts;
+      if (nEst) el('path', {class: 'line', stroke: col, 'stroke-dasharray': '4 4', opacity: 0.8,
+        d: 'M' + pts.slice(0, Math.min(pts.length, nEst + 1)).map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L')}, g);
+      const line = el('path', {class: 'line', stroke: col, d: 'M' + solid.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join('L')}, g);
       const lp = pts[pts.length - 1];
       const lastDot = el('circle', {class: 'lastdot', fill: col, cx: lp[0], cy: lp[1], r: 4.5}, g);
       const lastLab = el('text', {class: 'lastlab', x: lp[0] + 9, y: lp[1] + 4}, g);
@@ -282,10 +300,11 @@
         if (!r) { dots[i].setAttribute('visibility', 'hidden'); return; }
         const cy = y(r[dir]); topY = Math.min(topY, cy);
         dots[i].setAttribute('cx', x(r.date)); dots[i].setAttribute('cy', cy); dots[i].setAttribute('visibility', 'visible');
-        const stale = r.date.getTime() !== day.getTime() ? ` <span style="color:var(--muted)">(${fShort(r.date)})</span>` : '';
+        const stale = (r.date.getTime() !== day.getTime() ? ` <span style="color:var(--muted)">(${fShort(r.date)})</span>` : '')
+          + (r.est ? ' <span style="color:var(--muted)">(estimate)</span>' : '');
         html += ks.length > 1
           ? `<div class="row"><span class="k" style="background:${S[k].color}"></span><span class="nm">${S[k].name}${stale}</span><span class="v">${D.sym}${fmt(r[dir])}</span></div>`
-          : `<div><span class="v">${D.sym}${fmt(r[dir])}</span> ${D.short}</div>`;
+          : `<div><span class="v">${D.sym}${fmt(r[dir])}</span> ${D.short}${r.est ? ' <span style="color:var(--muted)">(estimate)</span>' : ''}</div>`;
         if (ks.length === 1) {
           const i2 = drawn[k].rows.indexOf(r), prev = drawn[k].rows[i2 - 1];
           if (prev) { const ch = (r[dir] / prev[dir] - 1) * 100; html += `<div style="color:var(--ink-2)">${ch >= 0 ? '+' : ''}${ch.toFixed(2)}% on the previous rate</div>`; }
