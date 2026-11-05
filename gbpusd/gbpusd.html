@@ -1,0 +1,49 @@
+<!doctype html>
+<!-- Version 4 (5 November 2026): the button reads 'Wise after fees'. Version 3 is in _TO_BE_DELETED/19_pound_and_dollar_v4.
+     Version 3: opens on pounds per US dollar. Version 1 is in _TO_BE_DELETED/gbpusd_chart_v1. -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The pound and the US dollar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="gbpusd.css?v=20261105043524">
+</head>
+<body>
+<figure class="viz-root" data-v="20261105043524">
+  <figcaption>
+    <h2>The pound and the US dollar</h2>
+    <p class="subtitle"></p>
+  </figcaption>
+  <div class="bar">
+    <div class="tabs" role="tablist" aria-label="Time range">
+      <button role="tab" data-p="week" aria-selected="false">Last week</button>
+      <button role="tab" data-p="month" aria-selected="true">Last month</button>
+      <button role="tab" data-p="quarter" aria-selected="false">Last quarter</button>
+      <button role="tab" data-p="year" aria-selected="false">Last year</button>
+    </div>
+  </div>
+  <div class="pick">
+    <div class="ccy src" role="group" aria-label="Rate">
+      <span class="lab">Rate</span>
+      <button data-s="ecb" aria-pressed="true">ECB reference</button>
+      <button data-s="wise" aria-pressed="false">Wise</button>
+      <button data-s="net" aria-pressed="false">Wise after fees</button>
+      <button data-s="both" aria-pressed="false">Compare</button>
+    </div>
+    <div class="ccy dir" role="group" aria-label="Direction">
+      <span class="lab">Show</span>
+      <button data-d="gbp" aria-pressed="true">Pounds per US dollar</button>
+      <button data-d="usd" aria-pressed="false">US dollars per pound</button>
+    </div>
+  </div>
+  <div class="stats"></div>
+  <div class="legend"></div>
+  <div class="chart" role="img" aria-label="Line chart of the exchange rate between the pound sterling and the US dollar"></div>
+  <div class="tooltip" hidden></div>
+  <p class="source"></p>
+</figure>
+<script src="gbpusd.js?v=20261105043524"></script>
+</body>
+</html>
