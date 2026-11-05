@@ -1,6 +1,10 @@
 """Refresh gbpusd/gbpusd.json: US dollars per pound sterling, daily, for roughly the last 13 months,
 from two sources the page lets visitors switch between or compare.
 
+Version 6 (5 November 2026): Wise's rates now come from Wise's public rate history, at 00:00 UTC each
+day, so every day is taken at the same time and the series starts about 13 months back instead of today;
+the cost of converting $1,000 uses that day's 00:00 rate and the fee from Wise's quote that day.
+Version 5 is in _TO_BE_DELETED/19_pound_and_dollar_v5.
 Version 5 (5 November 2026). Changes from the handoff (version 1, in _TO_BE_DELETED/gbpusd_chart_v1):
 Wise's current quote address is tried if the older one fails; the exact time of the latest Wise rate is
 kept; the source note gives no fixed time of day, because GitHub often starts scheduled runs late; and
@@ -10,14 +14,18 @@ received). Earlier versions are in _TO_BE_DELETED.
 Run by .github/workflows/update-gbpusd.yml every day; standard library only.
   - ECB: European Central Bank euro reference rates (published on TARGET working days around 16:00 CET),
     crossed through the euro, via api.frankfurter.dev with the ECB as the only provider.
-  - Wise: Wise's live rate from Wise's public quote endpoint (POST /v3/quotes, or /2026Q4/quotes if that
-    fails; no account or token needed), for converting $1,000 into pounds, recorded
-    once a day when this runs and saved as US dollars per pound (1 / the quote's rate) like the ECB
-    series. Wise does not offer rate history without a business API account, so this series starts on
-    the first run and builds up one day at a time. The same quote gives the cost of that conversion
-    within Wise (Wise's BALANCE pay-in and pay-out option): the fee in dollars and the pounds received,
-    kept as "cost_usd_gbp" next to the rates. These are Wise's standard prices; an account with volume
-    discounts may pay a little less.
+  - Wise rates: Wise's public rate history (wise.com/rates/history+live, the service behind the charts on
+    Wise's website; no account needed, but not a documented API), USD to GBP at 00:00 UTC each day for
+    about 13 months, including today's 00:00 rate from the hourly history. Saved as US dollars per pound
+    (1 / Wise's rate) like the ECB series.
+  - Wise cost: Wise's public quote endpoint (POST /v3/quotes, or /2026Q4/quotes if that fails; no account
+    or token needed) for converting $1,000 into pounds within Wise (Wise's BALANCE pay-in and pay-out
+    option) gives that day's fee in dollars. The pounds received are ($1,000 minus the fee) times that
+    day's 00:00 rate, so the cost line is at the same time of day as the rates. Kept as "cost_usd_gbp"
+    next to the rates, from the first run on; Wise publishes no fee history. These are Wise's standard
+    prices; an account with volume discounts may pay a little less.
+  - If the rate history fails, today's rate and pounds received come from the quote instead, at the time
+    of the run, as in version 5.
 Safety: if the ECB download fails, or would end earlier or hold far fewer days than the published file,
 nothing is written and the run fails. If the Wise request fails, the published Wise series is kept
 unchanged and the ECB update still goes ahead. The live chart is never damaged.
@@ -38,14 +46,15 @@ UA = {"User-Agent": "gbpusd-chart/1.0 (academic website)", "Accept": "applicatio
 ECB_URL = ("https://api.frankfurter.dev/v2/rates?from={start}&to={end}"
            "&base=GBP&quotes=USD&providers=ECB")
 WISE_URLS = ["https://api.wise.com/v3/quotes", "https://api.wise.com/2026Q4/quotes"]
+WISE_HISTORY = "https://wise.com/rates/history+live?source=USD&target=GBP&length={n}&resolution={res}&unit={unit}"
 WISE_BODY = {"sourceCurrency": "USD", "targetCurrency": "GBP", "sourceAmount": 1000, "payOut": "BALANCE"}
 DAYS_BACK = 400
 SOURCES = {
     "ecb": ("ECB: European Central Bank euro reference rates, crossed through the euro, via api.frankfurter.dev, "
             "published on European working days."),
-    "wise": ("Wise: Wise's live rate between the pound and the US dollar from Wise's public quote service, before Wise's fees, recorded "
-             "once a day when the automatic update runs; the time of day varies. 'Wise after fees' is the pounds "
-             "received per dollar when converting $1,000, at Wise's standard prices."),
+    "wise": ("Wise: Wise's rate between the pound and the US dollar before fees, at 00:00 UTC each day, from Wise's "
+             "public rate history. 'Wise after fees' is the pounds received per dollar when converting $1,000 at that "
+             "rate after Wise's fee that day, at Wise's standard prices, recorded daily from November 2026."),
 }
 NOTE = "Updated automatically every day."
 
@@ -140,6 +149,35 @@ def balance_cost(js, rate):
     return round(fee, 2), round(got, 2)
 
 
+def wise_history():
+    """{date: US dollars per pound} at 00:00 UTC each day for about 13 months, today included, from Wise's
+    public rate history; {} if it fails."""
+    try:
+        daily = get(WISE_HISTORY.format(n=13, res="daily", unit="month"), tries=2)
+        hourly = get(WISE_HISTORY.format(n=1, res="hourly", unit="day"), tries=2)
+    except Exception as e:
+        print(f"Wise rate history failed ({e}); using today's quote instead")
+        return {}
+    rows = {}
+    for r in (daily or []) + (hourly or []):
+        try:
+            t, v = int(r["time"]) // 1000, float(r["value"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if t % 86400 == 0 and r.get("source") == "USD" and r.get("target") == "GBP" and v > 0:
+            rows[time.strftime("%Y-%m-%d", time.gmtime(t))] = 1 / v      # only the 00:00 UTC values
+    if not rows:
+        print("Wise rate history had no daily values; using today's quote instead")
+        return {}
+    try:
+        check(rows, "Wise history")
+    except ValueError as e:
+        print(f"{e}; using today's quote instead")
+        return {}
+    print(f"Wise rate history: {len(rows)} days at 00:00 UTC, {min(rows)} to {max(rows)}")
+    return rows
+
+
 def series(rows):
     days = sorted(rows)
     return {"rates": [[d, round(rows[d], 5)] for d in days], "last": days[-1]}
@@ -158,23 +196,40 @@ def make(old):
             sys.exit(f"ECB data have {len(new_ecb['rates'])} days, published {len(old_ecb['rates'])}. Not writing.")
 
     new_wise = {k: v for k, v in old_wise.items() if k != "cost"} if old_wise else None   # version 3 costs were pounds into dollars
+    hist = wise_history()
     try:
-        day, rate, when, cost = wise_today()
+        quote = wise_today()
+    except Exception as e:
+        print(f"Wise quote failed ({e})")
+        quote = None
+    if hist or quote:
         rows = {d: v for d, v in (old_wise or {"rates": []})["rates"]}
-        rows[day] = rate
+        rows.update(hist)                           # Wise's own 00:00 UTC rates replace earlier ones
+        costs = {d: [f, g] for d, f, g in (old_wise or {}).get("cost_usd_gbp", [])}
+        if quote:
+            day, rate, when, cost = quote
+            if day in hist:                         # the day's 00:00 rate, and the pounds received at that rate
+                when = day + "T00:00:00Z"
+                if cost:
+                    cost = (cost[0], round((1000 - cost[0]) / hist[day], 2))
+                    print(f"  Saved at the day's 00:00 UTC rate: $1,000 gives £{cost[1]:,.2f} after the ${cost[0]:.2f} fee")
+            else:
+                rows[day] = rate                    # no history for today: the quote's rate, at the time of the run
+            if cost:
+                costs[day] = list(cost)
+            elif day in costs and day not in hist:
+                del costs[day]                      # an older price for today would not match today's new rate
+        else:
+            when = max(hist) + "T00:00:00Z"
+            print("  keeping the saved Wise costs; no new one today")
         cutoff = (date.today() - timedelta(days=DAYS_BACK)).isoformat()
         new_wise = series({d: v for d, v in rows.items() if d >= cutoff})
         if when:
-            new_wise["time"] = when                 # exact time of the latest Wise rate, UTC
-        costs = {d: [f, g] for d, f, g in (old_wise or {}).get("cost_usd_gbp", [])}
-        if cost:
-            costs[day] = list(cost)
-        elif day in costs:
-            del costs[day]                          # today's rate is new, so an older price for today would not match it
+            new_wise["time"] = when                 # time of the latest Wise rate, UTC
         if costs:                                   # [date, fee in dollars, pounds received] for $1,000
             new_wise["cost_usd_gbp"] = [[d] + costs[d] for d in sorted(costs) if d >= cutoff]
-    except Exception as e:
-        print(f"Wise request failed ({e}): keeping the published Wise series")
+    else:
+        print("Wise rate history and quote both failed: keeping the published Wise series")
 
     sources = {"ecb": SOURCES["ecb"] + " " + NOTE}
     if new_wise:
