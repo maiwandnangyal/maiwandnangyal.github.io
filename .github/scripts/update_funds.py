@@ -1,5 +1,9 @@
 """Refresh funds/funds.json: prices of a short list of London-listed ETFs, in pounds, with dividends.
 
+Version 4 (12 November 2026): the note under the chart now says the data update once or twice each
+weekday. The schedule is still hourly, but GitHub starts scheduled runs hours late, so that is what
+happens in practice. Nothing else changed. Version 3 is in _TO_BE_DELETED/16_fund_tracker_v4.
+
 Version 3 (30 October 2026): updated every hour while the London market is open, with the exact time of
 each fund's latest trade and a series of today's prices; returns include dividends, worked out here
 from each fund's dividend list and checked (Yahoo's own adjusted prices leave most of them out for funds
@@ -68,7 +72,7 @@ DIV_MIN, DIV_MAX = 0.0005, 0.05      # plausible dividend, as a share of the pre
 SOURCE = ("Prices from Yahoo Finance, which delays London prices by 20 minutes; funds priced in dollars are converted "
           "to pounds at the GBP/USD rate at the time of each price. Returns include dividends, as if each was reinvested "
           "on the day the fund went ex-dividend (a broker account shows them as cash instead), and the funds' own fees, "
-          "but not trading costs. Updated every hour while the London market is open.")
+          "but not trading costs. Updated automatically once or twice each weekday.")
 
 
 # ---------- London time (British Summer Time: last Sunday of March to last Sunday of October, from 01:00 UTC)
