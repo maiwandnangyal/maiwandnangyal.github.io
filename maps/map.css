@@ -1,6 +1,6 @@
 
 .viz-root{
-  --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e; --muted:#898781; --line:#e1e0d9;
+  --surface:#fcfcfb; --ink:#1b2430; --ink-2:#4a5361; --muted:#5b6573; --line:#e1e0d9;
   --prov:#3d3c39; --dist:#ffffff;
   color-scheme:light; max-width:1100px; margin:0 auto; padding:16px; background:var(--surface); color:var(--ink);
   font:14px/1.4 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif;

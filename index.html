@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fbfbf9">
+    <meta name="color-scheme" content="light only">
     <title>Maiwand Nangyal | DPhil Candidate in Economics, University of Oxford</title>
     <meta name="description" content="Maiwand Nangyal is a DPhil Candidate in Economics at the University of Oxford. Research in development economics, economic history and political economy.">
 
@@ -96,6 +98,17 @@
             --rule: #e2e6ec;
             --link: #19599f;
             --gold: #b68a2e;
+            --gold-text: #86621a;
+            --tint: #eef1f5;
+            --tint-strong: #e8edf4;
+            --tint-border: #d4dce8;
+            --panel: #f4f7fb;
+            --panel-hover: #edf2f8;
+            --badge: #f3ecdb;
+            --badge-border: #e3d4ae;
+            --nav-bg: rgba(251, 251, 249, 0.92);
+            --shadow: rgba(0, 33, 71, 0.12);
+            --measure: 68ch;
             --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
             --sans: 'Source Sans 3', -apple-system, 'Segoe UI', Roboto, sans-serif;
             --arabic: 'Noto Naskh Arabic', serif;
@@ -113,6 +126,9 @@
             line-height: 1.65;
             font-size: 17px;
             -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         a {
@@ -135,7 +151,7 @@
             position: sticky;
             top: 0;
             z-index: 50;
-            background: rgba(251, 251, 249, 0.92);
+            background: var(--nav-bg);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--rule);
         }
@@ -182,14 +198,14 @@
 
         .nav-links a:hover {
             color: var(--oxford);
-            background-color: #eef1f5;
+            background-color: var(--tint);
             text-decoration: none;
         }
 
         .nav-links a.active {
             color: var(--oxford);
             font-weight: 600;
-            background-color: #e8edf4;
+            background-color: var(--tint-strong);
         }
 
         .nav-links a.pashto-nav { font-family: var(--arabic); font-size: 1.02em; }
@@ -199,6 +215,8 @@
             max-width: 880px;
             margin: 0 auto;
             padding: 56px 24px 0;
+            flex: 1 0 auto;
+            width: 100%;
         }
 
         .hide { display: none; }
@@ -210,8 +228,9 @@
             font-weight: 700;
             color: var(--oxford);
             line-height: 1.15;
-            margin: 0 0 10px;
+            margin: 0 0 8px;
             letter-spacing: -0.01em;
+            text-wrap: balance;
         }
 
         h1::after {
@@ -229,7 +248,9 @@
             font-size: 1.35em;
             font-weight: 600;
             color: var(--oxford);
-            margin: 0 0 18px;
+            margin: 0 0 12px;
+            line-height: 1.25;
+            text-wrap: balance;
         }
 
         .eyebrow {
@@ -237,24 +258,28 @@
             font-weight: 600;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--gold-text);
             margin: 0 0 6px;
         }
 
         .section {
-            margin: 56px 0;
-            padding-top: 40px;
+            margin: 44px 0;
+            padding-top: 36px;
             border-top: 1px solid var(--rule);
         }
 
-        .section:first-of-type { border-top: none; padding-top: 0; margin-top: 40px; }
+        .section:first-of-type {
+            border-top: none;
+            padding-top: 0;
+            margin-top: 32px;
+        }
 
         /* ---------- Home ---------- */
         .hero {
             display: grid;
-            grid-template-columns: 1fr 280px;
-            gap: 48px;
-            align-items: start;
+            grid-template-columns: 1fr 232px;
+            gap: 40px;
+            align-items: center;
         }
 
         .intro-roles { margin: 20px 0 0; }
@@ -267,35 +292,35 @@
         }
 
         .profile-photo {
-            width: 280px;
-            height: 280px;
+            width: 232px;
+            height: 232px;
             object-fit: cover;
             object-position: center;
             border-radius: 50%;
-            box-shadow: 0 8px 24px rgba(0, 33, 71, 0.12);
+            box-shadow: 0 8px 24px var(--shadow);
         }
 
         .field-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
-            margin: 26px 0 8px;
+            margin: 20px 0 0;
         }
 
         .field-tags span {
             font-size: 0.82em;
             font-weight: 600;
             color: var(--oxford);
-            background: #e8edf4;
-            border: 1px solid #d4dce8;
+            background: var(--tint-strong);
+            border: 1px solid var(--tint-border);
             padding: 4px 12px;
             border-radius: 999px;
             white-space: nowrap;
         }
 
         .credentials {
-            margin: 28px 0 0;
-            padding-top: 16px;
+            margin: 32px 0 0;
+            padding-top: 22px;
             border-top: 1px solid var(--rule);
             font-size: 0.9em;
             color: var(--ink);
@@ -307,15 +332,15 @@
             font-weight: 600;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--gold-text);
             margin: 0 0 4px;
         }
 
         .cred-grid {
             display: grid;
             grid-template-columns: max-content 1fr;
-            column-gap: 22px;
-            row-gap: 5px;
+            column-gap: 28px;
+            row-gap: 6px;
             line-height: 1.5;
         }
 
@@ -346,7 +371,7 @@
 
         .home-bio { margin-top: 28px; }
 
-        .home-bio p { margin: 0 0 18px; }
+        .home-bio p { margin: 0 0 18px; max-width: var(--measure); }
 
         .disclaimer {
             font-size: 0.88em;
@@ -354,62 +379,18 @@
             font-style: italic;
         }
 
-        /* ---------- Opium and conflict animation ---------- */
-        .afg-anim {
-            display: flex;
-            align-items: center;
-            gap: 22px;
-            margin: 20px 0 0;
-            padding-top: 18px;
-            border-top: 1px solid var(--rule);
-        }
-
-        .afg-anim svg { flex-shrink: 0; overflow: visible; }
-
-        .afg-outline {
-            fill: #eef1f5;
-            stroke: var(--oxford);
-            stroke-width: 1.1;
-            stroke-linejoin: round;
-        }
-
-        .afg-caption p { margin: 0; font-size: 0.9em; color: var(--muted); line-height: 1.5; max-width: 270px; }
-        .afg-caption .cred-label { font-size: 0.7em; color: var(--gold); margin-bottom: 4px; }
-        .afg-caption .afg-legend {
-            display: inline-flex;
-            gap: 14px;
-            margin: 2px 0 10px;
-            padding: 4px 10px;
-            font-size: 0.82em;
-            color: var(--ink);
-            background: var(--card);
-            border: 1px solid var(--rule);
-            border-radius: 6px;
-            max-width: none;
-        }
-        .afg-legend span { white-space: nowrap; }
-        .afg-caption a { font-style: italic; }
-
-        .afg-tag {
-            display: inline-block;
-            margin-top: 6px;
-            font-size: 0.72em;
-            color: var(--muted);
-            border: 1px solid var(--rule);
-            border-radius: 999px;
-            padding: 1px 8px;
-        }
-
         /* ---------- Research ---------- */
         .research-item {
-            background: var(--card);
-            border: 1px solid var(--rule);
-            border-radius: 10px;
-            padding: 22px 24px;
-            margin-bottom: 16px;
+            background: none;
+            border: 0;
+            border-radius: 0;
+            padding: 16px 0;
+            margin-bottom: 0;
         }
 
-        .research-item:last-child { margin-bottom: 0; }
+        .research-item + .research-item { border-top: 1px solid var(--rule); }
+        h2 + .research-item { padding-top: 4px; }
+        .research-item:last-child { padding-bottom: 0; }
 
         .research-title {
             font-family: var(--serif);
@@ -424,6 +405,7 @@
             font-size: 0.92em;
             color: var(--muted);
             margin: 0;
+            max-width: 38em;
         }
 
         .research-meta a { font-weight: 500; }
@@ -435,43 +417,43 @@
             letter-spacing: 0.04em;
             text-transform: uppercase;
             color: var(--oxford);
-            background: #f3ecdb;
-            border: 1px solid #e3d4ae;
+            background: var(--badge);
+            border: 1px solid var(--badge-border);
             padding: 2px 10px;
             border-radius: 999px;
             vertical-align: middle;
         }
 
         .status-badge.neutral {
-            background: #eef1f5;
+            background: var(--tint);
             border-color: var(--rule);
             color: var(--muted);
         }
 
         /* ---------- Data maps ---------- */
-        .viz-intro { margin: 0 0 20px; }
+        .viz-intro { margin: 0 0 16px; }
 
         .data-toc {
-            margin: 32px 0 0;
-            padding: 18px 22px;
+            margin: 28px 0 0;
+            padding: 16px 22px 12px;
             background: var(--card);
             border: 1px solid var(--rule);
             border-radius: 10px;
         }
 
         .data-toc ol { margin: 6px 0 0; padding-left: 20px; columns: 2; column-gap: 32px; }
-        .data-toc li { margin: 0 0 6px; break-inside: avoid; }
+        .data-toc li { margin: 0 0 4px; break-inside: avoid; }
 
-        #data-section .section { scroll-margin-top: 80px; }
+        #data-section .section { scroll-margin-top: 76px; }
 
         @media (max-width: 720px) {
             .data-toc ol { columns: 1; }
-            #data-section .section { scroll-margin-top: 110px; }
+            #data-section .section { scroll-margin-top: 64px; }
         }
 
         .viz-frame {
-            margin: 0 0 24px;
-            padding: 20px;
+            margin: 0 0 16px;
+            padding: 18px 20px;
             background: var(--card);
             border: 1px solid var(--rule);
             border-radius: 10px;
@@ -479,8 +461,29 @@
 
         .viz-frame iframe { display: block; width: 100%; height: 720px; border: 0; }
 
+        .toc-fab {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 40;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: var(--oxford);
+            background: var(--card);
+            border: 1px solid var(--rule);
+            border-radius: 999px;
+            padding: 8px 14px;
+            box-shadow: 0 4px 14px var(--shadow);
+        }
+
+        .toc-fab:hover { text-decoration: none; background: var(--tint); }
+
         @media (max-width: 720px) {
-            .viz-frame { padding: 12px; margin-left: -6px; margin-right: -6px; }
+            .viz-frame {
+                padding: 12px;
+                margin-left: -6px;
+                margin-right: -6px;
+            }
         }
 
         /* ---------- Teaching ---------- */
@@ -502,7 +505,7 @@
             width: 100%;
             padding: 18px 22px;
             cursor: pointer;
-            background: #f4f7fb;
+            background: var(--panel);
             border: none;
             border-left: 4px solid var(--oxford);
             text-align: left;
@@ -510,10 +513,10 @@
             font-size: 1em;
         }
 
-        .accordion-header:hover { background: #edf2f8; }
+        .accordion-header:hover { background: var(--panel-hover); }
 
         .accordion-header.locked { cursor: not-allowed; opacity: 0.6; }
-        .accordion-header.locked:hover { background: #f4f7fb; }
+        .accordion-header.locked:hover { background: var(--panel); }
 
         .course-title {
             font-family: var(--serif);
@@ -582,6 +585,7 @@
         .solo-link { color: var(--oxford); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 
         /* ---------- CV captcha ---------- */
+        #cv-section .section > p { max-width: var(--measure); }
         #cv-captcha { margin: 16px 0 0; }
         #cv-download { margin: 16px 0 0; }
 
@@ -626,7 +630,7 @@
 
         /* ---------- Footer ---------- */
         footer {
-            margin-top: 80px;
+            margin-top: 64px;
             border-top: 1px solid var(--rule);
             background: var(--card);
         }
@@ -652,33 +656,41 @@
         @media (max-width: 720px) {
             body { font-size: 16px; }
 
-            .nav-inner { padding: 6px 12px; }
+            .nav-inner { padding: 0 4px; min-height: 48px; }
             .nav-name { display: none; }
             .nav-links {
                 width: 100%;
-                justify-content: center;
-                flex-wrap: wrap;
-                overflow-x: visible;
-                gap: 2px;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                scrollbar-width: none;
+                gap: 0;
             }
-            .nav-links a { padding: 6px 9px; }
+            .nav-links::-webkit-scrollbar { display: none; }
+            .nav-links a { padding: 6px 7px; font-size: 0.88em; }
+            .nav-links a:first-child { margin-left: auto; }
+            .nav-links a:last-child { margin-right: auto; }
 
-            main { padding: 36px 18px 0; }
+            main { padding: 28px 18px 0; }
 
             h1 { font-size: 1.9em; }
+            h2 { font-size: 1.22em; }
+
+            .section { margin: 36px 0; padding-top: 28px; }
 
             .hero {
                 grid-template-columns: 1fr;
-                gap: 28px;
+                gap: 20px;
             }
 
-            .afg-anim { display: none; }
+            .pashto-content p { text-align: start; }
+
+            .toc-fab { right: 12px; bottom: 12px; }
 
             .hero .profile-photo {
                 order: -1;
-                margin: 0 auto;
-                width: 230px;
-                height: 230px;
+                margin: 0;
+                width: 168px;
+                height: 168px;
             }
 
             .cred-grid { grid-template-columns: 1fr; row-gap: 0; }
@@ -720,11 +732,10 @@
 
     <!-- ==================== HOME ==================== -->
     <div id="home-section">
-        <p class="eyebrow">University of Oxford · Department of Economics</p>
-        <h1>Maiwand Nangyal</h1>
-
         <div class="hero">
             <div>
+                <p class="eyebrow">University of Oxford · Department of Economics</p>
+                <h1>Maiwand Nangyal</h1>
                 <div class="intro-roles">
                     <p class="intro">DPhil Candidate in Economics at the <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank" rel="noopener">University of Oxford</a></p>
                 </div>
@@ -777,7 +788,6 @@
 
     <!-- ==================== RESEARCH ==================== -->
     <div id="research-section" class="hide">
-        <p class="eyebrow">Research</p>
         <h1>Research</h1>
 
         <div class="section">
@@ -832,10 +842,9 @@
 
         <!-- ==================== DATA ==================== -->
     <div id="data-section" class="hide">
-        <p class="eyebrow">Data</p>
         <h1>Data</h1>
 
-        <nav class="data-toc" aria-label="Charts on this page">
+        <nav class="data-toc" id="data-toc" aria-label="Charts on this page">
             <p class="cred-label">On this page</p>
             <ol>
                 <li><a href="#data" onclick="jumpTo(event, 'viz-regions')">Regions of Focus</a></li>
@@ -854,6 +863,8 @@
                 <li><a href="#data" onclick="jumpTo(event, 'viz-misc-funds')">Misc: Fund Tracker</a></li>
             </ol>
         </nav>
+
+        <a href="#data" class="toc-fab hide" id="toc-fab" onclick="jumpTo(event, 'data-toc')">Contents &uarr;</a>
 
         <div class="section" id="viz-regions">
             <h2>Regions of Focus</h2>
@@ -963,7 +974,7 @@
 </div>
     <div class="section" id="viz-misc-funds">
     <h2>Misc: Fund Tracker</h2>
-       <p class="research-meta viz-intro">A personal tracker of eight London-listed funds (ISWD, ISDE, HIWS, IGDA, MWIX, ISUS, HIES and HBKS): their returns in pounds, including dividends, today and over the last week, month, three months and year, and what &pound;100 invested on each of those dates would be worth now. Prices are delayed by 20 minutes and updated every hour while the London market is open.</p>    <figure class="viz-frame">
+       <p class="research-meta viz-intro">A tracker of eight London-listed funds: their returns in pounds, including dividends, today and over the last week, month, three months and year, and what &pound;100 invested on each of those dates would be worth now. Prices are delayed by 20 minutes and updated every hour while the London market is open.</p>    <figure class="viz-frame">
         <iframe src="funds/funds.html?embed" title="Line chart of returns for eight London-listed funds and a table of what &pound;100 invested would be worth now" loading="lazy"></iframe>
     </figure>
 </div>
@@ -973,7 +984,6 @@
 
     <!-- ==================== CV ==================== -->
     <div id="cv-section" class="hide">
-        <p class="eyebrow">Curriculum Vitae</p>
         <h1>Curriculum Vitae</h1>
         <div class="section">
             <p>
@@ -989,7 +999,6 @@
 
         <!-- ==================== TEACHING ==================== -->
     <div id="teaching-section" class="hide">
-        <p class="eyebrow">Teaching</p>
         <h1>Teaching</h1>
 
         <div class="section">
@@ -1529,7 +1538,6 @@
     </div>
     <!-- ==================== CONTACT ==================== -->
     <div id="contact-section" class="hide">
-        <p class="eyebrow">Contact</p>
         <h1>Contact</h1>
 
         <div class="section">
@@ -1591,9 +1599,9 @@
 
         <!-- ==================== PASHTO PAGE ==================== -->
     <div id="pashto-section" class="hide pashto-content" lang="ps" dir="rtl">
-        <h1>ميوند ننګيال</h1>
         <div class="hero">
             <div>
+                <h1>ميوند ننګيال</h1>
                 <div class="intro-roles">
                     <p class="intro">د <a href="https://www.economics.ox.ac.uk/people/maiwand-nangyal" target="_blank" rel="noopener">آکسفورډ پوهنتون</a> د اقتصاد د دوکتورا نوماند</p>
                 </div>
@@ -1663,6 +1671,13 @@
 
         document.getElementById(section + '-section').classList.remove('hide');
         document.getElementById(section + '-link').classList.add('active');
+        try {
+            const links = document.querySelector('.nav-links');
+            const link = document.getElementById(section + '-link');
+            if (links.scrollWidth > links.clientWidth) {
+                links.scrollLeft = link.offsetLeft - (links.clientWidth - link.offsetWidth) / 2;
+            }
+        } catch (err) {}
 
         window.location.hash = section;
         trackSection(section);
@@ -2186,6 +2201,24 @@
     }
 
     requestAnimationFrame(draw);
+})();
+</script>
+
+<script>
+/* Show the floating Contents button on the Data page once the contents list is out of view. */
+(function () {
+    var fab = document.getElementById('toc-fab');
+    var toc = document.getElementById('data-toc');
+    var page = document.getElementById('data-section');
+    if (!fab || !toc || !page) return;
+    function update() {
+        var show = !page.classList.contains('hide') && toc.getBoundingClientRect().bottom < 0;
+        fab.classList.toggle('hide', !show);
+    }
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('hashchange', update);
+    document.addEventListener('click', function () { setTimeout(update, 0); });
+    update();
 })();
 </script>
 

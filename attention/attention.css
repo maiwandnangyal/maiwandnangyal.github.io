@@ -1,10 +1,12 @@
 
-.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;
+.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#1b2430;--ink-2:#4a5361;--muted:#5b6573;--grid:#e1e0d9;--axis:#c3c2b7;
   --w:#2a78d6;--n:#eb6834;max-width:1100px;margin:0 auto;padding:16px;background:var(--surface);color:var(--ink);position:relative;
   font:14px/1.45 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
 body{margin:0;padding:16px;background:#f9f9f7}
 body.embed{padding:0;background:transparent}
 body.embed .viz-root{padding:0;background:transparent;max-width:none}
+body.embed figcaption h2{display:none}
+body.embed .subtitle{margin-top:0}
 h2{margin:0;font-size:20px;font-weight:650}
 .subtitle{margin:2px 0 10px;color:var(--ink-2)}
 .controls{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}

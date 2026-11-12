@@ -79,7 +79,7 @@
   function drawBars() {
     const el = $('#bars'); el.innerHTML = '';
     const width = el.clientWidth || 900, narrow = width < 600, height = Math.max(240, Math.min(340, width * 0.36));
-    const m = {t: 10, r: 6, b: 24, l: narrow ? 42 : 48}, iw = width - m.l - m.r, ih = height - m.t - m.b;
+    const m = {t: 10, r: narrow ? 16 : 6, b: 24, l: narrow ? 42 : 48}, iw = width - m.l - m.r, ih = height - m.t - m.b;
     const x = d3.scaleBand(YS, [0, iw]).paddingInner(0.18).paddingOuter(0.05);
     const ymax = d3.max(YS, y => Math.max(A(y).req, A(y).plan + A(y).out));
     const yS = d3.scaleLinear([0, ymax], [ih, 0]).nice();

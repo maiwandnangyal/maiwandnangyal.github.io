@@ -1,5 +1,5 @@
 
-.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--muted:#898781;--grid:#e1e0d9;--axis:#c3c2b7;--card:#f3f2ee;
+.viz-root{color-scheme:light;--surface:#fcfcfb;--ink:#1b2430;--ink-2:#4a5361;--muted:#5b6573;--grid:#e1e0d9;--axis:#c3c2b7;--card:#f3f2ee;
   --ask:#d3d1c7;--got:#2a78d6;--out:#9cc3ee;--link:#2a78d6;
   max-width:1100px;margin:0 auto;padding:16px;background:var(--surface);color:var(--ink);position:relative;
   font:14px/1.45 "Source Sans 3",system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -7,6 +7,8 @@ body{margin:0;padding:16px;background:#f9f9f7}
 body.embed{padding:0;background:transparent}
 html.embed,body.embed{overflow:hidden}
 body.embed .viz-root{padding:0;background:transparent;max-width:none}
+body.embed figcaption h2{display:none}
+body.embed .subtitle{margin-top:0}
 h2{margin:0;font-size:20px;font-weight:650}
 .subtitle{margin:2px 0 12px;color:var(--ink-2)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:2px 0 12px}
