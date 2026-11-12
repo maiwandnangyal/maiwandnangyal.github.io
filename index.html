@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#fbfbf9">
+    <meta name="theme-color" content="#ffffff">
     <meta name="color-scheme" content="light only">
     <title>Maiwand Nangyal | DPhil Candidate in Economics, University of Oxford</title>
     <meta name="description" content="Maiwand Nangyal is a DPhil Candidate in Economics at the University of Oxford. Research in development economics, economic history and political economy.">
@@ -78,39 +78,40 @@
                 "https://www.economics.ox.ac.uk/people/maiwand-nangyal",
                 "https://uk.linkedin.com/in/maiwand-n-b59689106",
                 "https://www.granduniondtp.ac.uk/people/maiwand-nangyal",
-                "https://gtr.ukri.org/person/17F45263-B9D4-4F89-B650-7190F57CFD45"
+                "https://gtr.ukri.org/find-research-and-innovation/person/58c1211e-6bb2-41da-a0a4-d89a5bd42ed3"
             ]
         }
     }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Source+Sans+3:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 
     <style>
+        /* Clean, neutral palette on white. Variable names are kept from the earlier design. */
         :root {
-            --oxford: #002147;
-            --ink: #1b2430;
-            --muted: #5b6573;
-            --paper: #fbfbf9;
+            --oxford: #1d1d1f;
+            --ink: #1d1d1f;
+            --muted: #6e6e73;
+            --paper: #ffffff;
             --card: #ffffff;
-            --rule: #e2e6ec;
-            --link: #19599f;
-            --gold: #b68a2e;
-            --gold-text: #86621a;
-            --tint: #eef1f5;
-            --tint-strong: #e8edf4;
-            --tint-border: #d4dce8;
-            --panel: #f4f7fb;
-            --panel-hover: #edf2f8;
-            --badge: #f3ecdb;
-            --badge-border: #e3d4ae;
-            --nav-bg: rgba(251, 251, 249, 0.92);
-            --shadow: rgba(0, 33, 71, 0.12);
+            --rule: #d2d2d7;
+            --link: #0066cc;
+            --gold: #0071e3;
+            --gold-text: #6e6e73;
+            --tint: #f5f5f7;
+            --tint-strong: #f5f5f7;
+            --tint-border: transparent;
+            --panel: #f5f5f7;
+            --panel-hover: #ececf0;
+            --badge: #f5f5f7;
+            --badge-border: transparent;
+            --nav-bg: rgba(255, 255, 255, 0.82);
+            --shadow: rgba(0, 0, 0, 0.1);
             --measure: 68ch;
-            --serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-            --sans: 'Source Sans 3', -apple-system, 'Segoe UI', Roboto, sans-serif;
+            --sans: 'Source Sans 3', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            --serif: var(--sans);
             --arabic: 'Noto Naskh Arabic', serif;
         }
 
@@ -123,7 +124,7 @@
             margin: 0;
             color: var(--ink);
             background-color: var(--paper);
-            line-height: 1.65;
+            line-height: 1.58;
             font-size: 17px;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
@@ -152,27 +153,28 @@
             top: 0;
             z-index: 50;
             background: var(--nav-bg);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--rule);
+            backdrop-filter: saturate(180%) blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
         }
 
         .nav-inner {
-            max-width: 880px;
+            max-width: 980px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 16px;
-            min-height: 60px;
+            min-height: 52px;
         }
 
         .nav-name {
             font-family: var(--serif);
-            font-weight: 700;
-            font-size: 1.05em;
+            font-weight: 600;
+            font-size: 1.08em;
             color: var(--oxford);
-            letter-spacing: 0.01em;
+            letter-spacing: -0.01em;
             white-space: nowrap;
         }
 
@@ -187,10 +189,10 @@
         }
 
         .nav-links a {
-            color: var(--muted);
-            font-weight: 500;
-            font-size: 0.93em;
-            padding: 6px 11px;
+            color: #424245;
+            font-weight: 400;
+            font-size: 0.86em;
+            padding: 6px 10px;
             border-radius: 6px;
             white-space: nowrap;
             transition: color 0.15s ease, background-color 0.15s ease;
@@ -198,23 +200,23 @@
 
         .nav-links a:hover {
             color: var(--oxford);
-            background-color: var(--tint);
+            background-color: transparent;
             text-decoration: none;
         }
 
         .nav-links a.active {
             color: var(--oxford);
             font-weight: 600;
-            background-color: var(--tint-strong);
+            background-color: transparent;
         }
 
         .nav-links a.pashto-nav { font-family: var(--arabic); font-size: 1.02em; }
 
         /* ---------- Page shell ---------- */
         main {
-            max-width: 880px;
+            max-width: 980px;
             margin: 0 auto;
-            padding: 56px 24px 0;
+            padding: 64px 22px 0;
             flex: 1 0 auto;
             width: 100%;
         }
@@ -224,18 +226,18 @@
         /* ---------- Typography ---------- */
         h1 {
             font-family: var(--serif);
-            font-size: 2.4em;
+            font-size: 3em;
             font-weight: 700;
             color: var(--oxford);
-            line-height: 1.15;
-            margin: 0 0 8px;
-            letter-spacing: -0.01em;
+            line-height: 1.07;
+            margin: 0 0 10px;
+            letter-spacing: -0.022em;
             text-wrap: balance;
         }
 
         h1::after {
             content: "";
-            display: block;
+            display: none;
             width: 56px;
             height: 3px;
             background: var(--gold);
@@ -245,82 +247,84 @@
 
         h2 {
             font-family: var(--serif);
-            font-size: 1.35em;
-            font-weight: 600;
+            font-size: 1.65em;
+            font-weight: 700;
             color: var(--oxford);
-            margin: 0 0 12px;
-            line-height: 1.25;
+            margin: 0 0 14px;
+            line-height: 1.15;
             text-wrap: balance;
+            letter-spacing: -0.016em;
         }
 
         .eyebrow {
-            font-size: 0.74em;
+            font-size: 1em;
             font-weight: 600;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
+            letter-spacing: 0;
+            text-transform: none;
             color: var(--gold-text);
-            margin: 0 0 6px;
+            margin: 0 0 8px;
         }
 
         .section {
-            margin: 44px 0;
-            padding-top: 36px;
-            border-top: 1px solid var(--rule);
+            margin: 64px 0;
+            padding-top: 0;
+            border-top: none;
         }
 
         .section:first-of-type {
             border-top: none;
             padding-top: 0;
-            margin-top: 32px;
+            margin-top: 36px;
         }
 
         /* ---------- Home ---------- */
         .hero {
             display: grid;
-            grid-template-columns: 1fr 232px;
-            gap: 40px;
+            grid-template-columns: 1fr 220px;
+            gap: 36px;
             align-items: center;
         }
 
         .intro-roles { margin: 20px 0 0; }
 
         .intro {
-            font-size: 1.12em;
-            color: var(--ink);
+            font-size: 1.4em;
+            color: var(--muted);
             margin: 0 0 6px;
-            font-weight: 500;
+            font-weight: 400;
+            line-height: 1.3;
         }
 
         .profile-photo {
-            width: 232px;
-            height: 232px;
+            width: 220px;
+            height: 220px;
             object-fit: cover;
             object-position: center;
             border-radius: 50%;
-            box-shadow: 0 8px 24px var(--shadow);
+            box-shadow: none;
         }
 
         .field-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 7px;
             margin: 20px 0 0;
         }
 
         .field-tags span {
-            font-size: 0.82em;
-            font-weight: 600;
-            color: var(--oxford);
+            font-size: 0.8em;
+            font-weight: 500;
+            color: var(--ink);
             background: var(--tint-strong);
-            border: 1px solid var(--tint-border);
-            padding: 4px 12px;
+            border: 0;
+            padding: 5px 11px;
             border-radius: 999px;
             white-space: nowrap;
         }
 
         .credentials {
-            margin: 32px 0 0;
-            padding-top: 22px;
+            margin: 44px 0 0;
+            padding-top: 28px;
             border-top: 1px solid var(--rule);
             font-size: 0.9em;
             color: var(--ink);
@@ -328,10 +332,10 @@
 
         .cred-label {
             display: block;
-            font-size: 0.78em;
+            font-size: 0.9em;
             font-weight: 600;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            letter-spacing: 0;
+            text-transform: none;
             color: var(--gold-text);
             margin: 0 0 4px;
         }
@@ -349,7 +353,7 @@
 
         .cred-role {
             position: relative;
-            padding-left: 15px;
+            padding-left: 0;
             font-weight: 600;
             color: var(--oxford);
         }
@@ -363,13 +367,14 @@
             height: 6px;
             border-radius: 50%;
             background: var(--gold);
+            display: none;
         }
 
         .cred-org { color: var(--ink); }
 
         .cred-note { color: var(--muted); }
 
-        .home-bio { margin-top: 28px; }
+        .home-bio { margin-top: 36px; }
 
         .home-bio p { margin: 0 0 18px; max-width: var(--measure); }
 
@@ -378,6 +383,22 @@
             color: var(--muted);
             font-style: italic;
         }
+        .home-cols {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 72px;
+            align-items: start;
+            margin-top: 52px;
+            padding-top: 44px;
+            border-top: 1px solid var(--rule);
+        }
+        .home-cols .home-bio { grid-column: 1; grid-row: 1; margin-top: 0; }
+        .home-cols .home-bio p:first-child { font-size: 1.22em; line-height: 1.42; }
+        .home-cols .credentials { grid-column: 2; grid-row: 1; margin: 0; padding-top: 0; border-top: 0; }
+        .home-cols .cred-grid { grid-template-columns: 1fr; row-gap: 0; }
+        .home-cols .cred-label { margin: 22px 0 8px; }
+        .home-cols .cred-label:first-child { margin-top: 0; }
+        .home-cols .cred-org { color: var(--muted); margin-bottom: 10px; }
 
         /* ---------- Research ---------- */
         .research-item {
@@ -395,10 +416,11 @@
         .research-title {
             font-family: var(--serif);
             font-weight: 600;
-            font-size: 1.06em;
+            font-size: 1.12em;
             color: var(--oxford);
             margin: 0 0 8px;
             line-height: 1.4;
+            letter-spacing: -0.005em;
         }
 
         .research-meta {
@@ -412,14 +434,14 @@
 
         .status-badge {
             display: inline-block;
-            font-size: 0.76em;
+            font-size: 0.8em;
             font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: var(--oxford);
+            letter-spacing: 0;
+            text-transform: none;
+            color: var(--muted);
             background: var(--badge);
-            border: 1px solid var(--badge-border);
-            padding: 2px 10px;
+            border: 0;
+            padding: 3px 11px;
             border-radius: 999px;
             vertical-align: middle;
         }
@@ -434,29 +456,46 @@
         .viz-intro { margin: 0 0 16px; }
 
         .data-toc {
-            margin: 28px 0 0;
-            padding: 16px 22px 12px;
-            background: var(--card);
-            border: 1px solid var(--rule);
-            border-radius: 10px;
+            margin: 32px 0 0;
+            padding: 26px 30px;
+            background: var(--tint);
+            border: 0;
+            border-radius: 18px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px 40px;
+        }
+        .toc-head { margin: 0 0 6px; font-weight: 700; }
+        .toc-head a { color: var(--oxford); }
+        .data-toc ul { list-style: none; margin: 0; padding: 0; font-size: 0.95em; }
+        .data-toc li { margin: 0 0 5px; }
+        .viz-group { margin: 88px 0 0; padding-top: 32px; border-top: 1px solid var(--rule); scroll-margin-top: 60px; }
+        .toc-fab + .viz-group { margin-top: 56px; }
+        .group-title { font-size: 2.2em; letter-spacing: -0.02em; margin: 0; }
+        .viz-group + .section { margin-top: 32px; }
+        .viz-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.012em;
+            color: var(--oxford);
+            margin: 0 0 8px;
         }
 
-        .data-toc ol { margin: 6px 0 0; padding-left: 20px; columns: 2; column-gap: 32px; }
-        .data-toc li { margin: 0 0 4px; break-inside: avoid; }
 
         #data-section .section { scroll-margin-top: 76px; }
 
         @media (max-width: 720px) {
-            .data-toc ol { columns: 1; }
+            .data-toc { grid-template-columns: 1fr; padding: 20px 22px; }
             #data-section .section { scroll-margin-top: 64px; }
         }
 
         .viz-frame {
-            margin: 0 0 16px;
-            padding: 18px 20px;
+            margin: 0 0 12px;
+            padding: 22px 24px;
             background: var(--card);
             border: 1px solid var(--rule);
-            border-radius: 10px;
+            border-radius: 18px;
         }
 
         .viz-frame iframe { display: block; width: 100%; height: 720px; border: 0; }
@@ -490,7 +529,7 @@
         .course-card {
             background: var(--card);
             border: 1px solid var(--rule);
-            border-radius: 10px;
+            border-radius: 18px;
             overflow: hidden;
             margin-bottom: 16px;
         }
@@ -503,11 +542,11 @@
             align-items: center;
             gap: 16px;
             width: 100%;
-            padding: 18px 22px;
+            padding: 20px 24px;
             cursor: pointer;
             background: var(--panel);
             border: none;
-            border-left: 4px solid var(--oxford);
+            border-left: 0;
             text-align: left;
             font-family: var(--sans);
             font-size: 1em;
@@ -521,7 +560,7 @@
         .course-title {
             font-family: var(--serif);
             font-weight: 600;
-            font-size: 1.08em;
+            font-size: 1.12em;
             color: var(--oxford);
         }
 
@@ -564,9 +603,10 @@
         thead th {
             text-align: left;
             font-weight: 600;
-            color: var(--oxford);
+            color: var(--muted);
             padding: 9px 10px;
-            border-bottom: 2px solid var(--oxford);
+            border-bottom: 1px solid var(--rule);
+            font-size: 0.92em;
         }
 
         tbody td {
@@ -582,7 +622,12 @@
         .doi { color: var(--muted); font-size: 0.9em; }
         .doi a { color: var(--muted); }
 
-        .solo-link { color: var(--oxford); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+        .solo-link {
+            color: var(--link);
+            font-weight: 500;
+            text-decoration: none;
+            text-underline-offset: 2px;
+        }
 
         /* ---------- CV captcha ---------- */
         #cv-section .section > p { max-width: var(--measure); }
@@ -630,18 +675,18 @@
 
         /* ---------- Footer ---------- */
         footer {
-            margin-top: 64px;
-            border-top: 1px solid var(--rule);
-            background: var(--card);
+            margin-top: 96px;
+            border-top: 0;
+            background: var(--tint);
         }
 
         .footer-inner {
-            max-width: 880px;
+            max-width: 980px;
             margin: 0 auto;
             padding: 32px 24px;
             text-align: center;
             color: var(--muted);
-            font-size: 0.88em;
+            font-size: 0.82em;
         }
 
         #bamyanCanvas {
@@ -670,12 +715,19 @@
             .nav-links a:first-child { margin-left: auto; }
             .nav-links a:last-child { margin-right: auto; }
 
-            main { padding: 28px 18px 0; }
+            main { padding: 36px 20px 0; }
 
-            h1 { font-size: 1.9em; }
-            h2 { font-size: 1.22em; }
+            h1 { font-size: 2.3em; }
+            h2 { font-size: 1.4em; }
+            .group-title { font-size: 1.8em; }
+            .viz-title { font-size: 1.25em; }
+            .viz-group { margin-top: 64px; padding-top: 24px; }
 
-            .section { margin: 36px 0; padding-top: 28px; }
+            .section { margin: 48px 0; }
+
+            .home-cols { grid-template-columns: 1fr; gap: 28px; margin-top: 32px; padding-top: 28px; }
+            .home-cols .home-bio { grid-column: 1; grid-row: 2; }
+            .home-cols .credentials { grid-column: 1; grid-row: 1; }
 
             .hero {
                 grid-template-columns: 1fr;
@@ -689,12 +741,16 @@
             .hero .profile-photo {
                 order: -1;
                 margin: 0;
-                width: 168px;
-                height: 168px;
+                width: 150px;
+                height: 150px;
             }
 
             .cred-grid { grid-template-columns: 1fr; row-gap: 0; }
-            .cred-org { padding-left: 15px; margin-bottom: 6px; color: var(--muted); }
+            .cred-org {
+                padding-left: 0;
+                margin-bottom: 6px;
+                color: var(--muted);
+            }
 
             .contact-grid { grid-template-columns: 1fr; gap: 2px; }
             .contact-grid dt { margin-top: 12px; }
@@ -754,6 +810,7 @@
             <img src="MN_Headshot.jpeg" alt="Maiwand Nangyal" class="profile-photo">
         </div>
 
+        <div class="home-cols">
         <div class="credentials" aria-label="Education and experience">
             <div class="cred-grid">
                 <p class="cred-label">Education</p>
@@ -783,6 +840,7 @@
     <p>I am supervised by <a href="https://www.economics.ox.ac.uk/people/stephen-broadberry-1" target="_blank" rel="noopener">Professor Stephen Broadberry</a> and <a href="https://www.economics.ox.ac.uk/people/eric-chaney-0" target="_blank" rel="noopener">Dr Eric Chaney</a>.</p>
     <p>Alongside my doctoral work, I am an Advisor at <a href="https://dataforafghanistan.org/" target="_blank" rel="noopener">Data for Afghanistan</a>, a platform producing data and visualisations for empirical research on one of the world's most data-scarce and conflict-affected countries. I also have a growing interest in impact evaluation and measurement, shaped by my work with the Outcome Measurement Unit at the World Bank Group on sustainable development financing.</p>
     <p class="disclaimer">Views expressed here are solely my own and do not represent any institution I'm currently affiliated with or have been affiliated with in the past.</p>
+        </div>
         </div>
     </div>
 
@@ -845,38 +903,50 @@
         <h1>Data</h1>
 
         <nav class="data-toc" id="data-toc" aria-label="Charts on this page">
-            <p class="cred-label">On this page</p>
-            <ol>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-regions')">Regions of Focus</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-opium')">Opium and Conflict by District</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-attention')">Global Attention on Afghanistan</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-lights')">Night-Time Light</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-earthquakes')">Earthquakes Across the Frontier</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-refugees')">Afghan Refugees and Returns</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-exchange')">The Afghani and the Pakistani Rupee</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-gbpusd')">The Pound and the US Dollar</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-inflation')">Inflation in Afghanistan and Pakistan</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-microsim')">Afghanistan to 2075: A Microsimulation</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-literacy')">Catching Up: Literacy in Former FATA and Balochistan</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-aid')">Aid to Afghanistan: Asked For and Received</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-growth')">Population Growth in Pakistan's Districts</a></li>
-                <li><a href="#data" onclick="jumpTo(event, 'viz-misc-funds')">Misc: Fund Tracker</a></li>
-            </ol>
+            <div class="toc-group">
+                <p class="toc-head"><a href="#data" onclick="jumpTo(event, 'grp-afghanistan')">Afghanistan</a></p>
+                <ul>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-opium')">Opium and Conflict by District</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-attention')">Global Attention on Afghanistan</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-refugees')">Afghan Refugees and Returns</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-aid')">Aid to Afghanistan: Asked For and Received</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-microsim')">Afghanistan to 2075: A Microsimulation</a></li>
+                </ul>
+            </div>
+            <div class="toc-group">
+                <p class="toc-head"><a href="#data" onclick="jumpTo(event, 'grp-frontier')">Pakistan Frontier</a></p>
+                <ul>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-regions')">Regions of Focus</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-lights')">Night-Time Light</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-earthquakes')">Earthquakes Across the Frontier</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-literacy')">Catching Up: Literacy in Former FATA and Balochistan</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-growth')">Population Growth in Pakistan's Districts</a></li>
+                </ul>
+            </div>
+            <div class="toc-group">
+                <p class="toc-head"><a href="#data" onclick="jumpTo(event, 'grp-economy')">Economy</a></p>
+                <ul>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-exchange')">The Afghani and the Pakistani Rupee</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-inflation')">Inflation in Afghanistan and Pakistan</a></li>
+                </ul>
+            </div>
+            <div class="toc-group">
+                <p class="toc-head"><a href="#data" onclick="jumpTo(event, 'grp-misc')">Misc</a></p>
+                <ul>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-gbpusd')">The Pound and the US Dollar</a></li>
+                    <li><a href="#data" onclick="jumpTo(event, 'viz-misc-funds')">Fund Tracker</a></li>
+                </ul>
+            </div>
         </nav>
 
         <a href="#data" class="toc-fab hide" id="toc-fab" onclick="jumpTo(event, 'data-toc')">Contents &uarr;</a>
 
-        <div class="section" id="viz-regions">
-            <h2>Regions of Focus</h2>
-            <p class="research-meta viz-intro">Khyber Pakhtunkhwa, the former Federally Administered Tribal Areas (FATA) and Balochistan are the focus of my PhD; Afghanistan is the focus of my working paper outside the PhD. Hover over the map to see each district and tribal agency.</p>
-
-            <figure class="viz-frame">
-                <iframe src="regions/regions.html?embed" title="Map of Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan by district and tribal agency" loading="lazy"></iframe>
-            </figure>
+        <div class="viz-group" id="grp-afghanistan">
+            <h2 class="group-title">Afghanistan</h2>
         </div>
 
         <div class="section" id="viz-opium">
-            <h2>Afghanistan: Opium and Conflict by District</h2>
+            <h3 class="viz-title">Afghanistan: Opium and Conflict by District</h3>
             <p class="research-meta viz-intro">Interactive maps from <a href="#research" onclick="showSection('research')"><em>The Game of Thorns</em></a>, showing average annual values: opium cultivation for 2002&ndash;2020 and terrorist incidents for 1994&ndash;2020 (the terrorism data end in 2020). Hover over a district to see its band.</p>
 
             <figure class="viz-frame">
@@ -889,32 +959,16 @@
         </div>
 
         <div class="section" id="viz-attention">
-            <h2>Global Attention on Afghanistan, 2017&ndash;2026</h2>
+            <h3 class="viz-title">Global Attention on Afghanistan Since 2017</h3>
             <p class="research-meta viz-intro">How much the world looked at Afghanistan before, during and after August 2021, measured by Wikipedia views and online news coverage. Switch to the 2021 view to follow the year day by day.</p>
 
             <figure class="viz-frame">
-                <iframe src="attention/attention.html?embed" title="Line chart of Wikipedia views and online news coverage of Afghanistan, 2017 to 2026" loading="lazy"></iframe>
+                <iframe src="attention/attention.html?embed" title="Line chart of Wikipedia views and online news coverage of Afghanistan since 2017" loading="lazy"></iframe>
             </figure>
         </div>
 
-        <div class="section" id="viz-lights">
-            <h2>Night-Time Light, 2012&ndash;2025</h2>
-            <p class="research-meta viz-intro">Satellite images of light at night are a common proxy for economic activity where statistics are scarce. After August 2021, Afghanistan dimmed while the regions across the border brightened. Press play or drag the slider to move through the years, and switch to &lsquo;Change since 2020&rsquo; to see which districts grew brighter or dimmer.</p>
-
-            <figure class="viz-frame">
-                <iframe src="lights/nightlights.html?embed" title="Map and line chart of night-time light by district in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 2012 to 2025" loading="lazy"></iframe>
-            </figure>
-        </div>
-        <div class="section" id="viz-earthquakes">
-            <h2>Earthquakes Across the Frontier, Since 1902</h2>
-            <p class="research-meta viz-intro">Every earthquake of magnitude 4 or more in the USGS catalogue for Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, updated daily. Nearly six in ten strike deep beneath the Hindu Kush; shallow ones, such as Awaran in 2013, shake the ground hardest. Press play or drag the slider to move through the years, and switch to &lsquo;Magnitude 5 and above&rsquo; to compare decades fairly, since smaller earthquakes were only recorded from 1973.</p>
-
-            <figure class="viz-frame">
-                <iframe src="earthquakes/earthquakes.html?embed" title="Map and bar chart of earthquakes of magnitude 4 or more in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 1902 to today" loading="lazy"></iframe>
-            </figure>
-        </div>        
         <div class="section" id="viz-refugees">
-            <h2>Afghan Refugees and Returns, 1979&ndash;2025</h2>
+            <h3 class="viz-title">Afghan Refugees and Returns, 1979&ndash;2025</h3>
             <p class="research-meta viz-intro">Afghans living abroad under UNHCR&rsquo;s mandate, by host country, and the refugees recorded as returning each year. Close to two million returned in 2025, the most since 2002, most of them from Iran. Use the tabs to switch between the two views.</p>
 
             <figure class="viz-frame">
@@ -922,65 +976,111 @@
             </figure>
         </div>
 
+      <div class="section" id="viz-aid">
+    <h3 class="viz-title">Aid to Afghanistan: Asked For and Received</h3>
+    <p class="research-meta viz-intro">How much has the UN asked donors for to help Afghans, and how much did it get? This chart follows every UN humanitarian appeal for Afghanistan since 2000 against the funding reported to the UN's Financial Tracking Service, and shows which donors paid for which sectors. In 2022, after the Taliban takeover, the appeal asked for $4.4 billion and received 74%; in 2026, with the United States no longer among the largest donors, it is a third funded so far. Updated automatically every week.</p>
+    <figure class="viz-frame">
+        <iframe src="aid/aid.html?embed" title="Bar chart of UN appeals for Afghanistan and the funding received since 2000, with funding by sector and by donor" loading="lazy"></iframe>
+    </figure>
+</div>
+
+        <div class="section" id="viz-microsim">
+    <h3 class="viz-title">Afghanistan to 2075: A Microsimulation</h3>
+    <p class="research-meta viz-intro">How rich could Afghanistan be in fifty years? This model follows 20,000 simulated Afghans, calibrated to World Bank, UN and household survey data, as they are born, go to school, work, have children and die each year to 2075, and adds up what they produce. Choose a scenario or set your own assumptions, from girls' return to secondary school to productivity growth, and press play to watch the population change. These are scenarios, not forecasts.</p>
+    <figure class="viz-frame">
+        <iframe    src="microsim/microsim/microsim.html?embed" title="Interactive microsimulation of GDP per person, population and schooling in Afghanistan, 2024 to 2075, under different scenarios" loading="lazy"></iframe>
+    </figure>
+</div>
+
+        <div class="viz-group" id="grp-frontier">
+            <h2 class="group-title">Pakistan Frontier</h2>
+        </div>
+
+        <div class="section" id="viz-regions">
+            <h3 class="viz-title">Regions of Focus</h3>
+            <p class="research-meta viz-intro">Khyber Pakhtunkhwa, the former Federally Administered Tribal Areas (FATA) and Balochistan are the focus of my PhD; Afghanistan is the focus of my working paper outside the PhD. Hover over the map to see each district and tribal agency.</p>
+
+            <figure class="viz-frame">
+                <iframe src="regions/regions.html?embed" title="Map of Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan by district and tribal agency" loading="lazy"></iframe>
+            </figure>
+        </div>
+
+        <div class="section" id="viz-lights">
+            <h3 class="viz-title">Night-Time Light, 2012&ndash;2025</h3>
+            <p class="research-meta viz-intro">Satellite images of light at night are a common proxy for economic activity where statistics are scarce. After August 2021, Afghanistan dimmed while the regions across the border brightened. Press play or drag the slider to move through the years, and switch to &lsquo;Change since 2020&rsquo; to see which districts grew brighter or dimmer.</p>
+
+            <figure class="viz-frame">
+                <iframe src="lights/nightlights.html?embed" title="Map and line chart of night-time light by district in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 2012 to 2025" loading="lazy"></iframe>
+            </figure>
+        </div>
+
+        <div class="section" id="viz-earthquakes">
+            <h3 class="viz-title">Earthquakes Across the Frontier, Since 1902</h3>
+            <p class="research-meta viz-intro">Every earthquake of magnitude 4 or more in the USGS catalogue for Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, updated daily. Nearly six in ten strike deep beneath the Hindu Kush; shallow ones, such as Awaran in 2013, shake the ground hardest. Press play or drag the slider to move through the years, and switch to &lsquo;Magnitude 5 and above&rsquo; to compare decades fairly, since smaller earthquakes were only recorded from 1973.</p>
+
+            <figure class="viz-frame">
+                <iframe src="earthquakes/earthquakes.html?embed" title="Map and bar chart of earthquakes of magnitude 4 or more in Afghanistan, Khyber Pakhtunkhwa, former FATA and Balochistan, 1902 to today" loading="lazy"></iframe>
+            </figure>
+        </div>
+
+    <div class="section" id="viz-literacy">
+    <h3 class="viz-title">Catching Up: Literacy in Former FATA and Balochistan</h3>
+    <p class="research-meta viz-intro">How quickly could former FATA and Balochistan catch up with the rest of Khyber Pakhtunkhwa in literacy? This model starts from the 2023 census in 68 districts, agencies and frontier regions, and follows simulated people as they are born, learn to read or not, and die each year to 2075. On current trends, the gap in women's literacy between former FATA and the rest of the province widens from 23 to 32 percentage points by 2075; choose a faster pace of catch-up, or an extra push for girls, to see how far it closes. These are scenarios, not forecasts.</p>
+    <figure class="viz-frame">
+        <iframe src="literacy/literacy.html?embed" title="Interactive map and line chart of literacy in former FATA, Balochistan and the rest of Khyber Pakhtunkhwa, 2023 to 2075, under different scenarios" loading="lazy"></iframe>
+    </figure>
+</div>
+
+    <div class="section" id="viz-growth">
+    <h3 class="viz-title">Population Growth in Pakistan's Districts</h3>
+    <p class="research-meta viz-intro">How fast is each part of Pakistan growing? This map compares average yearly population growth in 115 districts between the 1998 and 2017 censuses, and between the 2017 and 2023 censuses. Districts created since 1998 are counted with the district they came from, so each covers the same area in every census. Pakistan grew by 2.4% a year from 1998 to 2017 and 2.55% from 2017 to 2023: Punjab sped up, while Khyber Pakhtunkhwa, Balochistan and Islamabad slowed.</p>
+    <figure class="viz-frame">
+        <iframe src="growth/growth.html?embed" title="Map and table of average yearly population growth in Pakistan's districts between the 1998, 2017 and 2023 censuses" loading="lazy"></iframe>
+    </figure>
+</div>
+
+        <div class="viz-group" id="grp-economy">
+            <h2 class="group-title">Economy</h2>
+        </div>
+
         <div class="section" id="viz-exchange">
-               <h2>The Afghani and the Pakistani Rupee</h2>
+               <h3 class="viz-title">The Afghani and the Pakistani Rupee</h3>
    <p class="research-meta viz-intro">The afghani and the Pakistani rupee against the US dollar and pound sterling, and against each other, from 2000 to today. Choose a currency and what to compare it against, and use the tabs to switch between the full history and the last 30 days.</p>
 
             <figure class="viz-frame">
                 <iframe src="exchange/exchange.html?embed" title="Line chart of the afghani exchange rate against the US dollar and pound sterling" loading="lazy"></iframe>
             </figure>
         </div>
-        <div class="section" id="viz-gbpusd">
-         <h2>The Pound and the US Dollar</h2>
-         <p class="research-meta viz-intro">The pound against the US dollar over the last week, month, quarter and year, in either direction, from the European Central Bank's daily reference rate and from Wise, before and after its fees. Updated automatically every day.</p>
-         <figure class="viz-frame">
-             <iframe src="gbpusd/gbpusd.html?embed" title="Line chart of the exchange rate between the pound sterling and the US dollar, from the European Central Bank and Wise" loading="lazy"></iframe>
-         </figure>
-     </div>
+
     <div class="section" id="viz-inflation">
-    <h2>Inflation in Afghanistan and Pakistan</h2>
+    <h3 class="viz-title">Inflation in Afghanistan and Pakistan</h3>
     <p class="research-meta viz-intro">Consumer price inflation every year since 1960 for Pakistan and since 2003 for Afghanistan, and month by month this year, updated automatically. Prices in Afghanistan fell in 2023 and 2024, while Pakistan's inflation reached 30.8% in 2023, its highest since at least 1960.</p>
     <figure class="viz-frame">
         <iframe src="inflation/inflation.html?embed" title="Line charts of consumer price inflation in Afghanistan and Pakistan, yearly since 1960 and monthly this year" loading="lazy"></iframe>
     </figure>
 </div>
-        <div class="section" id="viz-microsim">
-    <h2>Afghanistan to 2075: A Microsimulation</h2>
-    <p class="research-meta viz-intro">How rich could Afghanistan be in fifty years? This model follows 20,000 simulated Afghans, calibrated to World Bank, UN and household survey data, as they are born, go to school, work, have children and die each year to 2075, and adds up what they produce. Choose a scenario or set your own assumptions, from girls' return to secondary school to productivity growth, and press play to watch the population change. These are scenarios, not forecasts.</p>
-    <figure class="viz-frame">
-        <iframe    src="microsim/microsim/microsim.html?embed" title="Interactive microsimulation of GDP per person, population and schooling in Afghanistan, 2024 to 2075, under different scenarios" loading="lazy"></iframe>
-    </figure>
-</div>
-    <div class="section" id="viz-literacy">
-    <h2>Catching Up: Literacy in Former FATA and Balochistan</h2>
-    <p class="research-meta viz-intro">How quickly could former FATA and Balochistan catch up with the rest of Khyber Pakhtunkhwa in literacy? This model starts from the 2023 census in 68 districts, agencies and frontier regions, and follows simulated people as they are born, learn to read or not, and die each year to 2075. On current trends, the gap in women's literacy between former FATA and the rest of the province widens from 23 to 32 percentage points by 2075; choose a faster pace of catch-up, or an extra push for girls, to see how far it closes. These are scenarios, not forecasts.</p>
-    <figure class="viz-frame">
-        <iframe src="literacy/literacy.html?embed" title="Interactive map and line chart of literacy in former FATA, Balochistan and the rest of Khyber Pakhtunkhwa, 2023 to 2075, under different scenarios" loading="lazy"></iframe>
-    </figure>
-</div>
-      <div class="section" id="viz-aid">
-    <h2>Aid to Afghanistan: Asked For and Received</h2>
-    <p class="research-meta viz-intro">How much has the UN asked donors for to help Afghans, and how much did it get? This chart follows every UN humanitarian appeal for Afghanistan since 2000 against the funding reported to the UN's Financial Tracking Service, and shows which donors paid for which sectors. In 2022, after the Taliban takeover, the appeal asked for $4.4 billion and received 74%; in 2026, with the United States no longer among the largest donors, it is a third funded so far. Updated automatically every week.</p>
-    <figure class="viz-frame">
-        <iframe src="aid/aid.html?embed" title="Bar chart of UN appeals for Afghanistan and the funding received since 2000, with funding by sector and by donor" loading="lazy"></iframe>
-    </figure>
-</div>
-    <div class="section" id="viz-growth">
-    <h2>Population Growth in Pakistan's Districts</h2>
-    <p class="research-meta viz-intro">How fast is each part of Pakistan growing? This map compares average yearly population growth in 115 districts between the 1998 and 2017 censuses, and between the 2017 and 2023 censuses. Districts created since 1998 are counted with the district they came from, so each covers the same area in every census. Pakistan grew by 2.4% a year from 1998 to 2017 and 2.55% from 2017 to 2023: Punjab sped up, while Khyber Pakhtunkhwa, Balochistan and Islamabad slowed.</p>
-    <figure class="viz-frame">
-        <iframe src="growth/growth.html?embed" title="Map and table of average yearly population growth in Pakistan's districts between the 1998, 2017 and 2023 censuses" loading="lazy"></iframe>
-    </figure>
-</div>
+
+        <div class="viz-group" id="grp-misc">
+            <h2 class="group-title">Misc</h2>
+        </div>
+
+        <div class="section" id="viz-gbpusd">
+         <h3 class="viz-title">The Pound and the US Dollar</h3>
+         <p class="research-meta viz-intro">The pound against the US dollar over the last week, month, quarter and year, in either direction, from the European Central Bank's daily reference rate and from Wise, before and after its fees. Updated automatically every day.</p>
+         <figure class="viz-frame">
+             <iframe src="gbpusd/gbpusd.html?embed" title="Line chart of the exchange rate between the pound sterling and the US dollar, from the European Central Bank and Wise" loading="lazy"></iframe>
+         </figure>
+     </div>
+
     <div class="section" id="viz-misc-funds">
-    <h2>Misc: Fund Tracker</h2>
-       <p class="research-meta viz-intro">A tracker of eight London-listed funds: their returns in pounds, including dividends, today and over the last week, month, three months and year, and what &pound;100 invested on each of those dates would be worth now. Prices are delayed by 20 minutes and updated every hour while the London market is open.</p>    <figure class="viz-frame">
+    <h3 class="viz-title">Fund Tracker</h3>
+       <p class="research-meta viz-intro">A tracker of eight London-listed funds: their returns in pounds, including dividends, today and over the last week, month, three months and year, and what &pound;100 invested on each of those dates would be worth now. Prices are delayed by at least 20 minutes and update automatically once or twice each weekday.</p>    <figure class="viz-frame">
         <iframe src="funds/funds.html?embed" title="Line chart of returns for eight London-listed funds and a table of what &pound;100 invested would be worth now" loading="lazy"></iframe>
     </figure>
 </div>
-        
+
     </div>
-        
+
 
     <!-- ==================== CV ==================== -->
     <div id="cv-section" class="hide">
@@ -1592,7 +1692,7 @@
                 <li><a href="https://dataforafghanistan.org/about/" target="_blank" rel="noopener">Data for Afghanistan</a></li>
                 <li><a href="https://uk.linkedin.com/in/maiwand-n-b59689106" target="_blank" rel="noopener">LinkedIn</a></li>
                 <li><a href="https://www.granduniondtp.ac.uk/people/maiwand-nangyal" target="_blank" rel="noopener">ESRC GU DTP</a></li>
-                <li><a href="https://gtr.ukri.org/person/17F45263-B9D4-4F89-B650-7190F57CFD45" target="_blank" rel="noopener">UKRI</a></li>
+                <li><a href="https://gtr.ukri.org/find-research-and-innovation/person/58c1211e-6bb2-41da-a0a4-d89a5bd42ed3" target="_blank" rel="noopener">UKRI</a></li>
             </ul>
         </div>
     </div>
@@ -1671,6 +1771,9 @@
 
         document.getElementById(section + '-section').classList.remove('hide');
         document.getElementById(section + '-link').classList.add('active');
+        const tabTitles = { research: 'Research', data: 'Data', cv: 'CV', teaching: 'Teaching', contact: 'Contact', pashto: 'پښتو' };
+        if (!window.homeTitle) window.homeTitle = document.title;
+        document.title = tabTitles[section] ? tabTitles[section] + ' | Maiwand Nangyal' : window.homeTitle;
         try {
             const links = document.querySelector('.nav-links');
             const link = document.getElementById(section + '-link');
