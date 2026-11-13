@@ -266,15 +266,18 @@
         }
 
         .section {
-            margin: 64px 0;
+            margin: 22px 0;
             padding-top: 0;
             border-top: none;
+            padding: 34px 40px 38px;
+            background: var(--tint);
+            border-radius: 22px;
         }
 
         .section:first-of-type {
             border-top: none;
-            padding-top: 0;
-            margin-top: 36px;
+            padding-top: 34px;
+            margin-top: 32px;
         }
 
         /* ---------- Home ---------- */
@@ -385,16 +388,32 @@
         }
         .home-cols {
             display: grid;
-            grid-template-columns: minmax(0, 1fr) 300px;
-            gap: 72px;
-            align-items: start;
-            margin-top: 52px;
-            padding-top: 44px;
-            border-top: 1px solid var(--rule);
+            grid-template-columns: minmax(0, 1fr) 330px;
+            gap: 22px;
+            align-items: stretch;
+            margin-top: 44px;
+            padding-top: 0;
+            border-top: 0;
         }
-        .home-cols .home-bio { grid-column: 1; grid-row: 1; margin-top: 0; }
+        .home-cols .home-bio {
+            grid-column: 1;
+            grid-row: 1;
+            margin-top: 0;
+            background: var(--tint);
+            border-radius: 22px;
+            padding: 34px 38px;
+        }
         .home-cols .home-bio p:first-child { font-size: 1.22em; line-height: 1.42; }
-        .home-cols .credentials { grid-column: 2; grid-row: 1; margin: 0; padding-top: 0; border-top: 0; }
+        .home-cols .credentials {
+            grid-column: 2;
+            grid-row: 1;
+            margin: 0;
+            padding-top: 0;
+            border-top: 0;
+            background: var(--tint);
+            border-radius: 22px;
+            padding: 34px 32px;
+        }
         .home-cols .cred-grid { grid-template-columns: 1fr; row-gap: 0; }
         .home-cols .cred-label { margin: 22px 0 8px; }
         .home-cols .cred-label:first-child { margin-top: 0; }
@@ -439,7 +458,7 @@
             letter-spacing: 0;
             text-transform: none;
             color: var(--muted);
-            background: var(--badge);
+            background: #ffffff;
             border: 0;
             padding: 3px 11px;
             border-radius: 999px;
@@ -447,7 +466,7 @@
         }
 
         .status-badge.neutral {
-            background: var(--tint);
+            background: #ffffff;
             border-color: var(--rule);
             color: var(--muted);
         }
@@ -460,7 +479,7 @@
             padding: 26px 30px;
             background: var(--tint);
             border: 0;
-            border-radius: 18px;
+            border-radius: 22px;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 22px 40px;
@@ -469,10 +488,16 @@
         .toc-head a { color: var(--oxford); }
         .data-toc ul { list-style: none; margin: 0; padding: 0; font-size: 0.95em; }
         .data-toc li { margin: 0 0 5px; }
-        .viz-group { margin: 88px 0 0; padding-top: 32px; border-top: 1px solid var(--rule); scroll-margin-top: 60px; }
-        .toc-fab + .viz-group { margin-top: 56px; }
+        .viz-group {
+            margin: 64px 0 0;
+            padding-top: 32px;
+            border-top: 0;
+            scroll-margin-top: 60px;
+            padding: 0 8px;
+        }
+        .toc-fab + .viz-group { margin-top: 48px; }
         .group-title { font-size: 2.2em; letter-spacing: -0.02em; margin: 0; }
-        .viz-group + .section { margin-top: 32px; }
+        .viz-group + .section { margin-top: 20px; }
         .viz-title {
             font-size: 1.4em;
             font-weight: 700;
@@ -491,10 +516,10 @@
         }
 
         .viz-frame {
-            margin: 0 0 12px;
+            margin: 0;
             padding: 22px 24px;
             background: var(--card);
-            border: 1px solid var(--rule);
+            border: 0;
             border-radius: 18px;
         }
 
@@ -519,16 +544,17 @@
 
         @media (max-width: 720px) {
             .viz-frame {
-                padding: 12px;
-                margin-left: -6px;
-                margin-right: -6px;
+                padding: 10px 8px;
+                margin-left: -4px;
+                margin-right: -4px;
             }
+            #data-section .section { margin-left: -8px; margin-right: -8px; padding-left: 14px; padding-right: 14px; }
         }
 
         /* ---------- Teaching ---------- */
         .course-card {
-            background: var(--card);
-            border: 1px solid var(--rule);
+            background: #ffffff;
+            border: 0;
             border-radius: 18px;
             overflow: hidden;
             margin-bottom: 16px;
@@ -544,7 +570,7 @@
             width: 100%;
             padding: 20px 24px;
             cursor: pointer;
-            background: var(--panel);
+            background: #ffffff;
             border: none;
             border-left: 0;
             text-align: left;
@@ -552,10 +578,10 @@
             font-size: 1em;
         }
 
-        .accordion-header:hover { background: var(--panel-hover); }
+        .accordion-header:hover { background: #fafafc; }
 
         .accordion-header.locked { cursor: not-allowed; opacity: 0.6; }
-        .accordion-header.locked:hover { background: var(--panel); }
+        .accordion-header.locked:hover { background: #ffffff; }
 
         .course-title {
             font-family: var(--serif);
@@ -672,6 +698,7 @@
         .pashto-content p { margin-bottom: 1.2em; text-align: justify; }
 
         .pashto-content .hero { direction: rtl; }
+        .pashto-content .home-bio { background: var(--tint); border-radius: 22px; padding: 30px 38px 20px; margin-top: 44px; }
 
         /* ---------- Footer ---------- */
         footer {
@@ -721,11 +748,14 @@
             h2 { font-size: 1.4em; }
             .group-title { font-size: 1.8em; }
             .viz-title { font-size: 1.25em; }
-            .viz-group { margin-top: 64px; padding-top: 24px; }
+            .viz-group { margin-top: 44px; padding: 0 4px; }
 
-            .section { margin: 48px 0; }
+            .section { margin: 16px 0; padding: 24px 18px 26px; border-radius: 18px; }
+            .section:first-of-type { margin-top: 24px; padding-top: 24px; }
+            .home-cols .home-bio, .home-cols .credentials { padding: 24px 18px; border-radius: 18px; }
+            .viz-group + .section { margin-top: 16px; }
 
-            .home-cols { grid-template-columns: 1fr; gap: 28px; margin-top: 32px; padding-top: 28px; }
+            .home-cols { grid-template-columns: 1fr; gap: 16px; margin-top: 28px; }
             .home-cols .home-bio { grid-column: 1; grid-row: 2; }
             .home-cols .credentials { grid-column: 1; grid-row: 1; }
 
@@ -735,6 +765,7 @@
             }
 
             .pashto-content p { text-align: start; }
+            .pashto-content .home-bio { padding: 22px 18px 12px; border-radius: 18px; margin-top: 28px; }
 
             .toc-fab { right: 12px; bottom: 12px; }
 
